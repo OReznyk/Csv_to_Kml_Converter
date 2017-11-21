@@ -1,0 +1,4 @@
+WigleWifi-1.4,appRelease=2.25,model=SM-G930F,release=7.0,device=herolte,display=NRD90M.G930FXXU1DQHC,board=universal8890,brand=samsung
+MAC,SSID,AuthMode,FirstSeen,Channel,RSSI,CurrentLatitude,CurrentLongitude,AltitudeMeters,AccuracyMeters,Type
+14:ae:db:b3:45:5d,Dor,[WPA2-PSK-CCMP][ESS],2017-10-30 19:15:24,6,-89,32.10544868031776,35.19764810161144,584.8614460160486,128,WIFI
+30:b5:c2:b8:40:36,,[WPA2-PSK-CCMP][ESS],2017-10-30 19:15:24,13,-93,32.10544868031776,35.19764810161144,584.8614460160486,128,WIFI
