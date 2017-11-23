@@ -7,22 +7,25 @@ import java.util.List;
  * @author Olga
  *
  */
-public class MatrixFunctions {
-	static int moreRows=20;
-	static int moreColms=2;
+ class MatrixFunctions {
+
+
 
 	/**
 	 * increases the matrix's size by adding rows
 	 * @param matrix of strings from csv file
 	 * @return	bigger matrix
 	 */
-	public static String[][] reBuild(String [][] matrix){ 
+	 static String[][] reBuild(String [][] matrix){ 
+		int moreRows=20;
 		String[][]temp=new String[matrix.length+moreRows][matrix[0].length];
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				temp[i][j]=matrix[i][j];
-			}
-		}return temp;	
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					temp[i][j]=matrix[i][j];
+				}
+			}	
+		
+		return temp;
 	}
 
 	/**
@@ -30,7 +33,8 @@ public class MatrixFunctions {
 	 * @param arr array of strings
 	 * @return bigger array
 	 */
-	public static String[] reBuild(String [] arr){
+	static String[] reBuild(String [] arr){
+		int moreColms=2;
 		String[]temp=new String[arr.length+moreColms];
 		for (int i = 0; i < arr.length; i++) {			
 			temp[i]=arr[i];	
@@ -44,7 +48,7 @@ public class MatrixFunctions {
 	 * @param rowIndex
 	 * @return the matrix with the data
 	 */
-	public static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
+	static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
 
 		if(rowIndex==matrix.length){
 			matrix=MatrixFunctions.reBuild(matrix);
@@ -60,7 +64,7 @@ public class MatrixFunctions {
 	 * prints the matrix
 	 * @param matrix
 	 */
-	public static void toPrint(String[][] matrix){
+	 static void toPrint(String[][] matrix){
 		int i=0;
 		while(i<matrix.length) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -80,7 +84,7 @@ public class MatrixFunctions {
 	 * @param ans
 	 * @return
 	 */
-	public static String[][] toSort(String[][]arr, String[][]ans){
+	static String[][] toSort(String[][]arr, String[][]ans){
 		int count=-1;
 		int helper=-1;
 		int i=0;
@@ -121,35 +125,13 @@ public class MatrixFunctions {
 			}i++;
 		}return ans;	
 	}
-	/**
-	 * checks if signal of the selected wifi is big enough to be listed in the final csv file, if not it returns -1
-	 * @param matrix
-	 * @param signal
-	 * @param row
-	 * @return int
-	 */
-	public static int ifBigger(String [][] matrix, String signal, int row){
-		int Wifi=-1;
 
-		String[]b=new String[10];
-		for (int j = 0; j < b.length; j++) {
-			b[j]=matrix[row][5+((j+1)*4)];
-		}
-		int ifMin=Integer.parseInt(b[0]);
-		for (int i = 0; i < b.length; i++) {
-			if(ifMin>Integer.parseInt(b[i])){
-				ifMin=Integer.parseInt(b[i]);
-				Wifi=i;
-			}	
-		}if(Integer.parseInt(signal)>ifMin)return Wifi;
-		else	 return -1;	
-	}
 	/**
 	 * adds the strongest wifi networks to a list of map points
 	 * @param matrix
 	 * @return list
 	 */
-	public static List<MapPoint> separator(String[][] matrix){
+	static List<MapPoint> separator(String[][] matrix){
 		String[][]temp=new String[matrix.length][10];
 		int i=0,j=6;
 		int row=0, col=6;
@@ -193,13 +175,35 @@ public class MatrixFunctions {
 
 		return chooser(temp);
 	}
+
+
+	/********************private methods************************/
+	
+	/**
+	 * deletes the wifi point from matrix
+	 * @param matrix
+	 * @param row
+	 * @return matrix
+	 */
+	private static String[][] deleteWifiPoint(String[][] matrix,int row){
+		int i=0;
+		while(i<matrix.length && matrix[i][0]!=null){
+			i++;
+		}
+
+		for (int j = 0; j < 10; j++) {
+			matrix[row][j]=matrix[i-1][j];
+			matrix[i-1][j]=null;
+		}
+		return matrix; 
+	}
+	
 	/**
 	 * checks if the same network exists in the matrix (checks the mac addresses) and keeps the strongest network
 	 * @param matrix
 	 * @return list of map points
 	 */
-	public static List<MapPoint> chooser(String[][] matrix){
-		//List<MapPoint> path=new ArrayList<MapPoint>();
+	private static List<MapPoint> chooser(String[][] matrix){
 		for (int i = 0; i < matrix.length; i++) {
 			int j=i+1;
 			while(j<matrix.length && matrix[j][0]!=null){
@@ -229,7 +233,7 @@ public class MatrixFunctions {
 	 * @param matrix
 	 * @return
 	 */
-	public static List<MapPoint> arrToList(String[][] matrix){
+	private static List<MapPoint> arrToList(String[][] matrix){
 		List<MapPoint> path=new ArrayList<MapPoint>();
 		int i=0;
 		while(matrix[i][0]!=null && i<matrix.length){
@@ -239,26 +243,32 @@ public class MatrixFunctions {
 		}
 		return path;
 	}
-
+	
 	/**
-	 * deletes the wifi point from matrix
+	 * checks if signal of the selected wifi is big enough to be listed in the final csv file, if not it returns -1
 	 * @param matrix
+	 * @param signal
 	 * @param row
-	 * @return matrix
+	 * @return int
 	 */
-	public static String[][] deleteWifiPoint(String[][] matrix,int row){
-		int i=0;
-		while(i<matrix.length && matrix[i][0]!=null){
-			i++;
-		}
+	private static int ifBigger(String [][] matrix, String signal, int row){
+		int Wifi=-1;
 
-		for (int j = 0; j < 10; j++) {
-			matrix[row][j]=matrix[i-1][j];
-			matrix[i-1][j]=null;
+		String[]b=new String[10];
+		for (int j = 0; j < b.length; j++) {
+			b[j]=matrix[row][5+((j+1)*4)];
 		}
-		return matrix; 
+		int ifMin=Integer.parseInt(b[0]);
+		for (int i = 0; i < b.length; i++) {
+			if(ifMin>Integer.parseInt(b[i])){
+				ifMin=Integer.parseInt(b[i]);
+				Wifi=i;
+			}	
+		}if(Integer.parseInt(signal)>ifMin)return Wifi;
+		else	 return -1;	
 	}
 
+	
 }
 
 

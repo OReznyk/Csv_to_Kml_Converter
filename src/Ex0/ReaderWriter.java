@@ -216,6 +216,7 @@ public class ReaderWriter {
 			while((line = br.readLine()) != null ){
 				String[] row = line.split(cvsSplitBy);
 				TimeSplitterFromStringToInt thisTime=new TimeSplitterFromStringToInt(row[0]);
+
 				if(thisTime.getDate().equals(startFilter.getDate()) && thisTime.getDate().equals(stopFilter.getDate())){
 					if(thisTime.getTime().equals(startFilter.getTime()) || thisTime.getTime().equals(stopFilter.getTime()) || thisTime.getTime().isAfter(startFilter.getTime()) && thisTime.getTime().isBefore(stopFilter.getTime())){
 						ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);

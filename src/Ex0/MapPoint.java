@@ -7,7 +7,7 @@ package Ex0;
  *
  * https://www.javatips.net/api/HABtk-master/src/com/aerodynelabs/map/MapSettingsPanel.java
  */
-public class MapPoint {
+ class MapPoint {
 
 	protected double lat;
 	protected double lon;
@@ -29,7 +29,7 @@ public class MapPoint {
 	 * @param mac
 	 * @param signal
 	 */
-	public  MapPoint(double latitude, double longitude, double altitude, String time, String name, String mac, String signal) {
+ MapPoint(double latitude, double longitude, double altitude, String time, String name, String mac, String signal) {
 		lat = latitude;
 		lon = longitude;
 		alt = altitude;
