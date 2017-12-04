@@ -1,4 +1,4 @@
-package Ex0;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +24,7 @@ public class ReaderWriter {
 		String[]namesOfFiles=new String[2];
 		String name="";
 		int count=0;
+		
 
 		try{
 			for(File f:dir.listFiles()){ //opening folder and checking files in it
@@ -60,6 +61,7 @@ public class ReaderWriter {
 
 	
 
+
 	/**
 	 * Taking sorted .csv file
 	 * Choosing data by filter and saving it in table
@@ -72,6 +74,7 @@ public class ReaderWriter {
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
+		String[][]matrix=new String[15][46];
 
 		try {
 
@@ -80,18 +83,19 @@ public class ReaderWriter {
 			int count=0;  
 
 			while((line = br.readLine()) != null ){
+				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
+				
 				if(row[colmToFilter].contains(filter)){
-					ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
+					matrix=MatrixFunctions.buildStringTableFromStringARR(matrix,row, count);
 					count++;
+					
 				}
 			} br.close();
 
-			if(ans[0][0]==null){
-				ans[0][0]="Does not exist";}
-
-
-
+			if(matrix[0][0]==null){
+				matrix[0][0]="Does not exist";}
+			ans=matrix;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -120,6 +124,7 @@ public class ReaderWriter {
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
+		String[][]matrix=new String[15][46];
 
 		TimeSplitterFromStringToInt startFilter=new TimeSplitterFromStringToInt(fromTime);
 		TimeSplitterFromStringToInt stopFilter=new TimeSplitterFromStringToInt(untillTime);
@@ -127,16 +132,16 @@ public class ReaderWriter {
 		try {
 
 			br = new BufferedReader(new FileReader(csvFile));
-
 			int count=0;  
-
-			while((line = br.readLine()) != null ){
+			
+			while((line = br.readLine()) != null){
+				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
 				TimeSplitterFromStringToInt thisTime=new TimeSplitterFromStringToInt(row[0]);
 
 				if(thisTime.getDate().equals(startFilter.getDate()) && thisTime.getDate().equals(stopFilter.getDate())){
 					if(thisTime.getTime().equals(startFilter.getTime()) || thisTime.getTime().equals(stopFilter.getTime()) || thisTime.getTime().isAfter(startFilter.getTime()) && thisTime.getTime().isBefore(stopFilter.getTime())){
-						ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
+						matrix=MatrixFunctions.buildStringTableFromStringARR(matrix,row, count);
 						count++;
 					}		
 				}
@@ -145,28 +150,28 @@ public class ReaderWriter {
 				if(thisTime.getDate().equals(startFilter.getDate()) && thisTime.getDate().equals(stopFilter.getDate())==false ){
 					System.out.println(thisTime.getTime()+" and "+startFilter.getTime());
 					if(thisTime.getTime().equals(startFilter.getTime()) || thisTime.getTime().isAfter(startFilter.getTime()) && thisTime.getTime().isBefore(LocalTime.parse("23:59:59"))){
-						ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count );
+						matrix=MatrixFunctions.buildStringTableFromStringARR(matrix,row, count );
 						count++;
 					}		
 				}
 				if(thisTime.getDate().equals(stopFilter.getDate()) && thisTime.getDate().equals(startFilter.getDate())==false){
 					if( thisTime.getTime().equals(stopFilter.getTime()) || thisTime.getTime().isAfter(LocalTime.parse("00:00:00")) && thisTime.getTime().isBefore(stopFilter.getTime())){
-						ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
+						matrix=MatrixFunctions.buildStringTableFromStringARR(matrix,row, count);
 						count++;
 					}		
 				}
 
 				if(thisTime.getDate().isAfter(startFilter.getDate()) && thisTime.getDate().isBefore(stopFilter.getDate())){
 					if(thisTime.getTime().isAfter(LocalTime.parse("00:00:00")) && thisTime.getTime().isBefore(LocalTime.parse("23:59:59"))){
-						ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
+						matrix=MatrixFunctions.buildStringTableFromStringARR(matrix,row, count);
 						count++;
 					}	
 				}
 			} br.close();
 
-			if(ans[0][0]==null){
-				ans[0][0]="Does not exist";}
-
+			if(matrix[0][0]==null){
+				matrix[0][0]="Does not exist";}
+			ans=matrix;
 
 
 		} catch (FileNotFoundException e) {
@@ -199,6 +204,7 @@ public class ReaderWriter {
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
+		String[][]matrix=new String[15][46];
 
 		try {
 
@@ -207,19 +213,20 @@ public class ReaderWriter {
 			int count=0;  
 
 			while((line = br.readLine()) != null ){
-
+				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
 
 				if(row[latColmToFilter].contains(lat) && row[lonColmToFilter].contains(lon)){
-					ans=MatrixFunctions.buildStringTableFromStringARR(ans, row, count++ );
+					matrix=MatrixFunctions.buildStringTableFromStringARR(matrix, row, count++ );
 					System.out.println();
 				}
 
 			} br.close();
 
-			if(ans[0][0]==null){
-				ans[0][0]="Does not exist";
+			if(matrix[0][0]==null){
+				matrix[0][0]="Does not exist";
 			}
+			ans=matrix;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -256,6 +263,7 @@ public class ReaderWriter {
 		String cvsSplitBy = ",";
 		String Display="";
 		String ID="1";
+		
 
 
 		try {
@@ -266,7 +274,7 @@ public class ReaderWriter {
 			int count=0;  
 
 			while((line = br.readLine()) != null ){
-
+				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
 
 				if(temp!=true)	{

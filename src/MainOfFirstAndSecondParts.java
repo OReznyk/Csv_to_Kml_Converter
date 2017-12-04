@@ -1,4 +1,3 @@
-package Ex0;
 
 import java.io.File;
 import java.util.List;
@@ -8,15 +7,15 @@ import java.util.Scanner;
 public class MainOfFirstAndSecondParts {
 
 	public static void main(String[] args) throws Exception  {
-	//	mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles();
+		Scanner scanner=new Scanner(System.in);
+		String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
 
-		mainPartForBuildingKmlFileFromFilteredCsvFile();
-
+		mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
+		scanner.close();
 	}
 
 
-	public static void mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles() throws Exception{
-		Scanner scanner=new Scanner(System.in);
+	public static String mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(Scanner scanner) throws Exception{
 		String folderName="";
 		String whereToSave="";
 
@@ -25,18 +24,12 @@ public class MainOfFirstAndSecondParts {
 		System.out.println("Please put here address of folder you'd like me to save file in with \\file's name in the end " );
 		whereToSave=scanner.next();
 		ReaderWriter.readerFromFolder(folderName, whereToSave);
-		scanner.close();
+		return whereToSave;
 	}
 
-	@SuppressWarnings("resource")
-	public static int mainPartForBuildingKmlFileFromFilteredCsvFile() throws Exception{
-		Scanner scanner=new Scanner(System.in);
-		String addressOfFile="";
-		int	choice=0;
-		//		System.out.println("Please put here address of file we've created in first part: ");
-		//		addressOfFile=scanner.next();
-		addressOfFile="C:\\Users\\Olga\\Desktop\\bones\\test.csv";
+	public static int mainPartForBuildingKmlFileFromFilteredCsvFile(String addressOfFile,Scanner scanner) throws Exception{
 
+		int	choice=0;
 		System.out.println("Please choose how you'd like to filter this file?");
 		System.out.println("I'll give you few options and you need to choose one of them with writing me back its number");
 		while(choice<1||choice>3){
@@ -77,7 +70,7 @@ public class MainOfFirstAndSecondParts {
 		Kml.Kml();
 		path.toArray();
 		System.out.println(path.size());
-		File file=new File("test.kml");
+		File file=new File("C:\\Users\\Olga\\Desktop\\data[1091]\\data\\test.kml");
 		int i=0;
 		while(path.isEmpty()==false && i<path.size()){
 			Kml.addMark(path.get(i));
@@ -85,7 +78,6 @@ public class MainOfFirstAndSecondParts {
 		}
 		Kml.writeFile(file);
 
-		scanner.close();
 		return 0;
 	}
 
