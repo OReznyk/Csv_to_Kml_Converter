@@ -50,33 +50,33 @@ public class Kml {
 		root.appendChild(placemark);
 		
 		Element name = doc.createElement("name");
-		name.appendChild(doc.createTextNode(mark.getName()));
+		name.appendChild(doc.createTextNode(mark.wifiPoint.ssid));
 		placemark.appendChild(name);
 		
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 		Element desc = doc.createElement("description");
 		desc.appendChild(doc.createTextNode(
-				"SSID: "+mark.getName()+"\n"+
-				"MAC: "+mark.getMac() +"\n"+
-				"Signal: "+mark.getSignal()+"\n"+
-				"Time: "+mark.getTime()+"\n"+
-				"Latitude: "+mark.getLatitude() + "\n" + 
-				"Longitude: "+mark.getLongitude()+"\n"+
-				"Altitude: " + mark.getAltitude() + " meters\n"
+				"SSID: "+mark.wifiPoint.ssid+"\n"+
+				"MAC: "+mark.wifiPoint.mac +"\n"+
+				"Signal: "+mark.wifiPoint.signal+"\n"+
+				"Time: "+mark.date.date+" +mark.date.time"+"\n"+
+				"Latitude: "+mark.coordinates.latitude + "\n" + 
+				"Longitude: "+mark.coordinates.longitude+"\n"+
+				"Altitude: " + mark.coordinates.altitude + " meters\n"
 				)); 
 		placemark.appendChild(desc);
 		
 		Element point = doc.createElement("Point");
 		placemark.appendChild(point);
 		
-		if(mark.getAltitude() > 0) {
+		if(mark.coordinates.altitude > 0) {
 			Element altitudeMode = doc.createElement("altitudeMode");
 			altitudeMode.appendChild(doc.createTextNode("absolute"));
 			point.appendChild(altitudeMode);
 		}
 		
 		Element coords = doc.createElement("coordinates");
-		coords.appendChild(doc.createTextNode(mark.getLongitude() + ", " + mark.getLatitude() + ", " + mark.getAltitude()));
+		coords.appendChild(doc.createTextNode(mark.coordinates.longitude + ", " + mark.coordinates.latitude + ", " + mark.coordinates.altitude));
 		point.appendChild(coords);
 		
 		
@@ -84,7 +84,7 @@ public class Kml {
 		Element TimeStamp = doc.createElement("TimeStamp");
 		Element when = doc.createElement("when");
 		TimeStamp.appendChild(when);
-		String time=mark.getTime().replaceAll(" ", "T")+"Z";
+		String time=mark.date.date+"T"+mark.date.time+"Z";
 		when.appendChild(doc.createTextNode(time));
 		TimeStamp.appendChild(when);
 		placemark.appendChild(TimeStamp);

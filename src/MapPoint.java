@@ -1,107 +1,30 @@
 
-/**
- * A point represented by latitude, longitude, and altitude.
- * 
- * @author Ethan Harstad with my little changes
- *
- * https://www.javatips.net/api/HABtk-master/src/com/aerodynelabs/map/MapSettingsPanel.java
- */
  class MapPoint {
+	protected Coordinates_3D coordinates;
+	protected String id;
+	protected Date date;
+	protected Wifi wifiPoint;
 
-	protected double lat;
-	protected double lon;
-	protected double alt;
-	protected String mac;
-	protected String signal;
-	protected String time;
-	protected String name = null;
-
-
-
-	/**
-	 * Create a point with an associated name and time.
-	 * @param latitude
-	 * @param longitude
-	 * @param altitude
-	 * @param time
-	 * @param name
-	 * @param mac
-	 * @param signal
-	 */
- MapPoint(double latitude, double longitude, double altitude, String time, String name, String mac, String signal) {
-		lat = latitude;
-		lon = longitude;
-		alt = altitude;
-		this.time = time;
-		this.name = name;
-		this.signal=signal;
-		this.mac=mac;
+/*to Do: change all strings to protected variables*/ 
+  MapPoint(Date date,String id,Coordinates_3D coordinates,Wifi wifiPoint) {
+	    this.id=id;
+	    this.coordinates=coordinates;
+	    this.date=date;
+	    this.wifiPoint=wifiPoint;
 	}
-	/**
-	 * Get the mac address of this point
-	 * @return string mac address
-	 */
-	public String getMac() {
-		return mac;
-	}
-
-	/**
-	 * Get the signal of this point
-	 * @return string signal
-	 */
-	public String getSignal() {
-		return signal;
-	}
+  
+public String getId() { return id; }
 
 
-	/**
-	 * Get the latitude of this point.
-	 * @return double latitude
-	 */
-	public  double getLatitude() {
-		return lat;
-	}
-
-	/**
-	 * Get the longitude of this point.
-	 * @return double longitude
-	 */
-	public  double getLongitude() {
-		return lon;
-	}
-
-	/**
-	 * Get the altitude of this point.
-	 * @return double altitude
-	 */
-	public  double getAltitude() {
-		return alt;
-	}
-
-	/**
-	 * Get the time associated with this point.
-	 * @return string time
-	 */
-	public  String getTime() {
-		return time;
-	}
-
-	/**
-	 * Get the name associated with this point.
-	 * @return string name
-	 */
-	public  String getName() {
-		return name;
-	}
-
-
-	/**
-	 * Get a human readable representation of this point;
-	 */
+  public double weightOfLat(){
+	  return this.coordinates.latitude*this.wifiPoint.signal.weight();
+  }
+  public double weightOfLon(){
+	  return this.coordinates.longitude*this.wifiPoint.signal.weight();
+  }
+  public double weightOfAlt(){
+	  return this.coordinates.altitude*this.wifiPoint.signal.weight();
+  }
+  
 	
-	
-	public  String toString() {
-		return name + ": " + lat + ", " + lon + ", " + alt + ", " + time;
-	}
-
 }

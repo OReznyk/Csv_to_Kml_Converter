@@ -15,15 +15,15 @@ public	  class MatrixFunctions {
 	 * @param matrix of strings from csv file
 	 * @return	bigger matrix
 	 */
-public	 static String[][] reBuild(String [][] matrix){ 
+	public	 static String[][] reBuild(String [][] matrix){ 
 		int moreRows=20;
 		String[][]temp=new String[matrix.length+moreRows][matrix[0].length];
-			for (int i = 0; i < matrix.length; i++) {
-				for (int j = 0; j < matrix[0].length; j++) {
-					temp[i][j]=matrix[i][j];
-				}
-			}	
-		
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				temp[i][j]=matrix[i][j];
+			}
+		}	
+
 		return temp;
 	}
 
@@ -32,7 +32,7 @@ public	 static String[][] reBuild(String [][] matrix){
 	 * @param arr array of strings
 	 * @return bigger array
 	 */
-public	 	static String[] reBuild(String [] arr){
+	public	 	static String[] reBuild(String [] arr){
 		int moreColms=2;
 		String[]temp=new String[arr.length+moreColms];
 		for (int i = 0; i < arr.length; i++) {			
@@ -47,7 +47,7 @@ public	 	static String[] reBuild(String [] arr){
 	 * @param rowIndex
 	 * @return the matrix with the data
 	 */
-public	 	static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
+	public	 	static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
 
 		if(rowIndex+1==matrix.length){
 			matrix=MatrixFunctions.reBuild(matrix);
@@ -63,7 +63,7 @@ public	 	static String[][] buildStringTableFromStringARR(String [][] matrix, Str
 	 * prints the matrix
 	 * @param matrix
 	 */
-public	 	 static void toPrint(String[][] matrix){
+	public	 	 static void toPrint(String[][] matrix){
 		int i=0;
 		while(i<matrix.length) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -76,6 +76,29 @@ public	 	 static void toPrint(String[][] matrix){
 		}
 	}
 
+//	public static void filterALfromSameWifiPoints(ArrayList<RowOfTenWifiPoints>listToPrint){
+//		int indexOfWifi=0,indexOfRow=0,indexOfWifiToSearchIn=0;
+//		while(indexOfRow<listToPrint.size()){
+//			while(indexOfWifi<listToPrint.get(indexOfRow).wifiList.size()){			
+//				int indexOfRowToSerchIn=indexOfRow;
+//				while(indexOfRowToSerchIn<listToPrint.size()){
+//					while(indexOfWifiToSearchIn<listToPrint.get(indexOfRowToSerchIn).wifiList.size()){
+//					if(listToPrint.get(indexOfRow).wifiList.get(indexOfWifi).sameMAC(listToPrint.get(indexOfRowToSerchIn).wifiList.get(indexOfWifiToSearchIn))){
+//						if(listToPrint.get(indexOfRow).wifiList.get(indexOfWifi).signal.morePowerful(listToPrint.get(indexOfRowToSerchIn).wifiList.get(indexOfWifiToSearchIn).signal)){
+//							listToPrint.get(indexOfRowToSerchIn).wifiList.remove(indexOfWifiToSearchIn);
+//						}
+//						else{
+//							listToPrint.get(indexOfRow).wifiList.remove(indexOfWifi);
+//							indexOfRow=indexOfRowToSerchIn;
+//							indexOfWifi=indexOfWifiToSearchIn;
+//							
+//						}
+//					}
+//				}
+//			}
+//			}
+//			}
+//	}
 
 	/**
 	 * 
@@ -83,7 +106,7 @@ public	 	 static void toPrint(String[][] matrix){
 	 * @param ans
 	 * @return
 	 */
-public	 	static String[][] toSort(String[][]arr, String[][]ans){
+	public	 	static String[][] toSort(String[][]arr, String[][]ans){
 		int count=-1;
 		int helper=-1;
 		int i=0;
@@ -130,7 +153,7 @@ public	 	static String[][] toSort(String[][]arr, String[][]ans){
 	 * @param matrix
 	 * @return list
 	 */
-public	 	static List<MapPoint> separator(String[][] matrix){
+	public	 	static List<MapPoint> separator(String[][] matrix){
 		String[][]temp=new String[matrix.length][10];
 		int i=0,j=6;
 		int row=0, col=6;
@@ -141,7 +164,10 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 			return path;
 		}
 		else if(matrix[1][0]==null && matrix[0][0]!=null){
-			MapPoint a=new MapPoint(Double.parseDouble(matrix[i][2]), Double.parseDouble(matrix[i][3]), Double.parseDouble(matrix[i][4]), matrix[i][0], matrix[i][6],matrix[i][7],matrix[i][9]);
+			Coordinates_3D coord=new Coordinates_3D(matrix[i][2], matrix[i][3], matrix[i][4]);
+			Date date=new Date( matrix[i][0]);
+			Wifi wifi=new Wifi(matrix[i][6],matrix[i][7],matrix[i][8],matrix[i][9]);
+			MapPoint a=new MapPoint(date,matrix[i][1],coord,wifi);
 			List<MapPoint> path=new ArrayList<MapPoint>();
 			path.add(a);
 			return path;
@@ -177,14 +203,14 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 
 
 	/********************private methods************************/
-	
+
 	/**
 	 * deletes the wifi point from matrix
 	 * @param matrix
 	 * @param row
 	 * @return matrix
 	 */
- 	private static String[][] deleteWifiPoint(String[][] matrix,int row){
+	private static String[][] deleteWifiPoint(String[][] matrix,int row){
 		int i=0;
 		while(i<matrix.length && matrix[i][0]!=null){
 			i++;
@@ -196,7 +222,7 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 		}
 		return matrix; 
 	}
-	
+
 	/**
 	 * checks if the same network exists in the matrix (checks the mac addresses) and keeps the strongest network
 	 * @param matrix
@@ -207,7 +233,7 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 			int j=i+1;
 			while(j<matrix.length && matrix[j][0]!=null){
 				if(matrix[i][7].equals(matrix[j][7])){
-					if(Integer.parseInt(matrix[i][9])<Integer.parseInt(matrix[j][9])){
+					if(Double.parseDouble(matrix[i][9])<Double.parseDouble(matrix[j][9])){
 						for (int k = 0; k < 10; k++) {
 							matrix[i][k]=matrix[j][k];
 						}
@@ -236,13 +262,16 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 		List<MapPoint> path=new ArrayList<MapPoint>();
 		int i=0;
 		while(matrix[i][0]!=null && i<matrix.length){
-			MapPoint a=new MapPoint(Double.parseDouble(matrix[i][2]), Double.parseDouble(matrix[i][3]), Double.parseDouble(matrix[i][4]), matrix[i][0], matrix[i][6],matrix[i][7],matrix[i][9]);
+			Coordinates_3D coord=new Coordinates_3D(matrix[i][2], matrix[i][3], matrix[i][4]);
+			Date date=new Date( matrix[i][0]);
+			Wifi wifi=new Wifi(matrix[i][6],matrix[i][7],matrix[i][8],matrix[i][9]);
+			MapPoint a=new MapPoint(date,matrix[i][1],coord,wifi);
 			path.add(i,a);	
 			i++;
 		}
 		return path;
 	}
-	
+
 	/**
 	 * checks if signal of the selected wifi is big enough to be listed in the final csv file, if not it returns -1
 	 * @param matrix
@@ -267,7 +296,8 @@ public	 	static List<MapPoint> separator(String[][] matrix){
 		else	 return -1;	
 	}
 
-	
+
+
 }
 
 
