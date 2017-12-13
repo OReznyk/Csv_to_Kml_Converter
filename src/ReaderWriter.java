@@ -33,7 +33,7 @@ public class ReaderWriter {
 					files.add(name);
 				}
 			}
-			ArrayList<RowOfTenWifiPoints>listToPrint=notSortedFileToArrayListOfTenMostPowerfulWifiPoints(files);
+			ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint=notSortedFileToArrayListOfTenMostPowerfulWifiPoints(files);
 
 			WriterToCsv(listToPrint,whereToSave);
 			System.out.println("CSV file is saved"); //for checkup
@@ -48,16 +48,7 @@ public class ReaderWriter {
 		}
 	}		
 
-
-	/**
-	 * Taking sorted .csv file
-	 * Choosing data by filter and saving it in table
-	 * @param csvFile url of file to open
-	 * @param filter variable to filter with
-	 * @param colmToFilter number of column to search in
-	 * @throws Exception
-	 */
-	public static String[][] filteringByOneVariable(String csvFile, String filter, int colmToFilter) throws Exception{
+	public static String[][] readerFromMergedCSVtoMatrix(String csvFile) throws Exception{
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
@@ -72,17 +63,15 @@ public class ReaderWriter {
 			while((line = br.readLine()) != null ){
 				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
-
-				if(row[colmToFilter].equals(filter)){
-					ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
+					ans=Functions.buildStringTableFromStringARR(ans,row, count);
 					count++;
+					if(count==ans.length)ans=Functions.reBuild(ans);
 
-				}
 			} br.close();
 
 			if(ans[0][0]==null){
 				ans[0][0]="Does not exist";}
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -99,6 +88,79 @@ public class ReaderWriter {
 		return ans;
 
 	}
+
+
+	public static String[][] filteringByOneVariable(String[][]matrix,String filter, int colmToFilter){
+
+		String[][]ans=new String[15][46];
+		int count=0,i=0;
+		
+		while(matrix[i][0]!=null){
+			
+		 if(matrix[i][colmToFilter].equals(filter)){
+					ans=Functions.buildStringTableFromStringARR(ans,matrix[i], count);
+					count++;
+					if(count==ans.length)ans= Functions.reBuild(ans);
+		 }
+		 i++;
+				}
+	
+		return ans;
+
+	}
+
+	/**
+	 * Taking sorted .csv file
+	 * Choosing data by MAC and saving 4 of Most powerful in table
+	 * @param csvFile url of file to open
+	 * @param filter variable to filter with
+	 * @param colmToFilter number of column to search in
+	 * @throws Exception
+	 */
+	public static ArrayList<RowOfNoMoreThenTenWifiPoints> filteringByMAC(String [][]ans,ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint, String filter, int count) throws Exception{
+		int colmToFilter=7;
+		
+			int row=0;
+			while(ans[row][0]!=null){
+				int index=0;
+				while(colmToFilter+index<ans[row].length && ans[row][colmToFilter+index]!=null){
+					if(ans[row][colmToFilter+index].equals(filter)){
+						Coordinates_3D coord=new Coordinates_3D(ans[row][2], ans[row][3], ans[row][4]);
+						String id=ans[row][1];
+						Date date=new Date(ans[row][0]);
+						Wifi wifi=new Wifi(ans[row][colmToFilter+index-1], ans[row][colmToFilter+index], ans[row][colmToFilter+index+1], ans[row][colmToFilter+index+2]);
+						
+						if(count==1){
+							RowOfNoMoreThenTenWifiPoints WifiPoint=new RowOfNoMoreThenTenWifiPoints(date, id, coord, 1);
+							WifiPoint.addWifiToList(wifi);
+							listToPrint.add(WifiPoint);
+						}
+						else{
+							boolean exists=false;
+							for (int i = 0; i < listToPrint.size(); i++) {
+								if(listToPrint.get(i).date.sameDate(date) && listToPrint.get(i).id.equals(id)){
+									listToPrint.get(i).wifiList.add(wifi);
+									exists=true;
+									break;
+								}
+
+							} if(exists==false){
+								RowOfNoMoreThenTenWifiPoints WifiPoint=new RowOfNoMoreThenTenWifiPoints(date, id, coord, 1);
+								WifiPoint.addWifiToList(wifi);
+								listToPrint.add(WifiPoint);
+							}
+							
+						}
+					}
+					index=index+4;
+				}
+				row++;
+			}
+		return listToPrint;
+
+	}
+
+
 	/**
 	 *  Time filter, filtering by start and end times
 	 * @param csvFile
@@ -126,12 +188,12 @@ public class ReaderWriter {
 				String[] row = line.split(cvsSplitBy);
 				Date thisTime=new Date(row[0]);
 				if(thisTime.betweenDates(startFilter, stopFilter)){
-				ans=MatrixFunctions.buildStringTableFromStringARR(ans,row, count);
-				count++;}
+					ans=Functions.buildStringTableFromStringARR(ans,row, count);
+					count++;}
 
-				
+
 			} br.close();
-			
+
 			if(ans[0][0]==null){
 				ans[0][0]="Does not exist";}
 
@@ -155,76 +217,76 @@ public class ReaderWriter {
 
 	}
 
-//
-//	/**
-//	 *  Time filter, filtering by start and end times
-//	 * @param csvFile
-//	 * @param fromTime
-//	 * @param untillTime
-//	 * @param colmToFilter
-//	 * @throws Exception
-//	 */
-//	public static ArrayList<RowOfTenWifiPoints> filteringByTime(String csvFile, String fromTime, String untillTime, int colmToFilter) throws Exception {
-//		BufferedReader br = null;
-//		String line = "";
-//		String cvsSplitBy = ",";
-//		ArrayList<RowOfTenWifiPoints>listToPrint=new ArrayList<RowOfTenWifiPoints>();
-//		int numOfWifi=0;
-//		Date startFilter=new Date(fromTime);
-//		Date stopFilter=new Date(untillTime);
-//
-//		try {
-//
-//			br = new BufferedReader(new FileReader(csvFile));
-//			int numOfRow=0;  
-//			while((line = br.readLine()) != null){
-//				if(line.isEmpty())break;
-//				String[] row = line.split(cvsSplitBy);
-//				Date date=new Date(row[0]);
-//					
-//				if(date.betweenDates(startFilter, stopFilter)){
-//					String id=row[1];
-//					numOfWifi++;
-//					Coordinates_3D coordinates=new Coordinates_3D(row[2], row[3], row[4]);
-//					Wifi wifi=new Wifi(row[6], row[7], row[8],row[9]);
-//					
-//					if(listToPrint.isEmpty()){
-//					RowOfTenWifiPoints rowOfWifiPoints=new RowOfTenWifiPoints(date, id, coordinates, numOfWifi);
-//					rowOfWifiPoints.addWifiToList(wifi);
-//					}
-//					else{
-//						if(listToPrint.get(numOfRow).date.sameDate(date)){//same date
-//							listToPrint.get(numOfRow).addWifiToList(wifi);;
-//						}
-//						else{//not same date
-//							listToPrint.get(numOfRow).setNumOfWifiNetworks(numOfWifi-1);
-//							if(listToPrint.get(numOfRow).wifiList.size()>10) System.out.println(listToPrint.get(numOfRow).wifiList.size());
-//							numOfWifi=1;
-//							RowOfTenWifiPoints rowOfTen=new RowOfTenWifiPoints(date,id,coordinates,numOfWifi);
-//							rowOfTen.addWifiToList(wifi);
-//							listToPrint.add(rowOfTen);
-//							numOfRow++;
-//						}	
-//					}
-//				}
-//
-//			} br.close();
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (br != null) {
-//				try {
-//					br.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return listToPrint;
-//	}
+	//
+	//	/**
+	//	 *  Time filter, filtering by start and end times
+	//	 * @param csvFile
+	//	 * @param fromTime
+	//	 * @param untillTime
+	//	 * @param colmToFilter
+	//	 * @throws Exception
+	//	 */
+	//	public static ArrayList<RowOfTenWifiPoints> filteringByTime(String csvFile, String fromTime, String untillTime, int colmToFilter) throws Exception {
+	//		BufferedReader br = null;
+	//		String line = "";
+	//		String cvsSplitBy = ",";
+	//		ArrayList<RowOfTenWifiPoints>listToPrint=new ArrayList<RowOfTenWifiPoints>();
+	//		int numOfWifi=0;
+	//		Date startFilter=new Date(fromTime);
+	//		Date stopFilter=new Date(untillTime);
+	//
+	//		try {
+	//
+	//			br = new BufferedReader(new FileReader(csvFile));
+	//			int numOfRow=0;  
+	//			while((line = br.readLine()) != null){
+	//				if(line.isEmpty())break;
+	//				String[] row = line.split(cvsSplitBy);
+	//				Date date=new Date(row[0]);
+	//					
+	//				if(date.betweenDates(startFilter, stopFilter)){
+	//					String id=row[1];
+	//					numOfWifi++;
+	//					Coordinates_3D coordinates=new Coordinates_3D(row[2], row[3], row[4]);
+	//					Wifi wifi=new Wifi(row[6], row[7], row[8],row[9]);
+	//					
+	//					if(listToPrint.isEmpty()){
+	//					RowOfTenWifiPoints rowOfWifiPoints=new RowOfTenWifiPoints(date, id, coordinates, numOfWifi);
+	//					rowOfWifiPoints.addWifiToList(wifi);
+	//					}
+	//					else{
+	//						if(listToPrint.get(numOfRow).date.sameDate(date)){//same date
+	//							listToPrint.get(numOfRow).addWifiToList(wifi);;
+	//						}
+	//						else{//not same date
+	//							listToPrint.get(numOfRow).setNumOfWifiNetworks(numOfWifi-1);
+	//							if(listToPrint.get(numOfRow).wifiList.size()>10) System.out.println(listToPrint.get(numOfRow).wifiList.size());
+	//							numOfWifi=1;
+	//							RowOfTenWifiPoints rowOfTen=new RowOfTenWifiPoints(date,id,coordinates,numOfWifi);
+	//							rowOfTen.addWifiToList(wifi);
+	//							listToPrint.add(rowOfTen);
+	//							numOfRow++;
+	//						}	
+	//					}
+	//				}
+	//
+	//			} br.close();
+	//
+	//		} catch (FileNotFoundException e) {
+	//			e.printStackTrace();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} finally {
+	//			if (br != null) {
+	//				try {
+	//					br.close();
+	//				} catch (IOException e) {
+	//					e.printStackTrace();
+	//				}
+	//			}
+	//		}
+	//		return listToPrint;
+	//	}
 
 	/**
 	 * Taking sorted .csv file
@@ -252,7 +314,7 @@ public class ReaderWriter {
 				String[] row = line.split(cvsSplitBy);
 
 				if(row[latColmToFilter].contains(lat) && row[lonColmToFilter].contains(lon)){
-					ans=MatrixFunctions.buildStringTableFromStringARR(ans, row, count++ );
+					ans=Functions.buildStringTableFromStringARR(ans, row, count++ );
 					System.out.println();
 				}
 
@@ -261,7 +323,7 @@ public class ReaderWriter {
 			if(ans[0][0]==null){
 				ans[0][0]="Does not exist";
 			}
-		
+
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -285,45 +347,47 @@ public class ReaderWriter {
 
 
 	/**************************private methods*****************************************/
+
+	//	private static String[][] sortedFileToArrayListOfTenMostPowerfulWifiPoints(String csvFile) throws Exception {
+	//		BufferedReader br = null;
+	//		String line = "";
+	//		String cvsSplitBy = ",";
+	//		String[][]ans=new String[15][46];
+	//
+	//		try {
+	//
+	//			br = new BufferedReader(new FileReader(csvFile));
+	//
+	//			int count=0;  
+	//
+	//			while((line = br.readLine()) != null ){
+	//				if(line.isEmpty())break;
+	//				String[] row = line.split(cvsSplitBy);
+	//					ans=MatrixFunctions.buildStringTableFromStringARR(ans, row, count++ );
+	//			} br.close();
+	//
+	//			if(ans[0][0]==null){
+	//				ans[0][0]="Does not exist";
+	//			}
+	//		
+	//
+	//		} catch (FileNotFoundException e) {
+	//			e.printStackTrace();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} finally {
+	//			if (br != null) {
+	//				try {
+	//					br.close();
+	//				} catch (IOException e) {
+	//					e.printStackTrace();
+	//				}
+	//			}
+	//		}
+	//		return ans;
+	//	}
+
 	
-//	private static String[][] sortedFileToArrayListOfTenMostPowerfulWifiPoints(String csvFile) throws Exception {
-//		BufferedReader br = null;
-//		String line = "";
-//		String cvsSplitBy = ",";
-//		String[][]ans=new String[15][46];
-//
-//		try {
-//
-//			br = new BufferedReader(new FileReader(csvFile));
-//
-//			int count=0;  
-//
-//			while((line = br.readLine()) != null ){
-//				if(line.isEmpty())break;
-//				String[] row = line.split(cvsSplitBy);
-//					ans=MatrixFunctions.buildStringTableFromStringARR(ans, row, count++ );
-//			} br.close();
-//
-//			if(ans[0][0]==null){
-//				ans[0][0]="Does not exist";
-//			}
-//		
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (br != null) {
-//				try {
-//					br.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return ans;
-//	}
 	
 	/**
 	 * Taking .csv or .txt file and sorting it's data in table
@@ -331,8 +395,8 @@ public class ReaderWriter {
 	 * @throws Exception
 	 * return ArrayList of rows with ten most powerful wifiPoints in each
 	 */
-	private static ArrayList<RowOfTenWifiPoints> notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
-		ArrayList<RowOfTenWifiPoints>listToPrint=new ArrayList<RowOfTenWifiPoints>();
+	private static ArrayList<RowOfNoMoreThenTenWifiPoints> notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
+		ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint=new ArrayList<RowOfNoMoreThenTenWifiPoints>();
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
@@ -373,7 +437,7 @@ public class ReaderWriter {
 						numOfWifi++;
 
 						if(listToPrint.isEmpty()){
-							RowOfTenWifiPoints rowOfTen=new RowOfTenWifiPoints(date,id,coord,numOfWifi);
+							RowOfNoMoreThenTenWifiPoints rowOfTen=new RowOfNoMoreThenTenWifiPoints(date,id,coord,numOfWifi);
 							rowOfTen.addWifiToList(wifi);
 							listToPrint.add(rowOfTen);
 						}
@@ -385,7 +449,7 @@ public class ReaderWriter {
 								listToPrint.get(numOfRow).setNumOfWifiNetworks(numOfWifi-1);
 								if(listToPrint.get(numOfRow).wifiList.size()>10) System.out.println(listToPrint.get(numOfRow).wifiList.size());
 								numOfWifi=1;
-								RowOfTenWifiPoints rowOfTen=new RowOfTenWifiPoints(date,id,coord,numOfWifi);
+								RowOfNoMoreThenTenWifiPoints rowOfTen=new RowOfNoMoreThenTenWifiPoints(date,id,coord,numOfWifi);
 								rowOfTen.addWifiToList(wifi);
 								listToPrint.add(rowOfTen);
 								numOfRow++;
@@ -418,7 +482,7 @@ public class ReaderWriter {
 	 * @param whereToSave url to save .csv file in
 	 * @throws Exception
 	 */
-	private static void WriterToCsv(ArrayList<RowOfTenWifiPoints>listToPrint,String whereToSave) throws Exception {
+	private static void WriterToCsv(ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint,String whereToSave) throws Exception {
 
 		FileWriter writer = new FileWriter(whereToSave);
 		int indexOfRow=0;

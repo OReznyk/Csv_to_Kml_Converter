@@ -1,13 +1,13 @@
 import java.util.LinkedList;
 
-public class RowOfTenWifiPoints {
+public class RowOfNoMoreThenTenWifiPoints {
 	protected Coordinates_3D coordinates;
 	protected String id;
 	protected int numOfWifiNetworks;
 	protected Date date;
 	protected LinkedList<Wifi>wifiList;
 
-	RowOfTenWifiPoints(Date date,String id,Coordinates_3D coordinates,int numOfWifiNetworks) {
+	RowOfNoMoreThenTenWifiPoints(Date date,String id,Coordinates_3D coordinates,int numOfWifiNetworks) {
 		this.coordinates=coordinates;
 		this.date=date;
 		this.id=id;

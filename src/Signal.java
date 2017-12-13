@@ -19,6 +19,9 @@ public boolean equals(Signal a){
 public double weight(){
 	return (double)1/(Math.pow(this.signal, 2));
 }
+public void setSignal(double signal) {
+	this.signal = signal;
+}
 @Override
 public String toString(){
 	return ""+signal;

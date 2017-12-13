@@ -6,10 +6,9 @@ import java.util.List;
  * @author Olga
  *
  */
-public	  class MatrixFunctions {
+public	  class Functions {
 
-
-
+	
 	/**
 	 * increases the matrix's size by adding rows
 	 * @param matrix of strings from csv file
@@ -47,14 +46,14 @@ public	  class MatrixFunctions {
 	 * @param rowIndex
 	 * @return the matrix with the data
 	 */
-	public	 	static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
+	public	 static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
 
 		if(rowIndex+1==matrix.length){
-			matrix=MatrixFunctions.reBuild(matrix);
-		}
-		for (int i = 0; i < arr.length; i++) {
-			matrix[rowIndex][i]=arr[i];
-			System.out.print(matrix[rowIndex][i]+" ");
+			matrix=Functions.reBuild(matrix);
+		} 
+			for (int j = 0; j < arr.length; j++) {
+			    matrix[rowIndex][j]=arr[j];
+			
 		}
 		return matrix;	
 	}
@@ -121,7 +120,7 @@ public	  class MatrixFunctions {
 				if(i>1)ans[count][5]=arr[i-1][5];
 				count++;
 				if(count==ans.length-1){
-					ans=MatrixFunctions.reBuild(ans);
+					ans=Functions.reBuild(ans);
 				}
 				for (int j = 0; j < arr[0].length; j++) {
 					ans[count][j]=arr[i][j];
