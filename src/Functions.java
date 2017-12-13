@@ -2,8 +2,8 @@
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Functions to create and work on matrices 
- * @author Olga
+ * Help Functions. It's not completed . Most of this funtions we'll  remove one day
+ * @author Olga & Dan
  *
  */
 public	  class Functions {
@@ -26,33 +26,21 @@ public	  class Functions {
 		return temp;
 	}
 
-	/**
-	 * increases the array's size by adding columns
-	 * @param arr array of strings
-	 * @return bigger array
-	 */
-	public	 	static String[] reBuild(String [] arr){
-		int moreColms=2;
-		String[]temp=new String[arr.length+moreColms];
-		for (int i = 0; i < arr.length; i++) {			
-			temp[i]=arr[i];	
-		}return temp;	
-	}
 
 	/**
-	 * adds data to a matrix from an array of strings
-	 * @param matrix 
-	 * @param arr
-	 * @param rowIndex
+	 * adds data to a matrix from an string array
+	 * @param matrix matrix to put data un
+	 * @param arr string array
+	 * @param rowIndexInMatrix row in matrix to put data in
 	 * @return the matrix with the data
 	 */
-	public	 static String[][] buildStringTableFromStringARR(String [][] matrix, String [] arr, int rowIndex ){
+	public	 static String[][] putAllDataFromStringArrToRowInMatrix(String [][] matrix, String [] arr, int rowIndexInMatrix ){
 
-		if(rowIndex+1==matrix.length){
+		if(rowIndexInMatrix+1==matrix.length){
 			matrix=Functions.reBuild(matrix);
 		} 
 			for (int j = 0; j < arr.length; j++) {
-			    matrix[rowIndex][j]=arr[j];
+			    matrix[rowIndexInMatrix][j]=arr[j];
 			
 		}
 		return matrix;	
@@ -99,53 +87,7 @@ public	  class Functions {
 //			}
 //	}
 
-	/**
-	 * 
-	 * @param arr
-	 * @param ans
-	 * @return
-	 */
-	public	 	static String[][] toSort(String[][]arr, String[][]ans){
-		int count=-1;
-		int helper=-1;
-		int i=0;
-		if(ans[0][0]!=null){
-			while(ans[i][0]!=null){
-				i++;
-			}count=i-1;
-			i=0;
-		}
-		while(i<arr.length && arr[i][0]!=null){
-			if(arr[i][5].equals("1")){
-				if(i>1)ans[count][5]=arr[i-1][5];
-				count++;
-				if(count==ans.length-1){
-					ans=Functions.reBuild(ans);
-				}
-				for (int j = 0; j < arr[0].length; j++) {
-					ans[count][j]=arr[i][j];
-				}
-			}
-			if(arr[i+1][5]==null){ans[count][5]=arr[i][5];
-			}
-			if(Integer.parseInt(arr[i][5])>10){
-				helper=ifBigger(ans, arr[i][arr[0].length-1],count);	
-				if(helper!=-1){
-					int k=0;
-					for (int j = 6+(4*helper); j < 10+(4*helper); j++) {
-						ans[count][j]=arr[i][6+k];
-						k++;
-					} 
-				}
-			}else{
-				int step=((Integer.parseInt(arr[i][5])-1)*4);
-				for (int j = 6; j < arr[0].length; j++) {
-					ans[count][6+step]=arr[i][j];
-					step++;
-				}
-			}i++;
-		}return ans;	
-	}
+
 
 	/**
 	 * adds the strongest wifi networks to a list of map points
@@ -270,31 +212,6 @@ public	  class Functions {
 		}
 		return path;
 	}
-
-	/**
-	 * checks if signal of the selected wifi is big enough to be listed in the final csv file, if not it returns -1
-	 * @param matrix
-	 * @param signal
-	 * @param row
-	 * @return int
-	 */
-	private static int ifBigger(String [][] matrix, String signal, int row){
-		int Wifi=-1;
-
-		String[]b=new String[10];
-		for (int j = 0; j < b.length; j++) {
-			b[j]=matrix[row][5+((j+1)*4)];
-		}
-		int ifMin=Integer.parseInt(b[0]);
-		for (int i = 0; i < b.length; i++) {
-			if(ifMin>Integer.parseInt(b[i])){
-				ifMin=Integer.parseInt(b[i]);
-				Wifi=i;
-			}	
-		}if(Integer.parseInt(signal)>ifMin)return Wifi;
-		else	 return -1;	
-	}
-
 
 
 }

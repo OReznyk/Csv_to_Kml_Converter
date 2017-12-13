@@ -15,10 +15,11 @@ import org.w3c.dom.Element;
 
 /**
  * A class to represent, write, and read KML files.
- * 
- * @author Ethan Harstad
+ * took from Ethan Harstad
+ * @author  Olga & Dan
  *
  */
+
 public class Kml {
 	
 	private static Document doc;
