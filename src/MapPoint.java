@@ -1,5 +1,12 @@
 
- class MapPoint {
+ /**
+  * This class is temp one. We hadn't enough time to do all changes for do this project more accurate
+  * It represents simple map point of wifi in time
+  * We'll remove it in one day 
+ * @author Olga & Dan 
+ *
+ */
+class MapPoint {
 	protected Coordinates_3D coordinates;
 	protected String id;
 	protected Date date;
@@ -13,18 +20,6 @@
 	    this.wifiPoint=wifiPoint;
 	}
   
-public String getId() { return id; }
 
-
-  public double weightOfLat(){
-	  return this.coordinates.latitude*this.wifiPoint.signal.weight();
-  }
-  public double weightOfLon(){
-	  return this.coordinates.longitude*this.wifiPoint.signal.weight();
-  }
-  public double weightOfAlt(){
-	  return this.coordinates.altitude*this.wifiPoint.signal.weight();
-  }
-  
 	
 }

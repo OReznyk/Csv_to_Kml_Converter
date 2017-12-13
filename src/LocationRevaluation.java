@@ -1,22 +1,44 @@
 import java.util.ArrayList;
 
+/**
+ * This class represents functions to finding truly location
+ * @author Olga & Dan
+ *
+ */
 public class LocationRevaluation {
 
-	public static RowOfNoMoreThenTenWifiPoints centerOfRouter(String csvFile,String MAC, int numOfPointsToUseForChekup ) throws Exception{
-		ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint=new ArrayList<RowOfNoMoreThenTenWifiPoints>();
+	/**
+	 * Function to found location of router by Mac
+	 * @param csvFile address of merged csv with collected data
+	 * @param MAC mac filter
+	 * @param numOfPointsToUseForChekup number of most powerful wifi points you want me to use in calculation
+	 * @return RowOfWifiPoint with coordinates of router
+	 * @throws Exception
+	 */
+	public static RowOfWifiPoints centerOfRouter(String csvFile,String MAC, int numOfPointsToUseForChekup ) throws Exception{
+		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		ArrayList<String>mac=new ArrayList<String>();
 		mac.add(MAC);
 		String[][]ans=ReaderWriter.readerFromMergedCSVtoMatrix(csvFile);
-		return	LocationRevaluation.centerPoint(LocationRevaluation.mostPowerfulWifiSignals(ReaderWriter.filteringByMAC(ans,listToPrint, mac.get(0),1), numOfPointsToUseForChekup));
+		return	LocationRevaluation.centerPoint(Filters.filterByMostPowerfulWifiSignals(Filters.filteringByMAC(ans,listToPrint, mac.get(0),1), numOfPointsToUseForChekup));
 	}
 	
 	
 
-	public static ArrayList<RowOfNoMoreThenTenWifiPoints> yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int howMuchYouWantToGetBack) throws Exception{
+	/**
+	 * Function to found location of device by Mac and signal
+	 * @param csvFileToTakeFilterFrom
+	 * @param csvFileToSearchIn
+	 * @param numOfPointsToUseForChekup number of most powerful wifi points you want me to use in calculation
+	 * @return list of RowOfWifiPoint with coordinates of router
+	 * @throws Exception
+	 */
+
+	public static ArrayList<RowOfWifiPoints> yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int numOfPointsToUseForChekup) throws Exception{
 		String[][]matrixOfFilters=ReaderWriter.readerFromMergedCSVtoMatrix(csvFileToTakeFilterFrom);
 		String[][]matrixToFilter=ReaderWriter.readerFromMergedCSVtoMatrix(csvFileToSearchIn);
-		String[][]ans=ReaderWriter.filteringByOneVariable(matrixOfFilters, "?", 3);
-		ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint=new ArrayList<RowOfNoMoreThenTenWifiPoints>();
+		String[][]ans=Filters.filteringByOneLocalVariable(matrixOfFilters, "?", 3);
+		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		String id="";
 		Signal s;
 		ArrayList<String>mac= new ArrayList<String>();
@@ -33,9 +55,9 @@ public class LocationRevaluation {
 				
 			}
 			String[][]temp=new String[1][1];
-			temp=ReaderWriter.filteringByOneVariable(matrixToFilter, id, 1);
+			temp=Filters.filteringByOneLocalVariable(matrixToFilter, id, 1);
 			System.out.println(i);
-			listToPrint.add(yourLocation(temp,mac,signal,howMuchYouWantToGetBack));
+			listToPrint.add(yourLocation(temp,mac,signal,numOfPointsToUseForChekup));
 			System.out.println();
 			mac.removeAll(mac);
 			signal.removeAll(signal);
@@ -48,55 +70,42 @@ public class LocationRevaluation {
 	
 	/********************private**********************/
 	
-	private static RowOfNoMoreThenTenWifiPoints yourLocation(String[][]ans,ArrayList<String>mac,ArrayList<Signal>signal,int howMuchYouWantToGetBack ) throws Exception{
-		ArrayList<RowOfNoMoreThenTenWifiPoints>listToPrint=new ArrayList<RowOfNoMoreThenTenWifiPoints>();
+	
+	
+	/**
+	 * function that runs all help functions to get calculated coordinates
+	 * @param ans matrix to search in
+	 * @param mac list of macs to filter with
+	 * @param signal list of signals to calculate with
+	 * @param numOfPointsToUseForChekup number of most powerful wifi points you want me to use in calculation
+	 * @return RowOfWifiPoint with coordinates of device
+	 * @throws Exception
+	 */
+	
+	private static RowOfWifiPoints yourLocation(String[][]ans,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
+		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		int count=0;
+		
+		/*********filtering by all macs from list****************/
 		while(count<mac.size() && mac.get(count)!=null){
-		ReaderWriter.filteringByMAC(ans, listToPrint, mac.get(count),count+1);
-		count++;
+			Filters.filteringByMAC(ans, listToPrint, mac.get(count),count+1);
+			count++;
 		}
-//		for (int i = 0; i < listToPrint.size(); i++) {
-//			System.out.println(listToPrint.get(i).rowToString());
-//		}
+		/***************calculating match of row************************/
 		listToPrint=matchBySignal(listToPrint,mac,signal);
-		System.out.println();
-//		for (int i = 0; i < listToPrint.size(); i++) {
-//			System.out.println(listToPrint.get(i).rowToString());
-//		}
-		listToPrint=mostPowerfulWifiSignals(listToPrint, howMuchYouWantToGetBack);
-
-//		for (int i = 0; i < listToPrint.size(); i++) {
-//			System.out.println(listToPrint.get(i).rowToString());
-//		}
-
+		/***************filtering "numOfPointsToUseForChekup" most matched rows************************/
+		listToPrint=Filters.filterByMostPowerfulWifiSignals(listToPrint, numOfPointsToUseForChekup);
+		/***************calculating coordinates of device for this row************************/
 		return centerPoint(listToPrint);
 	}
 	
-	private static ArrayList<RowOfNoMoreThenTenWifiPoints> mostPowerfulWifiSignals(ArrayList<RowOfNoMoreThenTenWifiPoints>list, int howMuchYouWantToGetBack){
-		if(howMuchYouWantToGetBack==list.size())return list;
-		if(howMuchYouWantToGetBack>list.size()){ 
-			System.out.println("You don't have that much in list, so I'll work on "+list.size()+" I have in list");
-			return list;
-		}
+	/**
+	 * Calculating coordinates of device/router
+	 * @param list list of RowOfWifiPoints
+	 * @return RowOfWifiPoints with coordinates of device/router
+	 */
 
-		int row=howMuchYouWantToGetBack;
-		while(row<list.size()){
-			int index=-1;
-			for (int i = 0; i <= howMuchYouWantToGetBack; i++) {
-				if(list.get(row).wifiList.getLast().signal.morePowerful(list.get(i).wifiList.getLast().signal)){
-					if(index<0)index=i;
-					else{
-						if(list.get(index).wifiList.getLast().signal.morePowerful(list.get(i).wifiList.getLast().signal))
-							index=i;
-					}
-				}
-			} if(index<0)list.remove(row);
-			else list.remove(index);
-		}
-		return list;	
-	}
-
-	private static RowOfNoMoreThenTenWifiPoints centerPoint(ArrayList<RowOfNoMoreThenTenWifiPoints>list){
+	private static RowOfWifiPoints centerPoint(ArrayList<RowOfWifiPoints>list){
 		if(list.isEmpty()==false){
 			Date date=list.get(0).date;
 			String id="Olga&Dan";
@@ -107,7 +116,7 @@ public class LocationRevaluation {
 			while(i<list.size()){
 				int j=0;
 				while(j<list.get(i).wifiList.size() && list.get(i).wifiList.get(j).mac!=null){
-				sumOfsignalsWeight+=list.get(i).wifiList.get(j).signal.weight();
+				sumOfsignalsWeight+=list.get(i).wifiList.get(j).signal.weightOfSignal();
 				latitude+=list.get(i).weightOfLat(list.get(i).wifiList.get(j));
 				longitude+=list.get(i).weightOfLon(list.get(i).wifiList.get(j));
 				altitude+=list.get(i).weightOfAlt(list.get(i).wifiList.get(j));
@@ -121,15 +130,22 @@ public class LocationRevaluation {
 			altitude=altitude/sumOfsignalsWeight;
 
 			Coordinates_3D coord=new Coordinates_3D(latitude+"", longitude+"", altitude+"");
-			RowOfNoMoreThenTenWifiPoints WIFIpoint=new RowOfNoMoreThenTenWifiPoints(date, id, coord, numOfWifiNetworks);
+			RowOfWifiPoints WIFIpoint=new RowOfWifiPoints(date, id, coord, numOfWifiNetworks);
 			WIFIpoint.addWifiToList(wifi);
-			System.out.println(WIFIpoint.rowToString());
+			System.out.println(WIFIpoint.toString());
 			return WIFIpoint;
 		}
 		else return null;
 	}
-
-	private static ArrayList<RowOfNoMoreThenTenWifiPoints> matchBySignal(ArrayList<RowOfNoMoreThenTenWifiPoints>list,ArrayList<String>mac, ArrayList<Signal>signal){
+	
+	/**
+	 * Calculating match of row
+	 * @param list list of RowOfWifiPoints
+	 * @param mac list of macs
+	 * @param signal list of signals
+	 * @return list of RowOfWifiPoints with added calculated match as signal in each row 
+	 */
+	private static ArrayList<RowOfWifiPoints> matchBySignal(ArrayList<RowOfWifiPoints>list,ArrayList<String>mac, ArrayList<Signal>signal){
 		int row=0;
 		double inputSignal=0,signalOfWifi=0,dif=0;
 		

@@ -6,9 +6,10 @@ import java.time.format.DateTimeParseException;
 /**
  * This Class represents Time Splitter that takes String date and split it to date and time java constructors
  * 
- * @author Olga Reznyk
+ * @author Olga & Dan
  *
  */
+
 public class Date {
 
 	LocalTime time;
@@ -27,6 +28,8 @@ public class Date {
 				accepted=-1;
 			}	
 	}
+  
+  /*************getters&setters***************/
   public String getDateAtTimeAsString() {	return date+" "+time;}
 
 	/**
@@ -45,12 +48,27 @@ public class Date {
 	 */
 	public int getAccepted() {return accepted;}
 	
+	
+	
+	/*********************** Date functions*************************/
+	/**
+	 * Function to check if this date is between two other dates
+	 * @param startDate
+	 * @param stopDate
+	 * @return true if this date is between two other dates
+	 */
+	
     public boolean betweenDates(Date startDate,Date stopDate){
     	if(this.date.atTime(this.time).isAfter(startDate.date.atTime(startDate.getTime()))){
         	if(this.date.atTime(this.time).isBefore(stopDate.date.atTime(stopDate.getTime())))return true; 		
     	}	return false;
     }
 	
+    /**
+     * Function to check if this date is the same as other date
+     * @param b other date
+     * @return true if this date is the same as other date
+     */
  	public boolean sameDate(Date b){
  		if(this.date.atTime(this.time).isEqual(b.date.atTime(b.getTime())))return true;
  		return false;

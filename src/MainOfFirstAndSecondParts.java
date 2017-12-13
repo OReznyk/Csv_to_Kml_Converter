@@ -1,4 +1,5 @@
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,13 @@ public class MainOfFirstAndSecondParts {
 	
 	
 	/***********************************private *********************************/
+	
+	/**
+	 * This function running project 0.1 from Wigle.csv to merged .csv with 10 most powerful wifi points in each row
+	 * @param scanner
+	 * @return address where user want to save sorted data
+	 * @throws Exception
+	 */
 	private static String mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(Scanner scanner) throws Exception{
 		String folderName="";
 		String whereToSave="";
@@ -61,21 +69,29 @@ public class MainOfFirstAndSecondParts {
 		ReaderWriter.readerFromFolderToCsvFile(folderName, whereToSave);
 		return whereToSave;
 	}
+	/**
+	 * This function running project 0.2 from merged.csv to merged .kml 
+	 * @param scanner
+	 * @return 0 if data saved
+	 * @throws Exception
+	 */
 
 	private static int mainPartForBuildingKmlFileFromFilteredCsvFile(String addressOfFile,Scanner scanner) throws Exception{
 		String[][]ans=new String[1][1];
 		int	choice=0;
 		System.out.println("Please choose how you'd like to filter this file?");
 		System.out.println("I'll give you few options and you need to choose one of them with writing me back its number");
-		while(choice<1||choice>4){
-			System.out.println("place=1, time=2, id=3 , mac=4");
+		while(choice<1||choice>3){
+			System.out.println("place=1, time=2, id=3");
+			/******************creating matrix of data from merged csv file*******************/
+			String[][]matrix=ReaderWriter.readerFromMergedCSVtoMatrix(addressOfFile);
 			choice=scanner.nextInt();
 			if(choice==1){
 				System.out.println("Please put here a Latitude: ");
 				String lat=scanner.next();
 				System.out.println("And now a Longitude: ");
 				String lon=scanner.next();		
-			ans=	ReaderWriter.filteringByTwoVariables(addressOfFile, lat, lon, 2, 3);
+			ans=	Filters.filteringByTwoVariables(matrix, lat, lon, 2, 3);
 			}
 			else if(choice==2){
 				System.out.println("Please put here a time (it has to be date: yyyy-mm-dd and hour hh:mm:ss ): ");
@@ -84,13 +100,13 @@ public class MainOfFirstAndSecondParts {
 				String startTime=scanner.next()+" "+scanner.next();
 				System.out.println("Please put here a time you'd like to stop at: ");
 				String stopTime=scanner.next()+" "+scanner.next();
-			ans=	ReaderWriter.filteringByTime(addressOfFile, startTime,stopTime, 0);
+			ans=	Filters.filteringByTime(matrix, startTime,stopTime, 0);
 			}
 			else if(choice==3){
 				System.out.println("Please put here an id: ");
 				String filter=scanner.next();
-				ans=ReaderWriter.readerFromMergedCSVtoMatrix(addressOfFile);
-			    ans=	ReaderWriter.filteringByOneVariable(ans, filter,1);
+				
+			    ans=Filters.filteringByOneLocalVariable(matrix, filter,1);
 			}
 			else System.out.println("Number is inccorect. Please try again");
 
