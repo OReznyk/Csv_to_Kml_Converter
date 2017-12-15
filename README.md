@@ -1,4 +1,4 @@
-# Csv_to_Kml_Converter
+﻿# Csv_to_Kml_Converter
 
 The main goal of the "Csv_to_Kml_Converter" is to provide automatically generated KML file of Wifi networks from CSV file.
 
@@ -10,3 +10,7 @@ This API contains easy interface for user so just IDE and follow the instruction
 But if you haven't a problem with сomplexity and memory *(It's not using to much and runing fast but will faster soon) so this API is for you.
 
 You can read about functions I used at javadoc (doc folder) and see some examples at "Examples folder".
+
+
+
+hi olga :)
