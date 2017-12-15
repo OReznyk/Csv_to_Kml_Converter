@@ -54,6 +54,44 @@ public class ReaderWriter {
 			e.printStackTrace();
 		}
 	}		
+	
+	public static ArrayList<String> createListOfMacsFromCSVFile(String csvFilePath) throws FileNotFoundException
+	{
+		ArrayList<String> macList = new ArrayList<String>();
+		FileReader fr = new FileReader(csvFilePath);
+		BufferedReader br = new BufferedReader(fr);
+		String cvsSplitBy = ",";
+		
+		try {
+			String line = br.readLine();
+			while(line!=null)
+				line.replaceAll(",,,", "");
+			{
+				String[] split = line.split(cvsSplitBy);
+				macList.add(split[1]);
+				
+				line=br.readLine();
+			}
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return macList;
+
+
+	}
+	
+	
 	/**
 	 * Read from merged csv to matrix
 	 * @param csvFile
@@ -104,7 +142,28 @@ public class ReaderWriter {
 
 
 	
+	/**
+	 * Taking table of strings  and saving it's data in .csv file
+	 * @param ans string array table
+	 * @param whereToSave url to save .csv file in
+	 * @throws Exception
+	 */
+	public static void WriterToCsv(ArrayList<RowOfWifiPoints>listToPrint,String whereToSave) throws Exception {
 
+		FileWriter writer = new FileWriter(whereToSave);
+		int indexOfRow=0;
+		while(indexOfRow<listToPrint.size()){
+			writer.write(listToPrint.get(indexOfRow).toString());
+			writer.write('\n');
+			indexOfRow++;
+		}
+		writer.flush();
+		writer.close();
+		
+		System.out.println("CSV file is saved"); //for checkup
+	}
+
+	
 	
 
 
@@ -203,27 +262,6 @@ public class ReaderWriter {
 			}
 		}
 		return listToPrint;
-	}
-
-	/**
-	 * Taking table of strings  and saving it's data in .csv file
-	 * @param ans string array table
-	 * @param whereToSave url to save .csv file in
-	 * @throws Exception
-	 */
-	private static void WriterToCsv(ArrayList<RowOfWifiPoints>listToPrint,String whereToSave) throws Exception {
-
-		FileWriter writer = new FileWriter(whereToSave);
-		int indexOfRow=0;
-		while(indexOfRow<listToPrint.size()){
-			writer.write(listToPrint.get(indexOfRow).toString());
-			writer.write('\n');
-			indexOfRow++;
-		}
-		writer.flush();
-		writer.close();
-		
-		System.out.println("CSV file is saved"); //for checkup
 	}
 
 	

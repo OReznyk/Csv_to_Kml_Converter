@@ -146,7 +146,7 @@ public class Filters {
 	public static ArrayList<RowOfWifiPoints> filterByMostPowerfulWifiSignals(ArrayList<RowOfWifiPoints>list, int numOfPointsToUseForChekup){
 		if(numOfPointsToUseForChekup==list.size())return list;
 		if(numOfPointsToUseForChekup>list.size()){ 
-			System.out.println("You don't have that much in list, so I'll work on "+list.size()+" I have in list");
+			//System.out.println("You don't have that much in list, so I'll work on "+list.size()+" I have in list");
 			return list;
 		}
 

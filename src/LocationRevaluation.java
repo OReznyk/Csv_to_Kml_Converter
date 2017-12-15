@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -6,7 +9,6 @@ import java.util.ArrayList;
  *
  */
 public class LocationRevaluation {
-
 	/**
 	 * Function to found location of router by Mac
 	 * @param csvFile address of merged csv with collected data
@@ -15,13 +17,17 @@ public class LocationRevaluation {
 	 * @return RowOfWifiPoint with coordinates of router
 	 * @throws Exception
 	 */
-	public static RowOfWifiPoints centerOfRouter(String csvFile,String MAC, int numOfPointsToUseForChekup ) throws Exception{
+	public static ArrayList<RowOfWifiPoints> centerOfRouter(String csvFileWithFilters,String csvFileToRun, int numOfPointsToUseForChekup ) throws Exception{
+		ArrayList<String>mac=ReaderWriter.createListOfMacsFromCSVFile(csvFileWithFilters);
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
-		ArrayList<String>mac=new ArrayList<String>();
-		mac.add(MAC);
-		String[][]ans=ReaderWriter.readerFromMergedCSVtoMatrix(csvFile);
-		return	LocationRevaluation.centerPoint(Filters.filterByMostPowerfulWifiSignals(Filters.filteringByMAC(ans,listToPrint, mac.get(0),1), numOfPointsToUseForChekup));
+		for (int i = 0; i < mac.size(); i++) {
+			listToPrint.add(centerOfRouter1(csvFileToRun,mac.get(i), numOfPointsToUseForChekup));
+		}
+
+		ReaderWriter.WriterToCsv(listToPrint, csvFileWithFilters+"_location.csv");
+		return	listToPrint;
 	}
+	
 	
 	
 
@@ -37,7 +43,7 @@ public class LocationRevaluation {
 	public static ArrayList<RowOfWifiPoints> yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int numOfPointsToUseForChekup) throws Exception{
 		String[][]matrixOfFilters=ReaderWriter.readerFromMergedCSVtoMatrix(csvFileToTakeFilterFrom);
 		String[][]matrixToFilter=ReaderWriter.readerFromMergedCSVtoMatrix(csvFileToSearchIn);
-		String[][]ans=Filters.filteringByOneLocalVariable(matrixOfFilters, "?", 3);
+		String[][]ans=matrixOfFilters;//Filters.filteringByOneLocalVariable(matrixOfFilters, "?", 3);
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		String id="";
 		Signal s;
@@ -47,7 +53,7 @@ public class LocationRevaluation {
 		while(i<ans.length && ans[i][0]!=null){
 			int j=7;
 			id=ans[i][1];
-			while(ans[i][j]!=null){
+			while(ans[i][j]!=null && j+4<ans[i].length){
 				mac.add(ans[i][j]);
 				s=new Signal(ans[i][j+2]);
 				signal.add(s);
@@ -63,12 +69,28 @@ public class LocationRevaluation {
 			signal.removeAll(signal);
 			i++;
 		}
+		ReaderWriter.WriterToCsv(listToPrint, csvFileToTakeFilterFrom+"_location.csv");
 		return listToPrint;
 	}
 	
 	
 	
 	/********************private**********************/
+	
+//	/**
+//	 * Function to found location of router by Mac
+//	 * @param csvFile address of merged csv with collected data
+//	 * @param MAC mac filter
+//	 * @param numOfPointsToUseForChekup number of most powerful wifi points you want me to use in calculation
+//	 * @return RowOfWifiPoint with coordinates of router
+//	 * @throws Exception
+//	 */
+	private static RowOfWifiPoints centerOfRouter1(String csvFile,String mac, int numOfPointsToUseForChekup ) throws Exception{
+		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
+		String[][]ans=ReaderWriter.readerFromMergedCSVtoMatrix(csvFile);
+		return 	centerPoint(Filters.filterByMostPowerfulWifiSignals(Filters.filteringByMAC(ans,listToPrint, mac,1), numOfPointsToUseForChekup));
+		
+	}
 	
 	
 	
@@ -108,11 +130,12 @@ public class LocationRevaluation {
 	private static RowOfWifiPoints centerPoint(ArrayList<RowOfWifiPoints>list){
 		if(list.isEmpty()==false){
 			Date date=list.get(0).date;
-			String id="Olga&Dan";
+			String id="Approx. w-center";
 			int numOfWifiNetworks=1;
 			double latitude=0, longitude=0, altitude=0,sumOfsignalsWeight=0;
 			int i=0;
-			Wifi wifi=new Wifi("Center", "here", "0", "0");
+			Wifi wifi=new Wifi(list.get(0).wifiList.get(0).getMac(), list.get(0).wifiList.get(0).getSsid(),
+					"calculated from "+list.size()+" samples","0");
 			while(i<list.size()){
 				int j=0;
 				while(j<list.get(i).wifiList.size() && list.get(i).wifiList.get(j).mac!=null){
@@ -120,6 +143,7 @@ public class LocationRevaluation {
 				latitude+=list.get(i).weightOfLat(list.get(i).wifiList.get(j));
 				longitude+=list.get(i).weightOfLon(list.get(i).wifiList.get(j));
 				altitude+=list.get(i).weightOfAlt(list.get(i).wifiList.get(j));
+
 				j++;
 				}
 				i++;
@@ -132,7 +156,7 @@ public class LocationRevaluation {
 			Coordinates_3D coord=new Coordinates_3D(latitude+"", longitude+"", altitude+"");
 			RowOfWifiPoints WIFIpoint=new RowOfWifiPoints(date, id, coord, numOfWifiNetworks);
 			WIFIpoint.addWifiToList(wifi);
-			System.out.println(WIFIpoint.toString());
+			//System.out.println(WIFIpoint.toString());
 			return WIFIpoint;
 		}
 		else return null;
