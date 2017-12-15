@@ -19,10 +19,11 @@ public class LocationRevaluation {
 		ArrayList<String>mac=ReaderWriter.createListOfMacsFromCSVFile(csvFileWithFilters);
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		for (int i = 0; i < mac.size(); i++) {
-			listToPrint.add(centerOfRouter1(csvFileToRun,mac.get(i), numOfPointsToUseForCheckup));
+			RowOfWifiPoints r=centerOfRouter1(csvFileToRun,mac.get(i), numOfPointsToUseForCheckup);
+			if(r!=null) listToPrint.add(r);
 		}
 
-		ReaderWriter.WriterToCsv(listToPrint, csvFileWithFilters+"_location.csv");
+		ReaderWriter.WriterToCsv(listToPrint, csvFileWithFilters.replace(".csv", "_Our_Algo1.csv"));
 		return	listToPrint;
 	}
 	
@@ -67,7 +68,7 @@ public class LocationRevaluation {
 			signal.removeAll(signal);
 			i++;
 		}
-		ReaderWriter.WriterToCsv(listToPrint, csvFileToTakeFilterFrom+"_location.csv");
+		ReaderWriter.WriterToCsv(listToPrint, csvFileToTakeFilterFrom.replace(".csv", "_Our_Algo2.csv"));
 		return listToPrint;
 	}
 	

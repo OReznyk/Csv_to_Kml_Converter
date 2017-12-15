@@ -65,8 +65,8 @@ public class ReaderWriter {
 		try {
 			String line = br.readLine();
 			while(line!=null)
-				line.replaceAll(",,,", "");
 			{
+				line.replaceAll(",,,", "");
 				String[] split = line.split(cvsSplitBy);
 				macList.add(split[1]);
 				

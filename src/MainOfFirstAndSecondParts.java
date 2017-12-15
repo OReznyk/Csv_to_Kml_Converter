@@ -29,11 +29,11 @@ public class MainOfFirstAndSecondParts {
 		/**********************main for 2.a  location Of router**********************************/
 		/********addressOfFile_To_Filter_With_MAC =address of merged csv****************/
 		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
-//		String addressOfFile_Where_I_need_To_Get_MAC="C:\\Users\\Olga\\Desktop\\New folder (2)\\data\\BM2\\comb\\Algo1_4_1512843349855__comb_all_.csv";
-//		String addressOfFile_To_Filter_With_MAC="C:\\Users\\Olga\\Desktop\\New folder (2)\\data\\BM2\\comb\\_comb_all_.csv";
-//		int howMuch_Powerful_Wifis_To_Use_For_Calculation=3;
-//		LocationRevaluation.centerOfRouter(addressOfFile_Where_I_need_To_Get_MAC,addressOfFile_To_Filter_With_MAC, howMuch_Powerful_Wifis_To_Use_For_Calculation);
-//		
+		String addressOfFile_Where_I_need_To_Get_MAC="C:\\Users\\Olga\\Desktop\\testing\\output\\Algo1_BM3_4.csv";
+		String addressOfFile_To_Filter_With_MAC="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM3_.csv";
+		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
+		LocationRevaluation.centerOfRouter(addressOfFile_Where_I_need_To_Get_MAC,addressOfFile_To_Filter_With_MAC, howMuch_Powerful_Wifis_To_Use_For_Calculation);
+		
 		
 		
 		/**********************main for 2.b location Of device*****************************/
@@ -41,10 +41,10 @@ public class MainOfFirstAndSecondParts {
 		/********aaddressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL=address with all mac & signals for check up****************/
 		/********addressOfFile_To_Filter_With_MAC_and_Signal_I_get=address of merged csv****************/
 		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
-		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\testing\\_comb_no_gps_ts1.csv";
-		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM2_.csv";
-		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
-		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
+//		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\testing\\_comb_no_gps_ts1.csv";
+//		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM2_.csv";
+//		//int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
+//		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
 	
 		scanner.close();		
 	}
