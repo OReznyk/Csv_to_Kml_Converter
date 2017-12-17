@@ -11,13 +11,13 @@
 public class Wifi {
 
 		protected Signal signal;
-		protected int frequncy;
+		protected String frequncy;
 		protected String mac;
 		protected String ssid;
 
 
 	Wifi( String ssid, String mac,String frequncy, String signal) { 
-	     	this.frequncy=Integer.parseInt(frequncy);
+	     	this.frequncy=frequncy;
 	     	this.signal=new Signal(signal);
 			this.mac=mac;
 			this.ssid = ssid;
@@ -31,7 +31,7 @@ public class Wifi {
 	
 	/*************getters&setters***************/
 	
-	public int getFrequncy() {return frequncy;}
+	public String getFrequncy() {return frequncy;}
 	public String getMac() {return mac;}
 	public String getSsid() {return ssid;}	
 

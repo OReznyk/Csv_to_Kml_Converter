@@ -1,7 +1,6 @@
 
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
   
@@ -24,24 +23,45 @@ public class MainOfFirstAndSecondParts {
 		/***********************main to build .kml from merged csv file***********************/
 		
 		/**Please run this with "main to build merged csv file" or you can put address of merged .csv instead of "addressOfFile" at this format: "C:\\data\\o.csv" **/
-		
+		//String addressOfFile="C:\\Users\\Olga\\Desktop\\data[1091]\\data\\o.csv";
 		//mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
 		
+<<<<<<< HEAD
 		/***********************main for 2.a  location Of router***********************/
 		/***********************addressOfFile_To_Filter_With_MAC =address of merged csv***********************/
 		/***********************howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)***********************/
 		System.out.println(LocationRevaluation.centerOfRouter("C:\\Users\\Dan\\Desktop\\testing\\_comb_all_BM2_.csv", "3c:1e:04:03:7f:17", 3).toString());
+=======
+		/**********************main for 2.a  location Of router**********************************/
+		/********addressOfFile_To_Filter_With_MAC =address of merged csv****************/
+		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
+		String addressOfFile_Where_I_need_To_Get_MAC="C:\\Users\\Olga\\Desktop\\testing\\output\\Algo1_BM3_4.csv";
+		String addressOfFile_To_Filter_With_MAC="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM3_.csv";
+		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
+		LocationRevaluation.centerOfRouter(addressOfFile_Where_I_need_To_Get_MAC,addressOfFile_To_Filter_With_MAC, howMuch_Powerful_Wifis_To_Use_For_Calculation);
+>>>>>>> 9252b501a3778d0cc3ae85d11da2d4fb862771f2
 		
 		
 		
 		/***********************main for 2.b location Of device***********************/
 		
+<<<<<<< HEAD
 		/***********************aaddressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL=address with all mac & signals for check up***********************/
 		/***********************addressOfFile_To_Filter_With_MAC_and_Signal_I_get=address of merged csv****************/
 		/***********************howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
 		//LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
 		//System.out.println(LocationRevaluation.yourLocation("C:\\Users\\Dan\\Desktop\\testing\\_comb_all_BM2_.csv","C:\\Users\\Dan\\Desktop\\testing\\_comb_all_BM2_.csv", 4).toString());
 
+=======
+		/********aaddressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL=address with all mac & signals for check up****************/
+		/********addressOfFile_To_Filter_With_MAC_and_Signal_I_get=address of merged csv****************/
+		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
+//		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\testing\\_comb_no_gps_ts1.csv";
+//		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM2_.csv";
+//		//int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
+//		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
+	
+>>>>>>> 9252b501a3778d0cc3ae85d11da2d4fb862771f2
 		scanner.close();		
 	}
 
