@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 /**
  * A class to represent, write, and read KML files.
  * took from Ethan Harstad
- * @author  Olga & Dan
+ * @author  Olga Reznyk & Dan Michaeli
  *
  */
 

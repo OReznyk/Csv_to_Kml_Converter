@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Help Functions. It's not completed . Most of this funtions we'll  remove one day
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public	  class Functions {

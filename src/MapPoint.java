@@ -1,9 +1,9 @@
 
  /**
-  * This class is temp one. We hadn't enough time to do all changes for do this project more accurate
+  * This class is temp one. We didn't have enough time to do all the changes for this project
   * It represents simple map point of wifi in time
   * We'll remove it in one day 
- * @author Olga & Dan 
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 class MapPoint {

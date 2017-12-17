@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 /**
  * This Class represents Time Splitter that takes String date and split it to date and time java constructors
  * 
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 
