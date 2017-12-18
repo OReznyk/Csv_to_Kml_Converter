@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 /**
  * This class represents row of no more than 10 wifi networks collected in same location at same time by same device
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class RowOfWifiPoints {

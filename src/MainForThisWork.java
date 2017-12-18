@@ -15,8 +15,12 @@ public class MainForThisWork {
 	public static void main(String[] args) throws Exception  {
 		
 		Scanner scanner=new Scanner(System.in);
+<<<<<<< HEAD:src/MainForThisWork.java
 				
 		/***********************main to build merged .csv file****************************/
+=======
+		
+>>>>>>> master:src/MainOfFirstAndSecondParts.java
 		 
 //		String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
 		

@@ -2,8 +2,8 @@
 import java.util.ArrayList;
 
 /**
- * This class represents functions to finding truly location
- * @author Olga & Dan
+ * This class represents functions to find locations of router or user
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class LocationRevaluation {

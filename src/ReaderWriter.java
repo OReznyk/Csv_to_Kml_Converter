@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Class of functions that reads & write from/to csv files
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class ReaderWriter {

@@ -2,7 +2,7 @@
 /**
  * This class represents the simplest wifi single AP received beacon in time.
  * 
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  * 
  */

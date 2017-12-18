@@ -1,7 +1,7 @@
 
 /**
  * This class represents the simplest 3D coordinates
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class Coordinates_3D {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * This class represents functions to filter matrix/lists
  * 
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class Filters {

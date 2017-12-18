@@ -1,7 +1,7 @@
 
 /**
  * This class represents the simplest wifi signal
- * @author Olga & Dan
+ * @author Olga Reznyk & Dan Michaeli
  *
  */
 public class Signal {
