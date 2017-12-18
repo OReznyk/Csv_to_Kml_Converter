@@ -32,6 +32,8 @@ public class Wifi {
 	/*************getters&setters***************/
 	
 	public String getFrequncy() {return frequncy;}
+	public double getSignal() {return this.signal.getSignal();}
+	public void setSignal(String signal) {this.signal.setSignal(Double.parseDouble(signal));}
 	public String getMac() {return mac;}
 	public String getSsid() {return ssid;}	
 

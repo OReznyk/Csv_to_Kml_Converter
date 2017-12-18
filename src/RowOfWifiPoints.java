@@ -66,6 +66,6 @@ public class RowOfWifiPoints {
 			wifiRow+= wifiList.get(index).toString()+",";
 			index++;
 			}
-		return date.getDateAtTimeAsString()+","+this.id+","+coordinates.coordinatesToString()+","+this.numOfWifiNetworks+","+wifiRow;
+		return date.toString()+","+this.id+","+coordinates.coordinatesToString()+","+this.numOfWifiNetworks+","+wifiRow;
 	}
 }

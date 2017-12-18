@@ -1,6 +1,7 @@
 
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,10 +22,10 @@ import org.w3c.dom.Element;
  */
 
 public class Kml {
-	
+
 	private static Document doc;
 	private static Element root;
-	
+
 	/**
 	 * Create a KML object.
 	 */
@@ -41,56 +42,67 @@ public class Kml {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	/**
 	 * Add a placemark to this KML object.
 	 * @param mark 
 	 */
-	public static  void addMark(MapPoint mark) {
-		Element placemark = doc.createElement("Placemark");
-		root.appendChild(placemark);
-		
-		Element name = doc.createElement("name");
-		name.appendChild(doc.createTextNode(mark.wifiPoint.ssid));
-		placemark.appendChild(name);
-		
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-		Element desc = doc.createElement("description");
-		desc.appendChild(doc.createTextNode(
-				"SSID: "+mark.wifiPoint.ssid+"\n"+
-				"MAC: "+mark.wifiPoint.mac +"\n"+
-				"Signal: "+mark.wifiPoint.signal+"\n"+
-				"Time: "+mark.date.date+" +mark.date.time"+"\n"+
-				"Latitude: "+mark.coordinates.latitude + "\n" + 
-				"Longitude: "+mark.coordinates.longitude+"\n"+
-				"Altitude: " + mark.coordinates.altitude + " meters\n"
-				)); 
-		placemark.appendChild(desc);
-		
-		Element point = doc.createElement("Point");
-		placemark.appendChild(point);
-		
-		if(mark.coordinates.altitude > 0) {
-			Element altitudeMode = doc.createElement("altitudeMode");
-			altitudeMode.appendChild(doc.createTextNode("absolute"));
-			point.appendChild(altitudeMode);
+	public static  void addMarksFromList(ArrayList<RowOfWifiPoints>list) {
+		if(list.isEmpty())return;
+
+		for (int i = 0; i < list.size(); i++) {
+			if(!list.get(i).wifiList.isEmpty()){
+				for (int j = 0; j < list.get(i).wifiList.size(); j++) {
+
+					Element placemark = doc.createElement("Placemark");
+					root.appendChild(placemark);
+
+					Element name = doc.createElement("name");
+					name.appendChild(doc.createTextNode(list.get(i).wifiList.get(j).getSsid()));
+					placemark.appendChild(name);
+
+					//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+					Element desc = doc.createElement("description");
+					desc.appendChild(
+							doc.createTextNode(
+									"SSID: "+list.get(i).wifiList.get(j).getSsid()+"\n"+
+									"MAC: "+list.get(i).wifiList.get(j).getMac() +"\n"+
+									"Signal: "+list.get(i).wifiList.get(j).getSignal()+"\n"+
+									"Time: "+list.get(i).date.toString()+"\n"+
+									"Latitude: "+list.get(i).coordinates.getLatitude()+ "\n" + 
+									"Longitude: "+list.get(i).coordinates.getLongitude()+"\n"+
+									"Altitude: " + list.get(i).coordinates.getAltitude())
+					); 
+					placemark.appendChild(desc);
+
+					Element point = doc.createElement("Point");
+					placemark.appendChild(point);
+
+					if(list.get(i).coordinates.getAltitude() > 0) {
+						Element altitudeMode = doc.createElement("altitudeMode");
+						altitudeMode.appendChild(doc.createTextNode("absolute"));
+						point.appendChild(altitudeMode);
+					}
+
+					Element coords = doc.createElement("coordinates");
+					coords.appendChild(doc.createTextNode(list.get(i).coordinates.coordinatesToString()));
+					point.appendChild(coords);
+
+
+
+					Element TimeStamp = doc.createElement("TimeStamp");
+					Element when = doc.createElement("when");
+					TimeStamp.appendChild(when);
+					String time=list.get(i).date.getDate()+"Z";
+					when.appendChild(doc.createTextNode(time));
+					TimeStamp.appendChild(when);
+					placemark.appendChild(TimeStamp);
+				}
+			}
 		}
-		
-		Element coords = doc.createElement("coordinates");
-		coords.appendChild(doc.createTextNode(mark.coordinates.longitude + ", " + mark.coordinates.latitude + ", " + mark.coordinates.altitude));
-		point.appendChild(coords);
-		
-		
-		
-		Element TimeStamp = doc.createElement("TimeStamp");
-		Element when = doc.createElement("when");
-		TimeStamp.appendChild(when);
-		String time=mark.date.date+"T"+mark.date.time+"Z";
-		when.appendChild(doc.createTextNode(time));
-		TimeStamp.appendChild(when);
-		placemark.appendChild(TimeStamp);
 	}
-//
+
 	/**
 	 * Write this KML object to a file.
 	 * @param file
@@ -109,6 +121,7 @@ public class Kml {
 			e.printStackTrace();
 			return false;
 		}
+		System.out.println("Kml saved");
 		return true;
 	}
 

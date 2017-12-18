@@ -15,45 +15,42 @@ import java.util.ArrayList;
 public class ReaderWriter {
 
 	static int[]place=new int[10];
-	String[][]ans=new String[15][46];
-
+	
 	/**
-	 * Checking the folder for .csv and .txt files.
-	 * If they exists, opening them one by one and saving the sorted data from all of them in .csv file 
-	 * @param folderName url of folder to check
-	 * @param whereToSave url of place to save in
-	 * @throws Exception
+	 * Checking the folder for .csv and .txt files
+	 * @param directoryName directory to search csv files
+	 * @return list with all the csv files paths
 	 */
-	public static void readerFromFolderToCsvFile(String folderName,String whereToSave) throws Exception{
+	public static ArrayList<String> getAllcsvFilesFromFolder(String directoryName){
 
-		File dir=new File(folderName);       
-		ArrayList<String> files = new ArrayList<String>();
-		String name="";
+		ArrayList<String> fileList = new ArrayList<String>();
+		File directory = new File(directoryName);
 
-		try{
-			for(File f:dir.listFiles()){     //opening folder and checking files in it
-				if(f.getName().endsWith(".txt") || f.getName().endsWith(".csv") )
-				{
-					name=folderName+"\\"+f.getName();
-					files.add(name);
-				}
-			}
-			/*********************creating list of data from csv files that been in folder**************/
-			ArrayList<RowOfWifiPoints>listToPrint=notSortedFileToArrayListOfTenMostPowerfulWifiPoints(files);
-			
-			/*********************writing data to csv file*****************/
-			WriterToCsv(listToPrint,whereToSave);
-		
+		//get all the files from a directory
 
-		}catch (NullPointerException e) {
-			System.out.println();
-			System.out.println("folder not found");
-			System.out.println();
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (!directory.isDirectory()) {
+			return fileList;
 		}
-	}		
+		File[] fList = directory.listFiles();
+
+		for (File file : fList){
+
+			if (file.isFile()){
+
+				if(file.getAbsolutePath().endsWith(".csv")){
+					fileList.add(file.getAbsolutePath());
+					System.out.println("Fetching data from: "+file.getAbsolutePath());
+				}
+
+			} else if (file.isDirectory()){
+
+				fileList.addAll(getAllcsvFilesFromFolder(file.getAbsolutePath()));
+			}
+		}
+		return fileList;
+
+	}
+
 	
 	public static ArrayList<String> createListOfMacsFromCSVFile(String csvFilePath) throws FileNotFoundException
 	{
@@ -66,9 +63,10 @@ public class ReaderWriter {
 			String line = br.readLine();
 			while(line!=null)
 			{
+				if(line.isEmpty())break;
 				line.replaceAll(",,,", "");
 				String[] split = line.split(cvsSplitBy);
-				macList.add(split[1]);
+				macList.add(split[1].replaceAll(" ", ""));
 				
 				line=br.readLine();
 			}
@@ -92,36 +90,34 @@ public class ReaderWriter {
 	}
 	
 	
-	/**
-	 * Read from merged csv to matrix
-	 * @param csvFile
-	 * @return
-	 * @throws Exception
-	 */
-
-	public static String[][] readerFromMergedCSVtoMatrix(String csvFile) throws Exception{
+	public static ArrayList<RowOfWifiPoints> readerFromMergedCSVtoList(String csvFile) throws Exception{
+		ArrayList<RowOfWifiPoints>list=new ArrayList<RowOfWifiPoints>();
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
-		String[][]ans=new String[15][46];
-
 		try {
 
 			br = new BufferedReader(new FileReader(csvFile));
 
-			int count=0;  
-
 			while((line = br.readLine()) != null ){
 				if(line.isEmpty())break;
 				String[] row = line.split(cvsSplitBy);
-					ans=Functions.putAllDataFromStringArrToRowInMatrix(ans,row, count);
-					count++;
-					if(count==ans.length)ans=Functions.reBuild(ans);
-
+				Date date=new Date(row[0]);
+				String ID=row[1];
+				Coordinates_3D coord=new Coordinates_3D(row[2], row[3], row[4]);
+				int numOfNetw=Integer.parseInt(row[5]);
+				RowOfWifiPoints a=new RowOfWifiPoints(date, ID, coord, numOfNetw);
+				for (int i = 6; i+3 < row.length; i=i+4) {
+					if(row[i+1].contains(":") && row[i+1].length()==17){
+					Wifi wifi=new Wifi(row[i],row[i+1],row[i+2],row[i+3]);
+					a.wifiList.add(wifi);}
+					else{Wifi wifi=new Wifi(row[i+1],row[i],row[i+2],row[i+3]);
+					a.wifiList.add(wifi);}
+					
+				}
+				list.add(a);
 			} br.close();
-
-			if(ans[0][0]==null){
-				ans[0][0]="Does not exist";}
+	
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -136,9 +132,10 @@ public class ReaderWriter {
 				}
 			}
 		}
-		return ans;
+		return list;
 
 	}
+
 
 
 	
@@ -183,7 +180,7 @@ public class ReaderWriter {
 	 * @throws Exception
 	 * return ArrayList of rows with ten most powerful wifiPoints in each
 	 */
-	private static ArrayList<RowOfWifiPoints> notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
+	public static ArrayList<RowOfWifiPoints> notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		BufferedReader br = null;
 		String line = "";
@@ -263,49 +260,6 @@ public class ReaderWriter {
 		}
 		return listToPrint;
 	}
-
-	
-	
-	/************************not finished yet********************/
-
-	//	private static String[][] sortedFileToArrayListOfTenMostPowerfulWifiPoints(String csvFile) throws Exception {
-	//		BufferedReader br = null;
-	//		String line = "";
-	//		String cvsSplitBy = ",";
-	//		String[][]ans=new String[15][46];
-	//
-	//		try {
-	//
-	//			br = new BufferedReader(new FileReader(csvFile));
-	//
-	//			int count=0;  
-	//
-	//			while((line = br.readLine()) != null ){
-	//				if(line.isEmpty())break;
-	//				String[] row = line.split(cvsSplitBy);
-	//					ans=MatrixFunctions.buildStringTableFromStringARR(ans, row, count++ );
-	//			} br.close();
-	//
-	//			if(ans[0][0]==null){
-	//				ans[0][0]="Does not exist";
-	//			}
-	//		
-	//
-	//		} catch (FileNotFoundException e) {
-	//			e.printStackTrace();
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		} finally {
-	//			if (br != null) {
-	//				try {
-	//					br.close();
-	//				} catch (IOException e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		}
-	//		return ans;
-	//	}
 
 }
 
