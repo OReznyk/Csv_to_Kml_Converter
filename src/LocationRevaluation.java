@@ -149,15 +149,19 @@ public class LocationRevaluation {
 			Wifi wifi=new Wifi(list.get(0).wifiList.get(0).getMac(), list.get(0).wifiList.get(0).getSsid(),
 					"calculated from "+list.size()+" samples","0");
 			while(i<list.size()){
-				int j=0;
-				while(j<list.get(i).wifiList.size() && list.get(i).wifiList.get(j).mac!=null){
-				sumOfsignalsWeight+=list.get(i).wifiList.get(j).signal.weightOfSignal();
-				latitude+=list.get(i).weightOfLat(list.get(i).wifiList.get(j));
-				longitude+=list.get(i).weightOfLon(list.get(i).wifiList.get(j));
-				altitude+=list.get(i).weightOfAlt(list.get(i).wifiList.get(j));
 
-				j++;
+					if(list.get(i).wifiList.getLast().getMac().length()>0){ //for algo 1
+				sumOfsignalsWeight+=list.get(i).wifiList.getLast().signal.weightOfSignal();
+				latitude+=list.get(i).weightOfLat(list.get(i).wifiList.getLast());
+				longitude+=list.get(i).weightOfLon(list.get(i).wifiList.getLast());
+				altitude+=list.get(i).weightOfAlt(list.get(i).wifiList.getLast());
 				}
+					else{ //for algo 2
+						sumOfsignalsWeight+=list.get(i).wifiList.getLast().getSignal();
+						latitude+=list.get(i).coordinates.getLatitude()*list.get(i).wifiList.getLast().getSignal();
+						longitude+=list.get(i).coordinates.getLongitude()*list.get(i).wifiList.getLast().getSignal();
+						altitude+=list.get(i).coordinates.getAltitude()*list.get(i).wifiList.getLast().getSignal();
+						}
 				i++;
 			}
 
