@@ -3,6 +3,12 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Tools.Filters;
+import Tools.Kml;
+import Tools.LocationRevaluation;
+import Tools.ReaderWriter;
+import Tools.RowOfWifiPoints;
   
 public class MainForThisWork {
 

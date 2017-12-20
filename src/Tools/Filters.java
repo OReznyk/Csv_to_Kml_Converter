@@ -1,5 +1,7 @@
-
+package Tools;
 import java.util.ArrayList;
+
+import WifiPoint.Date;
 
 /**
  * This class represents functions to filter matrix/lists

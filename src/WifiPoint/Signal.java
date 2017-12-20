@@ -1,3 +1,4 @@
+package WifiPoint;
 
 /**
  * This class represents the simplest wifi signal
@@ -5,7 +6,7 @@
  *
  */
 public class Signal {
-	protected double signal;
+	public double signal;
 	
 Signal(String signal){
 	this.signal=Double.parseDouble(signal);

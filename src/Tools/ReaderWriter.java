@@ -1,3 +1,4 @@
+package Tools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,6 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import WifiPoint.Coordinates_3D;
+import WifiPoint.Date;
+import WifiPoint.Wifi;
 
 /**
  * Class of functions that reads & write from/to csv files

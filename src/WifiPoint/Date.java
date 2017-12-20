@@ -1,3 +1,4 @@
+package WifiPoint;
 
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class Date {
 	LocalDateTime date;
 	int accepted;
 
-	Date(String dateToSplit) throws DateTimeParseException{	
+	public Date(String dateToSplit) throws DateTimeParseException{	
 		try{
 			if(dateToSplit.contains("/")) {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm a");

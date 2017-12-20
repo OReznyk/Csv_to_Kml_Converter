@@ -1,4 +1,9 @@
+package Tools;
 import java.util.LinkedList;
+
+import WifiPoint.Coordinates_3D;
+import WifiPoint.Date;
+import WifiPoint.Wifi;
 
 /**
  * This class represents row of no more than 10 wifi networks collected in same location at same time by same device

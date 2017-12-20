@@ -1,3 +1,4 @@
+package WifiPoint;
 
 /**
  * This class represents the simplest wifi single AP received beacon in time.
@@ -10,13 +11,13 @@
 
 public class Wifi {
 
-		protected Signal signal;
-		protected String frequncy;
-		protected String mac;
-		protected String ssid;
+	public Signal signal;
+	public String frequncy;
+	public String mac;
+	public String ssid;
 
 
-	Wifi( String ssid, String mac,String frequncy, String signal) { 
+	public Wifi( String ssid, String mac,String frequncy, String signal) { 
 	     	this.frequncy=frequncy;
 	     	this.signal=new Signal(signal);
 			this.mac=mac;

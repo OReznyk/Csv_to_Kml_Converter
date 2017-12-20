@@ -1,5 +1,11 @@
+package Tools;
 
 import java.util.ArrayList;
+
+import WifiPoint.Coordinates_3D;
+import WifiPoint.Date;
+import WifiPoint.Signal;
+import WifiPoint.Wifi;
 
 /**
  * This class represents functions to finding truly location

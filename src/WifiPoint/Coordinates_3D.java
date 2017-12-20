@@ -1,3 +1,4 @@
+package WifiPoint;
 
 /**
  * This class represents the simplest 3D coordinates
@@ -5,11 +6,11 @@
  *
  */
 public class Coordinates_3D {
-	protected double latitude;
-	protected double longitude;
-	protected double altitude;
+	public double latitude;
+	public double longitude;
+	public double altitude;
 	
-Coordinates_3D(String latitude, String longitude, String altitude) {	
+public Coordinates_3D(String latitude, String longitude, String altitude) {	
 	if(latitude.contains("?")){
 		this.latitude = 0;
 	}
