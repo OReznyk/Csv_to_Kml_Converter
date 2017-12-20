@@ -260,10 +260,10 @@ public class Filters {
 				}
 			}
 		}
-		for (int i = 0; i < addedMac.size(); i++) {
-			System.out.println(addedMac.get(i)+" "+	formWichRowAddedMac.get(i));
-		}
+//		for (int i = 0; i < addedMac.size(); i++) {
+//			System.out.println(addedMac.get(i)+" "+	formWichRowAddedMac.get(i));
+//		}
 		return list;	
 	}
-
+//2017-10-27  16:16:07
 }

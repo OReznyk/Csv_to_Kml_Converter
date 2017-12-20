@@ -24,13 +24,13 @@ public class MainForThisWork {
 				
 		/***********************main to build merged .csv file****************************/
 		 
-//		String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
+		String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
 		
 		/***********************main to build .kml from merged csv file*******************/
 		
 		/**Please run this with "main to build merged csv file" or you can put address of merged .csv instead of "addressOfFile" at this format: "C:\\data\\o.csv" **/
 //		String addressOfFile="C:\\Users\\Olga\\Desktop\\data[1091]\\test.csv";
-//		mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
+		mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
 		
 		/**********************main for 2.a  location Of router**********************************/
 		/********addressOfFile_To_Filter_With_MAC =address of merged csv****************/
@@ -48,10 +48,10 @@ public class MainForThisWork {
 		/********aaddressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL=address with all mac & signals for check up****************/
 		/********addressOfFile_To_Filter_With_MAC_and_Signal_I_get=address of merged csv****************/
 		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
-		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_no_gps_ts2_.csv";
-		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_all_BM3_.csv";
-		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
-		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
+//		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_no_gps_ts2_.csv";
+//		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_all_BM3_.csv";
+//		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
+//		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
 	
 		scanner.close();		
 	}
@@ -71,9 +71,9 @@ public class MainForThisWork {
 	 * @throws Exception
 	 */
 	private static String mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(Scanner scanner) throws Exception{
-		System.out.println("Please put here address of folder: " );
+		System.out.println("Enter folder path of WigleWifi scans: " );
 		String folderName=scanner.next();
-		System.out.println("Please put here address of folder you'd like me to save file in with \\file's name in the end " );
+		System.out.println("Enter path to write the merged csv file into (with 'filename.csv'):" );
 		String whereToSave=scanner.next();
 		
 		ArrayList<String>listOfFiles=ReaderWriter.getAllcsvFilesFromFolder(folderName);
@@ -98,29 +98,30 @@ public class MainForThisWork {
 		/******************creating list of data from merged csv file*******************/
 		ArrayList<RowOfWifiPoints>list=ReaderWriter.readerFromMergedCSVtoList(addressOfFile);
 		
-		System.out.println("Please choose how you'd like to filter this file?");
-		System.out.println("I'll give you few options and you need to choose one of them with writing me back its number");
+		System.out.println("Enter a number to choose a filter:");
 		while(choice<1||choice>3){
 			System.out.println("coordinates=1, time=2, id=3");
 			choice=scanner.nextInt();
 			if(choice==1){
-				System.out.println("Please put here a Latitude: ");
+				System.out.println();
+				System.out.println("Latitude: ");
 				String lat=scanner.next();
-				System.out.println("And now a Longitude: ");
+				System.out.println("Longitude: ");
 				String lon=scanner.next();		
 				filteredList=Filters.filteringByCoordinates(list, lat, lon);
 			}
 			else if(choice==2){
-				System.out.println("Please put here a time (it has to be date: yyyy-mm-dd and hour hh:mm:ss ): ");
 				System.out.println();
-				System.out.println("Please put here a time you'd like to start from: ");
+				System.out.println("Please enter time (it has to be in format: yyyy-mm-dd hh:mm:ss) ");
+				System.out.println("Please enter the time you'd like to start from: ");
 				String startDate=scanner.next()+" "+scanner.next();
-				System.out.println("Please put here a time you'd like to stop at: ");
+				System.out.println("Please enter the time you'd like to stop at: ");
 				String stopDate=scanner.next()+" "+scanner.next();
 				filteredList=Filters.filteringByTime(list, startDate, stopDate);
 			}
 			else if(choice==3){
-				System.out.println("Please put here an id: ");
+				System.out.println();
+				System.out.println("Please enter an id: ");
 				String id=scanner.next();
 				filteredList=Filters.filteringByID(list, id);
 			}
