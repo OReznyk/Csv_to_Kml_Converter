@@ -41,15 +41,19 @@ public class LocationRevaluation {
 
 	public static ArrayList<RowOfWifiPoints> yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int numOfPointsToUseForCheckup) throws Exception{
 		ArrayList<RowOfWifiPoints>listToTakeFilterFrom=ReaderWriter.readerFromMergedCSVtoList(csvFileToTakeFilterFrom);
+		if(listToTakeFilterFrom.isEmpty())return null;
 		ArrayList<RowOfWifiPoints>listToFilter=ReaderWriter.readerFromMergedCSVtoList(csvFileToSearchIn);
+		if(listToFilter.isEmpty())return null;
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<>();
+		ArrayList<RowOfWifiPoints>temp=Filters.filteringByID(listToFilter, listToTakeFilterFrom.get(0).id);
 		
 
-		
 		for (int i = 0; i < listToTakeFilterFrom.size(); i++) {
 			ArrayList<String>mac= new ArrayList<String>();
 			ArrayList<Signal>signal=new ArrayList<Signal>();
-			ArrayList<RowOfWifiPoints>temp=Filters.filteringByID(listToFilter, listToTakeFilterFrom.get(i).id);
+			if(i>0 && listToTakeFilterFrom.get(i).id.equals(listToTakeFilterFrom.get(i-1).id)==false){
+			temp=Filters.filteringByID(listToFilter, listToTakeFilterFrom.get(i).id);
+			}
 			
 			for (int j = 0; j < listToTakeFilterFrom.get(i).wifiList.size(); j++) {
 				mac.add(listToTakeFilterFrom.get(i).wifiList.get(j).getMac());

@@ -42,9 +42,9 @@ public class MainForThisWork {
 		/********aaddressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL=address with all mac & signals for check up****************/
 		/********addressOfFile_To_Filter_With_MAC_and_Signal_I_get=address of merged csv****************/
 		/********howMuch_Powerful_Wifis_To_Use_For_Calculation (int number)*************************************/
-		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\testing\\_comb_no_gps_ts2_.csv";
-		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\testing\\_comb_all_BM2_.csv";
-		int howMuch_Powerful_Wifis_To_Use_For_Calculation=3;
+		String addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_no_gps_ts2_.csv";
+		String addressOfFile_To_Filter_With_MAC_and_Signal_I_get="C:\\Users\\Olga\\Desktop\\doc_ex2\\_comb_all_BM3_.csv";
+		int howMuch_Powerful_Wifis_To_Use_For_Calculation=4;
 		LocationRevaluation.yourLocation(addressOfFile_Where_I_need_To_Get_MAC_and_SIGNAL, addressOfFile_To_Filter_With_MAC_and_Signal_I_get, howMuch_Powerful_Wifis_To_Use_For_Calculation);
 	
 		scanner.close();		
