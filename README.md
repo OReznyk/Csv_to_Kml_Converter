@@ -54,15 +54,15 @@ Kml saved
 
 
 ## Folders
-•	CsvFilesExamples
+•	CsvFilesExamples - 
 WigleWifi files with merged csv file and an example of kml file.
 
-•	TestProgramExamples
+•	TestProgramExamples - 
 JUnit.
 
-•	doc
+•	doc - 
 Javadoc.
 
-•	doc_ex2
+•	doc_ex2 - 
 doc folder for Ex2 with a summary document of our two algorithms and algorithm comparisons.
 

@@ -68,13 +68,13 @@ public class Kml {
 					desc.appendChild(
 							doc.createTextNode(
 									"SSID: "+list.get(i).wifiList.get(j).getSsid()+"\n"+
-									"MAC: "+list.get(i).wifiList.get(j).getMac() +"\n"+
-									"Signal: "+list.get(i).wifiList.get(j).getSignal()+"\n"+
-									"Time: "+list.get(i).date.toString()+"\n"+
-									"Latitude: "+list.get(i).coordinates.getLatitude()+ "\n" + 
-									"Longitude: "+list.get(i).coordinates.getLongitude()+"\n"+
-									"Altitude: " + list.get(i).coordinates.getAltitude())
-					); 
+											"MAC: "+list.get(i).wifiList.get(j).getMac() +"\n"+
+											"Signal: "+list.get(i).wifiList.get(j).getSignal()+"\n"+
+											"Time: "+list.get(i).date.toString()+"\n"+
+											"Latitude: "+list.get(i).coordinates.getLatitude()+ "\n" + 
+											"Longitude: "+list.get(i).coordinates.getLongitude()+"\n"+
+											"Altitude: " + list.get(i).coordinates.getAltitude())
+							); 
 					placemark.appendChild(desc);
 
 					Element point = doc.createElement("Point");
@@ -124,6 +124,26 @@ public class Kml {
 		}
 		System.out.println("Kml saved");
 		return true;
+	}
+
+	public static String addFilteringArea(double[] rectTop, double[] rectBot, String kml){//adds the rectangle of the filtering area
+		//rectTop = {xTopLeft, yTopLeft, xTopRight, yTopRight}
+		//rectBot = {xBottomLeft, yBottomLeft, xBottomRight, yBottomRight}
+		//<altitudeMode>relativeToGround</altitudeMode>
+
+		kml+="<Placemark>\n      <name>Filtered Area</name>\n      <styleUrl>#msn_ylw-pushpin</styleUrl>\n "
+				+ "     <Polygon>\n        <extrude>1</extrude>\n          		<tessellate>1</tessellate>\n"
+				+ "				\n 				<outerBoundaryIs>\n"
+				+ "					<LinearRing>\n           "
+				+ " <coordinates>\n              " 
+				+rectTop[0]+","+rectTop[1]+",50\n              "
+				+rectTop[2]+","+rectTop[3]+",50\n              "
+				+rectBot[2]+","+rectBot[3]+",50\n              "
+				+rectBot[0]+","+rectBot[1]+",50\n              "
+				+rectTop[0]+","+rectTop[1]+",50\n              "
+				+"</coordinates>\n       "
+				+ "   </LinearRing>\n        </outerBoundaryIs>\n      </Polygon>\n    </Placemark>";
+		return kml;
 	}
 
 
