@@ -44,7 +44,9 @@ public class ReaderWriter {
 
 				if(file.getAbsolutePath().endsWith(".csv")){
 					fileList.add(file.getAbsolutePath());
-					System.out.println("Fetching data from: "+file.getAbsolutePath());
+					//System.out.println("Fetching data from: "+file.getAbsolutePath());
+					printLog(file);
+				
 				}
 
 			} else if (file.isDirectory()){
@@ -265,6 +267,23 @@ public class ReaderWriter {
 		}
 		return listToPrint;
 	}
+	
+	private static void printLog(File file) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                	System.out.println("Fetching data from: "+file.getAbsolutePath());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
 
 }
 
