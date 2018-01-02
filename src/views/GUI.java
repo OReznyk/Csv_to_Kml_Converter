@@ -51,6 +51,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSlider;
 import javax.swing.border.LineBorder;
+import java.awt.CardLayout;
+import java.awt.Panel;
 
 public class GUI extends JFrame {
 
@@ -65,19 +67,19 @@ public class GUI extends JFrame {
 	private JButton btnNewButton;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel pnlOptions;
-	private JTextField textField;
+	private JTextField txtKmlName;
 	private JRadioButton rdbCreatekmlFile;
 	private JRadioButton rdbtnCalculateNetworksLocation;
 	private JRadioButton rdbtnCalculateClientsLocation;
-	private JPanel pnlFilter;
-	private String pnlFilterTitle = "Filters:";
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmOpenFolder;
 	private JButton btOpencsvFolder;
 	private JTextArea txtConsole;
-	private JTextField txtMac;
-	private JSlider slNumOfScans;
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	private JTextField txtMacAddress;
+	private JPanel pnlFilters;
+	private JPanel pnlCards;
 
 
 
@@ -120,16 +122,16 @@ public class GUI extends JFrame {
 	// This method contains all of the code for creating and
 	// initializing components.
 	//////////////////////////////////////////////////////////////
-	@SuppressWarnings("static-access")
+	//	@SuppressWarnings("static-access")
 	private void initComponents()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 676, 481);
 
 		csvFolder = new FileChooser();
-		
-		 
-		
+
+
+
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -155,11 +157,8 @@ public class GUI extends JFrame {
 
 		rdbtnCalculateNetworksLocation = new JRadioButton("Calculate network's location (Algorithm 1)");
 		
+
 		buttonGroup.add(rdbtnCalculateNetworksLocation);
-
-		pnlFilter = new JPanel();
-
-		pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		rdbtnCalculateClientsLocation = new JRadioButton("Calculate client's location (Algorithm 2)");
 		buttonGroup.add(rdbtnCalculateClientsLocation);
@@ -167,131 +166,28 @@ public class GUI extends JFrame {
 		JScrollPane scrConsole = new JScrollPane();
 		scrConsole.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrConsole.setBackground(Color.GRAY);
-		
-		
+
+
 
 		JProgressBar progressBar = new JProgressBar();
 
-		textField = new JTextField();
-		textField.setColumns(10);
 
-		JLabel lblKmlFileName = new JLabel("Kml file name:");
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
-							.addGap(12))
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(progressBar, GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
-								.addGap(12))
-							.addComponent(btOpencsvFolder)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(rdbCreatekmlFile)
-									.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
-									.addComponent(rdbtnCalculateNetworksLocation))
-								.addPreferredGap(ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-								.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(rdbtnCalculateClientsLocation)
-								.addContainerGap(431, Short.MAX_VALUE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblKmlFileName)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rdbCreatekmlFile)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(rdbtnCalculateNetworksLocation))
-						.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rdbtnCalculateClientsLocation)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblKmlFileName))
-					.addGap(15)
-					.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btOpencsvFolder)
-					.addContainerGap())
-		);
-		
 		txtConsole = new JTextArea();
 		txtConsole.setEditable(false);
 		scrConsole.setViewportView(txtConsole);
-		
+
 		MessageConsole mc = new MessageConsole(txtConsole);
 		mc.redirectOut();
 		mc.redirectErr(Color.RED, null);
-		
-		JLabel lblMac = new JLabel("MAC: ");
-		
-		txtMac = new JTextField();
-		txtMac.setColumns(10);
-		
-		JLabel lblNumberOfScans = new JLabel("Number of scans:");
-		
-		slNumOfScans = new JSlider();
-		slNumOfScans.setValue(3);
-		slNumOfScans.setToolTipText("");
-		slNumOfScans.setPaintTicks(true);
-		slNumOfScans.setSnapToTicks(true);
-		slNumOfScans.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		slNumOfScans.setMaximum(5);
-		slNumOfScans.setMinimum(1);
-		
-		GroupLayout gl_pnlFilter = new GroupLayout(pnlFilter);
-		gl_pnlFilter.setHorizontalGroup(
-			gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFilter.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pnlFilter.createSequentialGroup()
-							.addComponent(lblMac)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtMac, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pnlFilter.createSequentialGroup()
-							.addComponent(lblNumberOfScans)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(25, Short.MAX_VALUE))
-		);
-		gl_pnlFilter.setVerticalGroup(
-			gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFilter.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMac)
-						.addComponent(txtMac, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNumberOfScans)
-						.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		pnlFilter.setLayout(gl_pnlFilter);
-		
-		
 
-		
+
+
+
+
+
+
+
+
 
 		JLabel lblmouseOverFor = new JLabel("(mouse over for description)");
 		GroupLayout gl_pnlOptions = new GroupLayout(pnlOptions);
@@ -307,8 +203,177 @@ public class GUI extends JFrame {
 						.addComponent(lblmouseOverFor)
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				);
+		
+		pnlCards = new JPanel();
+		pnlCards.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+							.addGap(12))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(progressBar, GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+							.addGap(12))
+						.addComponent(btOpencsvFolder)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(rdbCreatekmlFile)
+								.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
+								.addComponent(rdbtnCalculateNetworksLocation))
+							.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+							.addComponent(pnlCards, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)
+							.addGap(28))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(rdbtnCalculateClientsLocation)
+							.addContainerGap(431, Short.MAX_VALUE))))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbCreatekmlFile)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(rdbtnCalculateNetworksLocation)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(rdbtnCalculateClientsLocation))
+						.addComponent(pnlCards, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+					.addGap(78)
+					.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btOpencsvFolder)
+					.addContainerGap())
+		);
+		pnlCards.setLayout(new CardLayout(0, 0));
+		
+		pnlFilters = new JPanel();
+		pnlCards.add(pnlFilters, "Filters");
+		JCheckBox chckbxTime = new JCheckBox("Time");
+		
+		JCheckBox chckbxGPS = new JCheckBox("GPS Coordinates");
+		
+		JCheckBox chckbxID = new JCheckBox("Device ID");
+		
+				JLabel lblKmlFileName = new JLabel("Kml file name:");
+		
+				txtKmlName = new JTextField();
+				txtKmlName.setColumns(10);
+		GroupLayout gl_pnlFilters = new GroupLayout(pnlFilters);
+		gl_pnlFilters.setHorizontalGroup(
+			gl_pnlFilters.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFilters.createSequentialGroup()
+					.addGap(15)
+					.addGroup(gl_pnlFilters.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlFilters.createSequentialGroup()
+							.addComponent(lblKmlFileName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtKmlName, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlFilters.createSequentialGroup()
+							.addComponent(chckbxTime)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(chckbxGPS)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(chckbxID)))
+					.addGap(19))
+		);
+		gl_pnlFilters.setVerticalGroup(
+			gl_pnlFilters.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFilters.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_pnlFilters.createParallelGroup(Alignment.BASELINE)
+						.addComponent(chckbxTime)
+						.addComponent(chckbxGPS)
+						.addComponent(chckbxID))
+					.addGap(18)
+					.addGroup(gl_pnlFilters.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblKmlFileName)
+						.addComponent(txtKmlName, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(31, Short.MAX_VALUE))
+		);
+		pnlFilters.setLayout(gl_pnlFilters);
+		
+		Panel pnlFirstAlgo = new Panel();
+		pnlCards.add(pnlFirstAlgo, "firstalgo");
+		
+		JLabel lblMacAddress = new JLabel("MAC Address:");
+		
+		txtMacAddress = new JTextField();
+		txtMacAddress.setColumns(10);
+		
+		JLabel lblNumberOfScans = new JLabel("Number of scans: ");
+		
+		JSlider slNumOfScans = new JSlider();
+		slNumOfScans.setPaintTicks(true);
+		slNumOfScans.setSnapToTicks(true);
+		slNumOfScans.setPaintLabels(true);
+		slNumOfScans.setMinorTickSpacing(1);
+		slNumOfScans.setValue(3);
+		slNumOfScans.setMajorTickSpacing(1);
+		slNumOfScans.setMinimum(1);
+		slNumOfScans.setMaximum(5);
+		slNumOfScans.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		GroupLayout gl_pnlFirstAlgo = new GroupLayout(pnlFirstAlgo);
+		gl_pnlFirstAlgo.setHorizontalGroup(
+			gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+							.addComponent(lblMacAddress)
+							.addGap(23))
+						.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+							.addComponent(lblNumberOfScans)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtMacAddress, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+						.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_pnlFirstAlgo.setVerticalGroup(
+			gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMacAddress)
+						.addComponent(txtMacAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+							.addGap(7)
+							.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblNumberOfScans)))
+					.addContainerGap())
+		);
+		pnlFirstAlgo.setLayout(gl_pnlFirstAlgo);
+		
+		Panel pnlScndAlgo = new Panel();
+		pnlCards.add(pnlScndAlgo, "secondalgo");
+		
+//		JCheckBox chckbxTime_1 = new JCheckBox("Time");
+//		buttonGroup_1.add(chckbxTime_1);
+//		
+//		JCheckBox chckbxGpsCoordinates_1 = new JCheckBox("GPS Coordinates");
+//		buttonGroup_1.add(chckbxGpsCoordinates_1);
+//		
+//		JCheckBox chckbxId = new JCheckBox("ID");
+//		buttonGroup_1.add(chckbxId);
+//		pnlFilters.setLayout(new CardLayout(0, 0));
+//		pnlFilters.add(chckbxTime_1, "name_582980140823735");
+//		pnlFilters.add(chckbxGpsCoordinates_1, "name_582980179151222");
+//		pnlFilters.add(chckbxId, "name_582980216506265");
 		pnlOptions.setLayout(gl_pnlOptions);
 		contentPane.setLayout(gl_contentPane);
+
 	}
 
 	//////////////////////////////////////////////////////////////
@@ -351,61 +416,31 @@ public class GUI extends JFrame {
 
 		rdbCreatekmlFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pnlFilterTitle = "Filters:";
-				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				filters();
 			}
 		});
-		
+
 		rdbtnCalculateNetworksLocation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pnlFilterTitle = "Choose network:";
-				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				
-				
+				firstAlgo();
 			}
 		});
-
-
-
-		if(rdbtnCalculateNetworksLocation.isSelected())
-		{
-			pnlFilterTitle = "Select a network:";
-			pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		}
-		if(rdbtnCalculateClientsLocation.isSelected())
-		{
-			pnlFilterTitle = "**Enter comb_no_gps_ts#:";
-			pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		}
+//		rdbtnCalculateClientsLocation.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				firstAlgo();
+//				pnlFilterTitle = "Choose network:";
+//				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//
+//			}
+//		});
 	}
+
 	private void filters()
 	{
-		JCheckBox chckbxTime = new JCheckBox("Time");
+	}
 
-		JCheckBox chckbxGpsCoordinates = new JCheckBox("GPS Coordinates");
+	private void firstAlgo()
+	{
 
-		JCheckBox chckbxId = new JCheckBox("ID");
-		GroupLayout gl_pnlFilter = new GroupLayout(pnlFilter);
-		gl_pnlFilter.setHorizontalGroup(
-				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFilter.createSequentialGroup()
-						.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-								.addComponent(chckbxTime)
-								.addComponent(chckbxGpsCoordinates)
-								.addComponent(chckbxId))
-						.addContainerGap(174, Short.MAX_VALUE))
-				);
-		gl_pnlFilter.setVerticalGroup(
-				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFilter.createSequentialGroup()
-						.addComponent(chckbxTime)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(chckbxGpsCoordinates)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(chckbxId)
-						.addContainerGap(7, Short.MAX_VALUE))
-				);
-		pnlFilter.setLayout(gl_pnlFilter);
 	}
 }
