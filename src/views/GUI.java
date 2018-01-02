@@ -49,6 +49,8 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSlider;
+import javax.swing.border.LineBorder;
 
 public class GUI extends JFrame {
 
@@ -58,7 +60,6 @@ public class GUI extends JFrame {
 	private FileChooser csvFolder;
 	private ArrayList<String>listOfFiles;
 	private ArrayList<RowOfWifiPoints>listToPrint;
-	CustomOutputStream outStream;
 
 	private JPanel contentPane;
 	private JButton btnNewButton;
@@ -70,11 +71,13 @@ public class GUI extends JFrame {
 	private JRadioButton rdbtnCalculateClientsLocation;
 	private JPanel pnlFilter;
 	private String pnlFilterTitle = "Filters:";
-	private JTextArea txtConsole;
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmOpenFolder;
 	private JButton btOpencsvFolder;
+	private JTextArea txtConsole;
+	private JTextField txtMac;
+	private JSlider slNumOfScans;
 
 
 
@@ -110,9 +113,6 @@ public class GUI extends JFrame {
 	public GUI()
 	{
 		initComponents();
-		
-		
-
 		createEvents();	
 	}
 
@@ -154,6 +154,7 @@ public class GUI extends JFrame {
 		pnlOptions.setBorder(new TitledBorder(null, "Options:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 
 		rdbtnCalculateNetworksLocation = new JRadioButton("Calculate network's location (Algorithm 1)");
+		
 		buttonGroup.add(rdbtnCalculateNetworksLocation);
 
 		pnlFilter = new JPanel();
@@ -177,103 +178,120 @@ public class GUI extends JFrame {
 		JLabel lblKmlFileName = new JLabel("Kml file name:");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-				gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addContainerGap()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+							.addGap(12))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(scrConsole, GroupLayout.PREFERRED_SIZE, 628, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap())
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(progressBar, GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+								.addGap(12))
+							.addComponent(btOpencsvFolder)
+							.addGroup(gl_contentPane.createSequentialGroup()
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, 628, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap())
-										.addComponent(btOpencsvFolder)
-										.addGroup(gl_contentPane.createSequentialGroup()
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-														.addComponent(rdbCreatekmlFile)
-														.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
-														.addComponent(rdbtnCalculateNetworksLocation))
-												.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-												.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap())
-										.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(rdbtnCalculateClientsLocation)
-												.addContainerGap(398, Short.MAX_VALUE)))
-								.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(lblKmlFileName)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap())))
-				);
+									.addComponent(rdbCreatekmlFile)
+									.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
+									.addComponent(rdbtnCalculateNetworksLocation))
+								.addPreferredGap(ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+								.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(rdbtnCalculateClientsLocation)
+								.addContainerGap(431, Short.MAX_VALUE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblKmlFileName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+		);
 		gl_contentPane.setVerticalGroup(
-				gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(rdbCreatekmlFile)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(rdbtnCalculateNetworksLocation))
-								.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(rdbtnCalculateClientsLocation)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblKmlFileName))
-						.addGap(15)
-						.addComponent(scrConsole, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(progressBar, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-						.addGap(18)
-						.addComponent(btOpencsvFolder)
-						.addContainerGap())
-				);
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(pnlOptions, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbCreatekmlFile)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(rdbtnCalculateNetworksLocation))
+						.addComponent(pnlFilter, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(rdbtnCalculateClientsLocation)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblKmlFileName))
+					.addGap(15)
+					.addComponent(scrConsole, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(progressBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btOpencsvFolder)
+					.addContainerGap())
+		);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrConsole.setViewportView(textArea);
+		txtConsole = new JTextArea();
+		txtConsole.setEditable(false);
+		scrConsole.setViewportView(txtConsole);
 		
-		try {
-			outStream = new CustomOutputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		MessageConsole mc = new MessageConsole(txtConsole);
+		mc.redirectOut();
+		mc.redirectErr(Color.RED, null);
 		
+		JLabel lblMac = new JLabel("MAC: ");
 		
+		txtMac = new JTextField();
+		txtMac.setColumns(10);
 		
-
-		JCheckBox chckbxTime = new JCheckBox("Time");
-
-		JCheckBox chckbxGpsCoordinates = new JCheckBox("GPS Coordinates");
-
-		JCheckBox chckbxId = new JCheckBox("ID");
+		JLabel lblNumberOfScans = new JLabel("Number of scans:");
+		
+		slNumOfScans = new JSlider();
+		slNumOfScans.setValue(3);
+		slNumOfScans.setToolTipText("");
+		slNumOfScans.setPaintTicks(true);
+		slNumOfScans.setSnapToTicks(true);
+		slNumOfScans.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		slNumOfScans.setMaximum(5);
+		slNumOfScans.setMinimum(1);
+		
 		GroupLayout gl_pnlFilter = new GroupLayout(pnlFilter);
 		gl_pnlFilter.setHorizontalGroup(
-				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+			gl_pnlFilter.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlFilter.createSequentialGroup()
-						.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
-								.addComponent(chckbxTime)
-								.addComponent(chckbxGpsCoordinates)
-								.addComponent(chckbxId))
-						.addContainerGap(174, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlFilter.createSequentialGroup()
+							.addComponent(lblMac)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtMac, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pnlFilter.createSequentialGroup()
+							.addComponent(lblNumberOfScans)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(25, Short.MAX_VALUE))
+		);
 		gl_pnlFilter.setVerticalGroup(
-				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+			gl_pnlFilter.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlFilter.createSequentialGroup()
-						.addComponent(chckbxTime)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(chckbxGpsCoordinates)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(chckbxId)
-						.addContainerGap(7, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMac)
+						.addComponent(txtMac, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNumberOfScans)
+						.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 		pnlFilter.setLayout(gl_pnlFilter);
+		
+		
+
+		
 
 		JLabel lblmouseOverFor = new JLabel("(mouse over for description)");
 		GroupLayout gl_pnlOptions = new GroupLayout(pnlOptions);
@@ -331,6 +349,23 @@ public class GUI extends JFrame {
 			}
 		});
 
+		rdbCreatekmlFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pnlFilterTitle = "Filters:";
+				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				filters();
+			}
+		});
+		
+		rdbtnCalculateNetworksLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnlFilterTitle = "Choose network:";
+				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				
+				
+			}
+		});
+
 
 
 		if(rdbtnCalculateNetworksLocation.isSelected())
@@ -343,5 +378,34 @@ public class GUI extends JFrame {
 			pnlFilterTitle = "**Enter comb_no_gps_ts#:";
 			pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		}
+	}
+	private void filters()
+	{
+		JCheckBox chckbxTime = new JCheckBox("Time");
+
+		JCheckBox chckbxGpsCoordinates = new JCheckBox("GPS Coordinates");
+
+		JCheckBox chckbxId = new JCheckBox("ID");
+		GroupLayout gl_pnlFilter = new GroupLayout(pnlFilter);
+		gl_pnlFilter.setHorizontalGroup(
+				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFilter.createSequentialGroup()
+						.addGroup(gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+								.addComponent(chckbxTime)
+								.addComponent(chckbxGpsCoordinates)
+								.addComponent(chckbxId))
+						.addContainerGap(174, Short.MAX_VALUE))
+				);
+		gl_pnlFilter.setVerticalGroup(
+				gl_pnlFilter.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlFilter.createSequentialGroup()
+						.addComponent(chckbxTime)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(chckbxGpsCoordinates)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(chckbxId)
+						.addContainerGap(7, Short.MAX_VALUE))
+				);
+		pnlFilter.setLayout(gl_pnlFilter);
 	}
 }

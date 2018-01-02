@@ -44,8 +44,8 @@ public class ReaderWriter {
 
 				if(file.getAbsolutePath().endsWith(".csv")){
 					fileList.add(file.getAbsolutePath());
-					//System.out.println("Fetching data from: "+file.getAbsolutePath());
-					printLog(file);
+					System.out.println("Fetching data from: "+file.getAbsolutePath());
+					//printLog(file);
 				
 				}
 
