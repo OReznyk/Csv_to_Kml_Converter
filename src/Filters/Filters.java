@@ -1,7 +1,8 @@
-package Tools;
+package Filters;
 import java.util.ArrayList;
 
 import WifiPoint.Date;
+import WifiPoint.RowOfWifiPoints;
 
 /**
  * This class represents functions to filter matrix/lists
@@ -19,7 +20,7 @@ public class Filters {
 	public static ArrayList<RowOfWifiPoints> filteringByID(ArrayList<RowOfWifiPoints>list,String id){
 		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).id.equals(id)) {
+			if(list.get(i).getId().equals(id)) {
 			copy.add(list.get(i));
 			}
 		}
@@ -37,7 +38,7 @@ public class Filters {
 	public static ArrayList<RowOfWifiPoints> filteringByCoordinates(ArrayList<RowOfWifiPoints>list,String lat,String lon){
 		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
-			if((list.get(i).coordinates.latitude+"").contains(lat) && (list.get(i).coordinates.longitude+"").contains(lon)) {
+			if((list.get(i).coordinates.getLatitude()+"").contains(lat) && (list.get(i).coordinates.longitude+"").contains(lon)) {
 				copy.add(list.get(i));
 			}
 		}
@@ -78,7 +79,7 @@ public class Filters {
 			for (int row = 0; row < listToFilter.size(); row++) { 
 				for (int col = 0; col < listToFilter.get(row).wifiList.size(); col++) {
 					if(listToFilter.get(row).wifiList.get(col).mac.equals(mac)){ 
-						RowOfWifiPoints r=new RowOfWifiPoints(listToFilter.get(row).date, listToFilter.get(row).id, listToFilter.get(row).coordinates, listToFilter.get(row).numOfWifiNetworks);
+						RowOfWifiPoints r=new RowOfWifiPoints(listToFilter.get(row).date, listToFilter.get(row).getId(), listToFilter.get(row).getCoordinates(), listToFilter.get(row).getNumOfWifiNetworks());
 						r.wifiList.add(listToFilter.get(row).wifiList.get(col));
 						copy.add(r);
 					}
@@ -105,7 +106,7 @@ public class Filters {
 		for (int rowA = 0; rowA < a.size(); rowA++) {
 			int rowB = 0;
 			for (rowB = 0; rowB < b.size(); rowB++) {
-				if(a.get(rowA).date.sameDate(b.get(rowB).date) && a.get(rowA).id.equals(b.get(rowB).id)){
+				if(a.get(rowA).date.sameDate(b.get(rowB).date) && a.get(rowA).getId().equals(b.get(rowB).getId())){
 					mergedList.get(rowB).wifiList.addAll(a.get(rowA).wifiList);
 					break;
 				}
@@ -147,79 +148,6 @@ public class Filters {
 		return list;	
 	}
 
-	/******************* Not finished yet *********************/
-
-	// function in work
-	//	/**
-	//	 *  Time filter, filtering by start and end times
-	//	 * @param csvFile
-	//	 * @param fromTime
-	//	 * @param untillTime
-	//	 * @param colmToFilter
-	//	 * @throws Exception
-	//	 */
-	//	public static ArrayList<RowOfTenWifiPoints> filteringByTime(String csvFile, String fromTime, String untillTime, int colmToFilter) throws Exception {
-	//		BufferedReader br = null;
-	//		String line = "";
-	//		String cvsSplitBy = ",";
-	//		ArrayList<RowOfTenWifiPoints>listToPrint=new ArrayList<RowOfTenWifiPoints>();
-	//		int numOfWifi=0;
-	//		Date startFilter=new Date(fromTime);
-	//		Date stopFilter=new Date(untillTime);
-	//
-	//		try {
-	//
-	//			br = new BufferedReader(new FileReader(csvFile));
-	//			int numOfRow=0;  
-	//			while((line = br.readLine()) != null){
-	//				if(line.isEmpty())break;
-	//				String[] row = line.split(cvsSplitBy);
-	//				Date date=new Date(row[0]);
-	//					
-	//				if(date.betweenDates(startFilter, stopFilter)){
-	//					String id=row[1];
-	//					numOfWifi++;
-	//					Coordinates_3D coordinates=new Coordinates_3D(row[2], row[3], row[4]);
-	//					Wifi wifi=new Wifi(row[6], row[7], row[8],row[9]);
-	//					
-	//					if(listToPrint.isEmpty()){
-	//					RowOfTenWifiPoints rowOfWifiPoints=new RowOfTenWifiPoints(date, id, coordinates, numOfWifi);
-	//					rowOfWifiPoints.addWifiToList(wifi);
-	//					}
-	//					else{
-	//						if(listToPrint.get(numOfRow).date.sameDate(date)){//same date
-	//							listToPrint.get(numOfRow).addWifiToList(wifi);;
-	//						}
-	//						else{//not same date
-	//							listToPrint.get(numOfRow).setNumOfWifiNetworks(numOfWifi-1);
-	//							if(listToPrint.get(numOfRow).wifiList.size()>10) System.out.println(listToPrint.get(numOfRow).wifiList.size());
-	//							numOfWifi=1;
-	//							RowOfTenWifiPoints rowOfTen=new RowOfTenWifiPoints(date,id,coordinates,numOfWifi);
-	//							rowOfTen.addWifiToList(wifi);
-	//							listToPrint.add(rowOfTen);
-	//							numOfRow++;
-	//						}	
-	//					}
-	//				}
-	//
-	//			} br.close();
-	//
-	//		} catch (FileNotFoundException e) {
-	//			e.printStackTrace();
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		} finally {
-	//			if (br != null) {
-	//				try {
-	//					br.close();
-	//				} catch (IOException e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		}
-	//		return listToPrint;
-	//	}
-
 	public static ArrayList<RowOfWifiPoints> mostPowerfulWifiWithSameMac(ArrayList<RowOfWifiPoints>list){
 		if(list.isEmpty())return list;
 		ArrayList<String>addedMac=new ArrayList<String>();
@@ -246,12 +174,9 @@ public class Filters {
 									formWichRowAddedMac.remove(i);
 									addedMac.add(list.get(row).wifiList.get(col).getMac());
 									formWichRowAddedMac.add(row);
-								}
-
-								break;
+								}break;
 							}
-						}
-						break;
+						}break;
 					}
 				}
 				if(i<0){
@@ -260,10 +185,7 @@ public class Filters {
 				}
 			}
 		}
-//		for (int i = 0; i < addedMac.size(); i++) {
-//			System.out.println(addedMac.get(i)+" "+	formWichRowAddedMac.get(i));
-//		}
+
 		return list;	
 	}
-//2017-10-27  16:16:07
 }

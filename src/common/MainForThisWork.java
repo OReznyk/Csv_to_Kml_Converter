@@ -5,11 +5,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Tools.Filters;
+import Filters.Filters;
 import Tools.Kml;
 import Tools.LocationRevaluation;
-import Tools.ReaderWriter;
-import Tools.RowOfWifiPoints;
+import Tools.ReaderFromCsv;
+import Tools.WriteTOcsv;
+import WifiPoint.RowOfWifiPoints;
   
 public class MainForThisWork {
 
@@ -77,9 +78,9 @@ public class MainForThisWork {
 		System.out.println("Enter path to write the merged csv file into (with 'filename.csv'):" );
 		String whereToSave=scanner.next();
 		
-		ArrayList<String>listOfFiles=ReaderWriter.getAllcsvFilesFromFolder(folderName);
-		ArrayList<RowOfWifiPoints>listToPrint=ReaderWriter.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
-		ReaderWriter.WriterToCsv(listToPrint, whereToSave);
+		ArrayList<String>listOfFiles=ReaderFromCsv.getAllcsvFilesFromFolder(folderName);
+		ArrayList<RowOfWifiPoints>listToPrint=ReaderFromCsv.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
+		WriteTOcsv.writer(listToPrint, whereToSave);
 		//ReaderWriter.readerFromFolderToCsvFile(folderName, whereToSave);
 		
 		return whereToSave;
@@ -97,7 +98,7 @@ public class MainForThisWork {
 		ArrayList<RowOfWifiPoints>filteredList=new ArrayList<>();
 		
 		/******************creating list of data from merged csv file*******************/
-		ArrayList<RowOfWifiPoints>list=ReaderWriter.readerFromMergedCSVtoList(addressOfFile);
+		ArrayList<RowOfWifiPoints>list=ReaderFromCsv.readerFromMergedCSVtoList(addressOfFile);
 		
 		System.out.println("Enter a number to choose a filter:");
 		while(choice<1||choice>3){

@@ -31,10 +31,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 
-import Tools.Filters;
+import Filters.Filters;
 import Tools.Kml;
-import Tools.ReaderWriter;
-import Tools.RowOfWifiPoints;
+import Tools.ReaderFromCsv;
+import Tools.WriteTOcsv;
+import WifiPoint.RowOfWifiPoints;
 
 import javax.swing.border.MatteBorder;
 import javax.swing.JInternalFrame;
@@ -74,6 +75,7 @@ public class GUI extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmOpenFolder;
+	private JMenuItem mntmOpenFile,mntmSaveAs,mntmDelete;
 	private JButton btOpencsvFolder;
 	private JTextArea txtConsole;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
@@ -126,7 +128,7 @@ public class GUI extends JFrame {
 	private void initComponents()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 676, 481);
+		setBounds(100, 100, 976, 681);
 
 		csvFolder = new FileChooser();
 
@@ -139,8 +141,14 @@ public class GUI extends JFrame {
 		menuBar.add(mnFile);
 
 		mntmOpenFolder = new JMenuItem("Open folder");
+		mntmOpenFile = new JMenuItem("Open merged file");
+		mntmSaveAs = new JMenuItem("Save as");
+		mntmDelete = new JMenuItem("Delete");
 
 		mnFile.add(mntmOpenFolder);
+		mnFile.add(mntmOpenFile);
+		mnFile.add(mntmSaveAs);
+		mnFile.add(mntmDelete);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -386,14 +394,14 @@ public class GUI extends JFrame {
 				if(csvFolder.fileChooser.showOpenDialog(mntmOpenFolder) == JFileChooser.APPROVE_OPTION) 
 				{
 					csvFolderAbsPath = csvFolder.fileChooser.getSelectedFile().getAbsolutePath();
-					listOfFiles = ReaderWriter.getAllcsvFilesFromFolder(csvFolderAbsPath);
+					listOfFiles = ReaderFromCsv.getAllcsvFilesFromFolder(csvFolderAbsPath);
 					try {
-						listToPrint = ReaderWriter.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
+						listToPrint = ReaderFromCsv.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 					try {
-						ReaderWriter.WriterToCsv(listToPrint, csvFolderAbsPath.concat(".csv"));
+						WriteTOcsv.writer(listToPrint, csvFolderAbsPath.concat(".csv"));
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}

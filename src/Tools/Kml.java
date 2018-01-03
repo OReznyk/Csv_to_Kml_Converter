@@ -15,6 +15,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import WifiPoint.RowOfWifiPoints;
+
 /**
  * A class to represent, write, and read KML files.
  * took from Ethan Harstad
@@ -71,23 +73,23 @@ public class Kml {
 											"MAC: "+list.get(i).wifiList.get(j).getMac() +"\n"+
 											"Signal: "+list.get(i).wifiList.get(j).getSignal()+"\n"+
 											"Time: "+list.get(i).date.toString()+"\n"+
-											"Latitude: "+list.get(i).coordinates.getLatitude()+ "\n" + 
-											"Longitude: "+list.get(i).coordinates.getLongitude()+"\n"+
-											"Altitude: " + list.get(i).coordinates.getAltitude())
+											"Latitude: "+list.get(i).getCoordinates().getLatitude()+ "\n" + 
+											"Longitude: "+list.get(i).getCoordinates().getLongitude()+"\n"+
+											"Altitude: " + list.get(i).getCoordinates().getAltitude())
 							); 
 					placemark.appendChild(desc);
 
 					Element point = doc.createElement("Point");
 					placemark.appendChild(point);
 
-					if(list.get(i).coordinates.getAltitude() > 0) {
+					if(list.get(i).getCoordinates().getAltitude() > 0) {
 						Element altitudeMode = doc.createElement("altitudeMode");
 						altitudeMode.appendChild(doc.createTextNode("absolute"));
 						point.appendChild(altitudeMode);
 					}
 
 					Element coords = doc.createElement("coordinates");
-					coords.appendChild(doc.createTextNode(list.get(i).coordinates.coordinatesToString()));
+					coords.appendChild(doc.createTextNode(list.get(i).getCoordinates().coordinatesToString()));
 					point.appendChild(coords);
 
 

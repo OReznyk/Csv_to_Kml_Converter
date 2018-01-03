@@ -1,9 +1,5 @@
-package Tools;
+package WifiPoint;
 import java.util.LinkedList;
-
-import WifiPoint.Coordinates_3D;
-import WifiPoint.Date;
-import WifiPoint.Wifi;
 
 /**
  * This class represents row of no more than 10 wifi networks collected in same location at same time by same device
@@ -11,13 +7,13 @@ import WifiPoint.Wifi;
  *
  */
 public class RowOfWifiPoints {
-	protected Coordinates_3D coordinates;
-	protected String id;
+	public Coordinates_3D coordinates;
+	private String id;
 	protected int numOfWifiNetworks;
-	protected Date date;
-	protected LinkedList<Wifi>wifiList;
+	public Date date;
+	public LinkedList<Wifi>wifiList;
 
-	RowOfWifiPoints(Date date,String id,Coordinates_3D coordinates,int numOfWifiNetworks) {
+	public RowOfWifiPoints(Date date,String id,Coordinates_3D coordinates,int numOfWifiNetworks) {
 		this.coordinates=coordinates;
 		this.date=date;
 		this.id=id;
@@ -54,13 +50,13 @@ public class RowOfWifiPoints {
 
 	  	/************Calculators for coordinates weight********************/
 	public double weightOfLat(Wifi wifi){
-		  return this.coordinates.latitude*wifi.signal.weightOfSignal();
+		  return this.getCoordinates().latitude*wifi.signal.weightOfSignal();
 	  }
 	  public double weightOfLon(Wifi wifi){
-		  return this.coordinates.longitude*wifi.signal.weightOfSignal();
+		  return this.getCoordinates().longitude*wifi.signal.weightOfSignal();
 	  }
 	  public double weightOfAlt(Wifi wifi){
-		  return this.coordinates.altitude*wifi.signal.weightOfSignal();
+		  return this.getCoordinates().altitude*wifi.signal.weightOfSignal();
 	  }
 	  
 	  @Override
@@ -71,6 +67,18 @@ public class RowOfWifiPoints {
 			wifiRow+= wifiList.get(index).toString()+",";
 			index++;
 			}
-		return date.toString()+","+this.id+","+coordinates.coordinatesToString()+","+this.numOfWifiNetworks+","+wifiRow;
+		return date.toString()+","+this.getId()+","+getCoordinates().coordinatesToString()+","+this.numOfWifiNetworks+","+wifiRow;
 	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public Coordinates_3D getCoordinates() {
+		return coordinates;
+	}
+
+
 }

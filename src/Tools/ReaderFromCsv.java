@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import WifiPoint.Coordinates_3D;
 import WifiPoint.Date;
+import WifiPoint.RowOfWifiPoints;
 import WifiPoint.Wifi;
 
 /**
@@ -17,9 +18,8 @@ import WifiPoint.Wifi;
  * @author Olga & Dan
  *
  */
-public class ReaderWriter {
+public class ReaderFromCsv {
 
-	static int[]place=new int[10];
 	
 	/**
 	 * Checking the folder for .csv and .txt files
@@ -145,27 +145,7 @@ public class ReaderWriter {
 
 
 
-	
-	/**
-	 * Taking table of strings  and saving it's data in .csv file
-	 * @param ans string array table
-	 * @param whereToSave url to save .csv file in
-	 * @throws Exception
-	 */
-	public static void WriterToCsv(ArrayList<RowOfWifiPoints>listToPrint,String whereToSave) throws Exception {
 
-		FileWriter writer = new FileWriter(whereToSave);
-		int indexOfRow=0;
-		while(indexOfRow<listToPrint.size()){
-			writer.write(listToPrint.get(indexOfRow).toString());
-			writer.write('\n');
-			indexOfRow++;
-		}
-		writer.flush();
-		writer.close();
-		
-		System.out.println("CSV file is saved"); //for checkup
-	}
 
 	
 	
@@ -194,7 +174,7 @@ public class ReaderWriter {
 		String cvsSplitBy = ",";
 		int indexOfFile=0;
 		int numOfRow=0; 
-
+		int[]place=new int[10];
 		while(indexOfFile!=files.size()){
 
 			String id="";
