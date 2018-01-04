@@ -110,7 +110,7 @@ public class LocationRevaluation {
 	 * @throws Exception
 	 */
 	
-	private static RowOfWifiPoints yourLocation(ArrayList<RowOfWifiPoints>listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
+	public static RowOfWifiPoints yourLocation(ArrayList<RowOfWifiPoints>listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
 		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
 		int count=0;
 		

@@ -1,4 +1,7 @@
 package Tools;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import WifiPoint.Date;
@@ -20,7 +23,7 @@ public class Filters {
 		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			if(list.get(i).id.equals(id)) {
-			copy.add(list.get(i));
+				copy.add(list.get(i));
 			}
 		}
 
@@ -74,17 +77,17 @@ public class Filters {
 	 */
 	public static ArrayList<RowOfWifiPoints> filteringArrayByMAC(ArrayList<RowOfWifiPoints>listToFilter,ArrayList<RowOfWifiPoints>listToAddRows, String mac,int count) throws Exception{
 		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
-		
-			for (int row = 0; row < listToFilter.size(); row++) { 
-				for (int col = 0; col < listToFilter.get(row).wifiList.size(); col++) {
-					if(listToFilter.get(row).wifiList.get(col).mac.equals(mac)){ 
-						RowOfWifiPoints r=new RowOfWifiPoints(listToFilter.get(row).date, listToFilter.get(row).id, listToFilter.get(row).coordinates, listToFilter.get(row).numOfWifiNetworks);
-						r.wifiList.add(listToFilter.get(row).wifiList.get(col));
-						copy.add(r);
-					}
+
+		for (int row = 0; row < listToFilter.size(); row++) { 
+			for (int col = 0; col < listToFilter.get(row).wifiList.size(); col++) {
+				if(listToFilter.get(row).wifiList.get(col).mac.equals(mac)){ 
+					RowOfWifiPoints r=new RowOfWifiPoints(listToFilter.get(row).date, listToFilter.get(row).id, listToFilter.get(row).coordinates, listToFilter.get(row).numOfWifiNetworks);
+					r.wifiList.add(listToFilter.get(row).wifiList.get(col));
+					copy.add(r);
 				}
-				
 			}
+
+		}
 		if(count==0){
 			listToAddRows=copy;
 		}
@@ -260,10 +263,45 @@ public class Filters {
 				}
 			}
 		}
-//		for (int i = 0; i < addedMac.size(); i++) {
-//			System.out.println(addedMac.get(i)+" "+	formWichRowAddedMac.get(i));
-//		}
+		//		for (int i = 0; i < addedMac.size(); i++) {
+		//			System.out.println(addedMac.get(i)+" "+	formWichRowAddedMac.get(i));
+		//		}
 		return list;	
 	}
-//2017-10-27  16:16:07
+
+	public static ArrayList<RowOfWifiPoints> filtercsvFileByGPS(ArrayList<RowOfWifiPoints>list, String lonStart, String latStart,
+			String lonEnd, String latEnd){
+		// filter rectangle coordinates
+		
+		
+		double lineLon, lineLat;
+		double xTopRight = Math.max(Double.parseDouble(lonStart), Double.parseDouble(lonEnd));
+		double yTopRight = Math.max(Double.parseDouble(latStart), Double.parseDouble(latEnd));
+		double xBottomLeft = Math.min(Double.parseDouble(lonStart), Double.parseDouble(lonEnd));
+		double yBottomLeft = Math.min(Double.parseDouble(latStart), Double.parseDouble(latEnd));
+		double xBottomRight = xTopRight;
+		double yBottomRight = yBottomLeft;
+		double xTopLeft = xBottomLeft;
+		double yTopLeft = yTopRight;
+
+
+
+		ArrayList<RowOfWifiPoints> filteredCSV =  new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			lineLat = list.get(i).coordinates.latitude;
+			lineLon= list.get(i).coordinates.longitude;
+			if(lineLat<yTopRight && lineLat>=yBottomRight && lineLon<xTopRight && lineLon>=xTopLeft)
+			{
+				filteredCSV.add(list.get(i));
+			}
+		}
+		double[] rectTop = {xTopLeft, yTopLeft, xTopRight, yTopRight}; 
+		double[] rectBot = {xBottomLeft, yBottomLeft, xBottomRight, yBottomRight};
+
+		return filteredCSV;
+		//printToKmlByGPS(filtered, pathToWriteKML, rectTop, rectBot);
+	}
 }
+
+//2017-10-27  16:16:07
+

@@ -7,6 +7,8 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
@@ -50,7 +52,8 @@ public class FileChooser extends JFrame {
 		
 		fileChooser = new JFileChooser();
 		fileChooser.setMultiSelectionEnabled(true);
-		fileChooser.setFileSelectionMode(1);
+		fileChooser.setFileSelectionMode(2);
+		fileChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
 		fileChooser.setCurrentDirectory(new File("C:\\Users\\Dan\\Desktop\\data"));
 		contentPane.add(fileChooser, BorderLayout.CENTER);
 	}
