@@ -1,4 +1,4 @@
-package WifiPoint;
+package WifiData;
 
 /**
  * This class represents the simplest wifi single AP received beacon in time.

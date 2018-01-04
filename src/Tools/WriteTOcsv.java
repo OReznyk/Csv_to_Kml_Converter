@@ -1,9 +1,17 @@
 package Tools;
 
+
+
+
+//we can delete this
+
+
+
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-import WifiPoint.RowOfWifiPoints;
+import WifiData.ListOfWifiRows;
+import WifiData.RowOfWifiPoints;
 
 public class WriteTOcsv {
 	
@@ -13,7 +21,7 @@ public class WriteTOcsv {
 	 * @param whereToSave url to save .csv file in
 	 * @throws Exception
 	 */
-	public static void writer(ArrayList<RowOfWifiPoints>listToPrint,String whereToSave) throws Exception {
+	public static void writer(ListOfWifiRows listToPrint,String whereToSave) throws Exception {
 
 		FileWriter writer = new FileWriter(whereToSave);
 		int indexOfRow=0;

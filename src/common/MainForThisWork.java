@@ -5,12 +5,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.text.Position;
+
 import Filters.Filters;
+import Filters.Id_Filter;
+import Filters.Position_Filter_Circle;
+import Filters.Time_Filter;
+import Filters.filter;
 import Tools.Kml;
 import Tools.LocationRevaluation;
 import Tools.ReaderFromCsv;
 import Tools.WriteTOcsv;
-import WifiPoint.RowOfWifiPoints;
+import WifiData.Coordinates_3D;
+import WifiData.ListOfWifiRows;
+import WifiData.RowOfWifiPoints;
   
 public class MainForThisWork {
 
@@ -26,13 +34,13 @@ public class MainForThisWork {
 				
 		/***********************main to build merged .csv file****************************/
 		 
-		String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
+//	String addressOfFile=mainPartForBuildingFilteredCsvFileFromFolderOfNotFilteredCsvFiles(scanner);
 		
 		/***********************main to build .kml from merged csv file*******************/
 		
 		/**Please run this with "main to build merged csv file" or you can put address of merged .csv instead of "addressOfFile" at this format: "C:\\data\\o.csv" **/
-//		String addressOfFile="C:\\Users\\Olga\\Desktop\\data[1091]\\test.csv";
-		mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
+//		String addressOfFile="C:\\Users\\Olga\\Desktop\\CsvFilesExamples\\test.csv";
+//		mainPartForBuildingKmlFileFromFilteredCsvFile(addressOfFile,scanner);
 		
 		/**********************main for 2.a  location Of router**********************************/
 		/********addressOfFile_To_Filter_With_MAC =address of merged csv****************/
@@ -79,7 +87,7 @@ public class MainForThisWork {
 		String whereToSave=scanner.next();
 		
 		ArrayList<String>listOfFiles=ReaderFromCsv.getAllcsvFilesFromFolder(folderName);
-		ArrayList<RowOfWifiPoints>listToPrint=ReaderFromCsv.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
+		ListOfWifiRows listToPrint=ReaderFromCsv.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(listOfFiles);
 		WriteTOcsv.writer(listToPrint, whereToSave);
 		//ReaderWriter.readerFromFolderToCsvFile(folderName, whereToSave);
 		
@@ -95,10 +103,9 @@ public class MainForThisWork {
 
 	private static int mainPartForBuildingKmlFileFromFilteredCsvFile(String addressOfFile,Scanner scanner) throws Exception{
 		int	choice=0;
-		ArrayList<RowOfWifiPoints>filteredList=new ArrayList<>();
 		
 		/******************creating list of data from merged csv file*******************/
-		ArrayList<RowOfWifiPoints>list=ReaderFromCsv.readerFromMergedCSVtoList(addressOfFile);
+		ListOfWifiRows list=ReaderFromCsv.readerFromMergedCSVtoList(addressOfFile);
 		
 		System.out.println("Enter a number to choose a filter:");
 		while(choice<1||choice>3){
@@ -109,8 +116,12 @@ public class MainForThisWork {
 				System.out.println("Latitude: ");
 				String lat=scanner.next();
 				System.out.println("Longitude: ");
-				String lon=scanner.next();		
-				filteredList=Filters.filteringByCoordinates(list, lat, lon);
+				String lon=scanner.next();	
+				System.out.println("Distance: ");
+				double dis=Double.parseDouble(scanner.next());
+				Coordinates_3D a=new Coordinates_3D(lat, lon, "0");
+				filter coor=new Position_Filter_Circle(a,dis);
+				list.filter(coor);
 			}
 			else if(choice==2){
 				System.out.println();
@@ -119,26 +130,26 @@ public class MainForThisWork {
 				String startDate=scanner.next()+" "+scanner.next();
 				System.out.println("Please enter the time you'd like to stop at: ");
 				String stopDate=scanner.next()+" "+scanner.next();
-				filteredList=Filters.filteringByTime(list, startDate, stopDate);
+				filter time=new Time_Filter(startDate,stopDate);
+				list.filter(time);
 			}
 			else if(choice==3){
 				System.out.println();
 				System.out.println("Please enter an id: ");
-				String id=scanner.next();
-				filteredList=Filters.filteringByID(list, id);
+				filter id=new Id_Filter(scanner.next());
+				list.filter(id);
 			}
 			else System.out.println("Number is inccorect. Please try again");
 
 		}
 
-		if(filteredList.isEmpty()){
+		if(list.isEmpty()){
 			System.out.println("Not in list");
 			return -1;
 		}
-		filteredList=Filters.mostPowerfulWifiWithSameMac(filteredList);
 		Kml.Kml();
 		File file=new File(addressOfFile.replace(".csv", ".kml"));
-		Kml.addMarksFromList(filteredList);
+		Kml.addMarksFromList(Filters.mostPowerfulWifiWithSameMac(list));
 		Kml.writeFile(file);
 
 		return 0;

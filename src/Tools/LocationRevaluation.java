@@ -3,11 +3,14 @@ package Tools;
 import java.util.ArrayList;
 
 import Filters.Filters;
-import WifiPoint.Coordinates_3D;
-import WifiPoint.Date;
-import WifiPoint.RowOfWifiPoints;
-import WifiPoint.Signal;
-import WifiPoint.Wifi;
+import Filters.Id_Filter;
+import Filters.filter;
+import WifiData.Coordinates_3D;
+import WifiData.Date;
+import WifiData.ListOfWifiRows;
+import WifiData.RowOfWifiPoints;
+import WifiData.Signal;
+import WifiData.Wifi;
 
 /**
  * This class represents functions to finding truly location
@@ -23,9 +26,9 @@ public class LocationRevaluation {
 	 * @return RowOfWifiPoint with coordinates of router
 	 * @throws Exception
 	 */
-	public static ArrayList<RowOfWifiPoints> centerOfRouter(String csvFileWithFilters,String csvFileToRun, int numOfPointsToUseForCheckup ) throws Exception{
+	public static ListOfWifiRows centerOfRouter(String csvFileWithFilters,String csvFileToRun, int numOfPointsToUseForCheckup ) throws Exception{
 		ArrayList<String>mac=ReaderFromCsv.createListOfMacsFromCSVFile(csvFileWithFilters);
-		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
+		ListOfWifiRows listToPrint=new ListOfWifiRows();
 		for (int i = 0; i < mac.size(); i++) {
 			RowOfWifiPoints r=centerOfRouter1(csvFileToRun,mac.get(i), numOfPointsToUseForCheckup);
 			if(r!=null) listToPrint.add(r);
@@ -47,20 +50,24 @@ public class LocationRevaluation {
 	 * @throws Exception
 	 */
 
-	public static ArrayList<RowOfWifiPoints> yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int numOfPointsToUseForCheckup) throws Exception{
-		ArrayList<RowOfWifiPoints>listToTakeFilterFrom=ReaderFromCsv.readerFromMergedCSVtoList(csvFileToTakeFilterFrom);
+	public static ListOfWifiRows yourLocation(String csvFileToTakeFilterFrom,String csvFileToSearchIn ,int numOfPointsToUseForCheckup) throws Exception{
+		ListOfWifiRows listToTakeFilterFrom=ReaderFromCsv.readerFromMergedCSVtoList(csvFileToTakeFilterFrom);
 		if(listToTakeFilterFrom.isEmpty())return null;
-		ArrayList<RowOfWifiPoints>listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFileToSearchIn);
+		ListOfWifiRows listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFileToSearchIn);
 		if(listToFilter.isEmpty())return null;
-		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<>();
-		ArrayList<RowOfWifiPoints>temp=Filters.filteringByID(listToFilter, listToTakeFilterFrom.get(0).getId());
+		ListOfWifiRows listToPrint=new ListOfWifiRows();
+		filter id=new Id_Filter(listToTakeFilterFrom.get(0).getId());
+		ListOfWifiRows temp=listToFilter.copy();
+		temp.filter(id);
 		
 
 		for (int i = 0; i < listToTakeFilterFrom.size(); i++) {
 			ArrayList<String>mac= new ArrayList<String>();
 			ArrayList<Signal>signal=new ArrayList<Signal>();
 			if(i>0 && listToTakeFilterFrom.get(i).getId().equals(listToTakeFilterFrom.get(i-1).getId())==false){
-			temp=Filters.filteringByID(listToFilter, listToTakeFilterFrom.get(i).getId());
+				filter id2=new Id_Filter(listToTakeFilterFrom.get(0).getId());
+				temp=listToFilter.copy();
+				temp.filter(id2);
 			}
 			
 			for (int j = 0; j < listToTakeFilterFrom.get(i).wifiList.size(); j++) {
@@ -94,8 +101,8 @@ public class LocationRevaluation {
 	 * @throws Exception
 	 */
 	private static RowOfWifiPoints centerOfRouter1(String csvFile,String mac, int numOfPointsToUseForChekup ) throws Exception{
-		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
-		ArrayList<RowOfWifiPoints>listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFile);
+		ListOfWifiRows listToPrint=new ListOfWifiRows();
+		ListOfWifiRows listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFile);
 		return 	centerPoint(Filters.filterByMostPowerfulWifiSignals(Filters.filteringArrayByMAC(listToFilter, listToPrint, mac, 0), numOfPointsToUseForChekup));
 		
 	}
@@ -112,8 +119,8 @@ public class LocationRevaluation {
 	 * @throws Exception
 	 */
 	
-	private static RowOfWifiPoints yourLocation(ArrayList<RowOfWifiPoints>listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
-		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
+	private static RowOfWifiPoints yourLocation(ListOfWifiRows listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
+		ListOfWifiRows listToPrint=new ListOfWifiRows();
 		int count=0;
 		
 		/*********filtering by all macs from list****************/
@@ -151,7 +158,7 @@ public class LocationRevaluation {
 	 * @return RowOfWifiPoints with coordinates of device/router
 	 */
 
-	private static RowOfWifiPoints centerPoint(ArrayList<RowOfWifiPoints>list){
+	private static RowOfWifiPoints centerPoint(ListOfWifiRows list){
 		if(list.isEmpty()==false){
 			Date date=list.get(0).date;
 			String id="Approx. w-center";
@@ -197,7 +204,7 @@ public class LocationRevaluation {
 	 * @param signal list of signals
 	 * @return list of RowOfWifiPoints with added calculated match as signal in each row 
 	 */
-	private static ArrayList<RowOfWifiPoints> matchBySignal(ArrayList<RowOfWifiPoints>list,ArrayList<String>mac, ArrayList<Signal>signal){
+	private static ListOfWifiRows matchBySignal(ListOfWifiRows list,ArrayList<String>mac, ArrayList<Signal>signal){
 		int row=0;
 		double inputSignal=0,signalOfWifi=0,dif=0;
 		

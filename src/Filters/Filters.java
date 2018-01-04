@@ -1,32 +1,35 @@
 package Filters;
 import java.util.ArrayList;
 
-import WifiPoint.Date;
-import WifiPoint.RowOfWifiPoints;
-
+import WifiData.*;
 /**
  * This class represents functions to filter matrix/lists
  * 
  * @author Olga & Dan
  *
  */
-public class Filters {
-	/**
-	 * Function to filter ArrayList by ID
-	 * @param list ArrayList<RowOfWifiPoints>
-	 * @param id string filter
-	 * @return filtered ArrayList<RowOfWifiPoints>
-	 */
-	public static ArrayList<RowOfWifiPoints> filteringByID(ArrayList<RowOfWifiPoints>list,String id){
-		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getId().equals(id)) {
-			copy.add(list.get(i));
-			}
-		}
+//this class will be deleted one day
 
-		return copy;
-	}
+public class Filters {
+	
+
+//	/**
+//	 * Function to filter ArrayList by ID
+//	 * @param list ListOfWifiRows
+//	 * @param id string filter
+//	 * @return filtered ListOfWifiRows
+//	 */
+//	public static ListOfWifiRows filteringByID(ListOfWifiRows list,String id){
+//		ListOfWifiRows thisID=new ListOfWifiRows();
+//		for (int i = 0; i < list.size(); i++) {
+//			if(list.get(i).getId().equals(id)) {
+//			thisID.add(list.get(i));
+//			}
+//		}
+//
+//		return thisID;
+//	}
+
 
 	/**
 	 * Function to filter ArrayList by latitude and longitude
@@ -35,8 +38,8 @@ public class Filters {
 	 * @param lon longitude filter
 	 * @return filtered ArrayList<RowOfWifiPoints>
 	 */
-	public static ArrayList<RowOfWifiPoints> filteringByCoordinates(ArrayList<RowOfWifiPoints>list,String lat,String lon){
-		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
+	public static ListOfWifiRows filteringByCoordinates(ListOfWifiRows list,String lat,String lon){
+		ListOfWifiRows copy=new ListOfWifiRows();
 		for (int i = 0; i < list.size(); i++) {
 			if((list.get(i).coordinates.getLatitude()+"").contains(lat) && (list.get(i).coordinates.longitude+"").contains(lon)) {
 				copy.add(list.get(i));
@@ -53,8 +56,8 @@ public class Filters {
 	 * @return filtered ArrayList<RowOfWifiPoints>
 	 * @throws Exception
 	 */
-	public static ArrayList<RowOfWifiPoints> filteringByTime(ArrayList<RowOfWifiPoints>list, String startDate, String stopDate) throws Exception {
-		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
+	public static ListOfWifiRows filteringByTime(ListOfWifiRows list, String startDate, String stopDate) throws Exception {
+		ListOfWifiRows copy=new ListOfWifiRows();
 		Date startFilter=new Date(startDate);
 		Date stopFilter=new Date(stopDate);
 
@@ -73,8 +76,8 @@ public class Filters {
 	 * @return filtered list
 	 * @throws Exception
 	 */
-	public static ArrayList<RowOfWifiPoints> filteringArrayByMAC(ArrayList<RowOfWifiPoints>listToFilter,ArrayList<RowOfWifiPoints>listToAddRows, String mac,int count) throws Exception{
-		ArrayList<RowOfWifiPoints>copy=new ArrayList<>();
+	public static ListOfWifiRows filteringArrayByMAC(ListOfWifiRows listToFilter,ListOfWifiRows listToAddRows, String mac,int count) throws Exception{
+		ListOfWifiRows copy=new ListOfWifiRows();
 		
 			for (int row = 0; row < listToFilter.size(); row++) { 
 				for (int col = 0; col < listToFilter.get(row).wifiList.size(); col++) {
@@ -101,8 +104,8 @@ public class Filters {
 	 * @param b ArrayList<RowOfWifiPoints>
 	 * @return merged list
 	 */
-	public static ArrayList<RowOfWifiPoints> mergeTwoListsByDateAndID(ArrayList<RowOfWifiPoints>a,ArrayList<RowOfWifiPoints>b){
-		ArrayList<RowOfWifiPoints>mergedList=b;
+	public static ListOfWifiRows mergeTwoListsByDateAndID(ListOfWifiRows a,ListOfWifiRows b){
+		ListOfWifiRows mergedList=b;
 		for (int rowA = 0; rowA < a.size(); rowA++) {
 			int rowB = 0;
 			for (rowB = 0; rowB < b.size(); rowB++) {
@@ -123,8 +126,7 @@ public class Filters {
 	 * @param numOfPointsToUseForCheckup number of most powerful wifi points you want me to use in calculation
 	 * @return filtered list
 	 */
-	public static ArrayList<RowOfWifiPoints> filterByMostPowerfulWifiSignals(ArrayList<RowOfWifiPoints>list,
-			int numOfPointsToUseForCheckup){
+	public static ListOfWifiRows filterByMostPowerfulWifiSignals(ListOfWifiRows list,int numOfPointsToUseForCheckup){
 		if(numOfPointsToUseForCheckup==list.size())return list;
 		if(numOfPointsToUseForCheckup>list.size()){ 
 			//System.out.println("You don't have that much in list, so I'll work on "+list.size()+" I have in list");
@@ -148,7 +150,7 @@ public class Filters {
 		return list;	
 	}
 
-	public static ArrayList<RowOfWifiPoints> mostPowerfulWifiWithSameMac(ArrayList<RowOfWifiPoints>list){
+	public static ListOfWifiRows mostPowerfulWifiWithSameMac(ListOfWifiRows list){
 		if(list.isEmpty())return list;
 		ArrayList<String>addedMac=new ArrayList<String>();
 		ArrayList<Integer>formWichRowAddedMac=new ArrayList<Integer>();
@@ -188,4 +190,6 @@ public class Filters {
 
 		return list;	
 	}
+
+
 }

@@ -8,10 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import WifiPoint.Coordinates_3D;
-import WifiPoint.Date;
-import WifiPoint.RowOfWifiPoints;
-import WifiPoint.Wifi;
+import WifiData.Coordinates_3D;
+import WifiData.Date;
+import WifiData.ListOfWifiRows;
+import WifiData.RowOfWifiPoints;
+import WifiData.Wifi;
 
 /**
  * Class of functions that reads & write from/to csv files
@@ -97,8 +98,8 @@ public class ReaderFromCsv {
 	}
 	
 	
-	public static ArrayList<RowOfWifiPoints> readerFromMergedCSVtoList(String csvFile) throws Exception{
-		ArrayList<RowOfWifiPoints>list=new ArrayList<RowOfWifiPoints>();
+	public static ListOfWifiRows readerFromMergedCSVtoList(String csvFile) throws Exception{
+		ListOfWifiRows list=new ListOfWifiRows();
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
@@ -144,21 +145,6 @@ public class ReaderFromCsv {
 	}
 
 
-
-
-
-	
-	
-
-
-
-	
-	
-
-
-
-
-	/**************************private methods*****************************************/
 	
 	
 	/**
@@ -167,8 +153,8 @@ public class ReaderFromCsv {
 	 * @throws Exception
 	 * return ArrayList of rows with ten most powerful wifiPoints in each
 	 */
-	public static ArrayList<RowOfWifiPoints> notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
-		ArrayList<RowOfWifiPoints>listToPrint=new ArrayList<RowOfWifiPoints>();
+	public static ListOfWifiRows notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ArrayList<String>files) throws Exception {
+		ListOfWifiRows listToPrint=new ListOfWifiRows();
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
@@ -215,7 +201,7 @@ public class ReaderFromCsv {
 						}
 						else{ 
 							if(listToPrint.get(numOfRow).date.sameDate(date)){//same date
-								listToPrint.get(numOfRow).addWifiToList(wifi);;
+								listToPrint.get(numOfRow).addWifiToList(wifi);
 							}
 							else{//not same date
 								listToPrint.get(numOfRow).setNumOfWifiNetworks(numOfWifi-1);
@@ -248,6 +234,8 @@ public class ReaderFromCsv {
 		return listToPrint;
 	}
 	
+
+	/**************************private methods*****************************************/
 	private static void printLog(File file) {
         Thread thread = new Thread(new Runnable() {
             @Override

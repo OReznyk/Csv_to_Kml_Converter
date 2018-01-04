@@ -1,4 +1,4 @@
-package WifiPoint;
+package WifiData;
 import java.util.LinkedList;
 
 /**

@@ -15,7 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import WifiPoint.RowOfWifiPoints;
+import WifiData.RowOfWifiPoints;
 
 /**
  * A class to represent, write, and read KML files.
