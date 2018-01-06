@@ -998,7 +998,7 @@ public class GUI extends JFrame {
 				}
 				mergedList=Filters.mostPowerfulWifiWithSameMac(mergedList);
 				Kml.Kml();
-				File file=new File(csvFolderAbsPath.replace(".csv", ".kml"));
+				File file=new File(csvFolderAbsPath+".kml");
 				Kml.addMarksFromList(mergedList);
 				Kml.writeFile(file);
 			}
