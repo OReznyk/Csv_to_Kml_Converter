@@ -3,6 +3,7 @@ package WifiData;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import Filters.filter;
 
@@ -44,9 +45,20 @@ public class ListOfWifiRows extends ArrayList<RowOfWifiPoints> {
 			}
 			pw.print(sb);
 			pw.close();
+			System.out.println("File saved");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	
+	public void Print() {
+		Iterator<RowOfWifiPoints> is = this.iterator();
+		while (is.hasNext()) {
+			System.out.println(is.next().toString());
+		}
+	}
+	
+	
 }
