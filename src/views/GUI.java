@@ -78,8 +78,6 @@ public class GUI extends JFrame {
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel pnlOptions;
-	private JRadioButton rdbtnCalculateNetworksLocation;
-	private JRadioButton rdbtnCalculateClientsLocation;
 	private JMenuBar menuBar;
 	private JMenu mnFile,mnAlgo;
 	private JMenuItem mntmOpenFolder;
@@ -160,7 +158,6 @@ public class GUI extends JFrame {
 	private JLabel label_1;
 	private JTextField textField;
 	private JSlider slider;
-	private Panel algo2;
 
 
 	/**
@@ -267,16 +264,6 @@ public class GUI extends JFrame {
 		pnlOptions.setBounds(40, 43, 203, 52);
 		pnlOptions.setBorder(new TitledBorder(null, "Options:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 
-		rdbtnCalculateNetworksLocation = new JRadioButton("Calculate network's location (Algorithm 1)");
-		rdbtnCalculateNetworksLocation.setBounds(42, 391, 727, 53);
-
-
-		buttonGroup.add(rdbtnCalculateNetworksLocation);
-
-		rdbtnCalculateClientsLocation = new JRadioButton("Calculate client's location (Algorithm 2)");
-		rdbtnCalculateClientsLocation.setBounds(42, 458, 683, 53);
-		buttonGroup.add(rdbtnCalculateClientsLocation);
-
 		JScrollPane scrConsole = new JScrollPane();
 		scrConsole.setBounds(40, 576, 2108, 407);
 		scrConsole.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -294,7 +281,8 @@ public class GUI extends JFrame {
 				mc.redirectErr(Color.RED, null);
 
 		pnlCardsFilters = new JPanel();
-		pnlCardsFilters.setBounds(40, 163, 768, 224);
+		pnlCardsFilters.setBackground(new Color(240, 248, 255));
+		pnlCardsFilters.setBounds(40, 180, 768, 358);
 		pnlCardsFilters.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		pnlCardsFilters.setLayout(null);
 		
@@ -837,46 +825,26 @@ public class GUI extends JFrame {
 		
 		contentPane.setLayout(null);
 		contentPane.add(btRun);
-		contentPane.add(rdbtnCalculateNetworksLocation);
-		contentPane.add(rdbtnCalculateClientsLocation);
 		contentPane.add(pnlCardsFilters);
-		
-				pnlFilter = new JPanel();
-				pnlFilter.setBackground(new Color(240, 248, 255));
-				pnlFilter.setBounds(0, 0, 767, 191);
-				pnlCardsFilters.add(pnlFilter);
-				chckbxTime = new JCheckBox("Time");
-				chckbxTime.setBackground(new Color(240, 248, 255));
-				chckbxTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
-				chckbxTime.setBounds(0, 5, 133, 53);
-				
-						chckbxGPS = new JCheckBox("GPS Coordinates");
-						chckbxGPS.setBackground(new Color(240, 248, 255));
-						chckbxGPS.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
-						chckbxGPS.setBounds(175, 5, 321, 53);
-						
-						
-								chckbxID = new JCheckBox("Device ID");
-								chckbxID.setBackground(new Color(240, 248, 255));
-								chckbxID.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
-								chckbxID.setBounds(523, 5, 209, 53);
-												pnlFilter.setLayout(null);
-												pnlFilter.add(chckbxTime);
-												pnlFilter.add(chckbxGPS);
-												pnlFilter.add(chckbxID);
 												
 												algo1 = new JPanel();
-												algo1.setBounds(0, 0, 767, 243);
+												algo1.setBackground(new Color(240, 248, 255));
+												algo1.setBounds(0, 89, 767, 269);
 												pnlCardsFilters.add(algo1);
 												
 												label = new JLabel("MAC Address:");
+												label.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 												
 												label_1 = new JLabel("Number of scans: ");
+												label_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 												
 												textField = new JTextField();
 												textField.setColumns(10);
 												
 												slider = new JSlider();
+												slider.setForeground(new Color(0, 0, 0));
+												slider.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+												slider.setBackground(new Color(255, 192, 203));
 												slider.setPaintLabels(true);
 												slider.setValue(3);
 												slider.setSnapToTicks(true);
@@ -889,7 +857,6 @@ public class GUI extends JFrame {
 												GroupLayout gl_panel = new GroupLayout(algo1);
 												gl_panel.setHorizontalGroup(
 													gl_panel.createParallelGroup(Alignment.LEADING)
-														.addGap(0, 914, Short.MAX_VALUE)
 														.addGroup(gl_panel.createSequentialGroup()
 															.addContainerGap()
 															.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -899,14 +866,13 @@ public class GUI extends JFrame {
 																.addGroup(gl_panel.createSequentialGroup()
 																	.addComponent(label_1)
 																	.addPreferredGap(ComponentPlacement.RELATED)))
-															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-																.addComponent(textField, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-																.addComponent(slider, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-															.addContainerGap(384, Short.MAX_VALUE))
+															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(slider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																.addComponent(textField, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+															.addContainerGap(216, Short.MAX_VALUE))
 												);
 												gl_panel.setVerticalGroup(
 													gl_panel.createParallelGroup(Alignment.LEADING)
-														.addGap(0, 243, Short.MAX_VALUE)
 														.addGroup(gl_panel.createSequentialGroup()
 															.addContainerGap()
 															.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -914,18 +880,38 @@ public class GUI extends JFrame {
 																.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 																.addGroup(gl_panel.createSequentialGroup()
-																	.addGap(7)
-																	.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																.addGroup(gl_panel.createSequentialGroup()
 																	.addGap(18)
-																	.addComponent(label_1)))
+																	.addComponent(label_1))
+																.addGroup(gl_panel.createSequentialGroup()
+																	.addGap(7)
+																	.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 															.addContainerGap())
 												);
 												algo1.setLayout(gl_panel);
 												
-												algo2 = new Panel();
-												algo2.setBounds(0, 0, 593, 191);
-												pnlCardsFilters.add(algo2);
+														pnlFilter = new JPanel();
+														pnlFilter.setBounds(0, 0, 767, 538);
+														pnlCardsFilters.add(pnlFilter);
+														pnlFilter.setBackground(new Color(240, 248, 255));
+														chckbxTime = new JCheckBox("Time");
+														chckbxTime.setBackground(new Color(240, 248, 255));
+														chckbxTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+														chckbxTime.setBounds(0, 5, 133, 53);
+														
+																chckbxGPS = new JCheckBox("GPS Coordinates");
+																chckbxGPS.setBackground(new Color(240, 248, 255));
+																chckbxGPS.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+																chckbxGPS.setBounds(175, 5, 321, 53);
+																
+																
+																		chckbxID = new JCheckBox("Device ID");
+																		chckbxID.setBackground(new Color(240, 248, 255));
+																		chckbxID.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+																		chckbxID.setBounds(523, 5, 209, 53);
+																		pnlFilter.setLayout(null);
+																		pnlFilter.add(chckbxTime);
+																		pnlFilter.add(chckbxGPS);
+																		pnlFilter.add(chckbxID);
 		contentPane.add(pnlAddOptions);
 		contentPane.add(scrConsole);
 		
