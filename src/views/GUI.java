@@ -33,6 +33,9 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
+
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+
 import Filters.*;
 import Tools.*;
 import WifiData.*;
@@ -78,7 +81,7 @@ public class GUI extends JFrame {
 	private JRadioButton rdbtnCalculateNetworksLocation;
 	private JRadioButton rdbtnCalculateClientsLocation;
 	private JMenuBar menuBar;
-	private JMenu mnFile;
+	private JMenu mnFile,mnAlgo;
 	private JMenuItem mntmOpenFolder;
 	private JButton btRun;
 	private JTextArea txtConsole;
@@ -150,8 +153,14 @@ public class GUI extends JFrame {
 	private JTextField txtLon2Extra2;
 	private JTextField txtLat2Extra3;
 	private JTextField txtLon2Extra3;
-	private JMenuItem mntmOpenMergedCsv,mntmSaveCsv,mntmSaveKml;
+	private JMenuItem mntmOpenMergedCsv,mntmSaveCsv,mntmSaveKml,mntmNL,mntmCL;
 	private JPanel pnlBlank;
+	private JPanel algo1;
+	private JLabel label;
+	private JLabel label_1;
+	private JTextField textField;
+	private JSlider slider;
+	private Panel algo2;
 
 
 	/**
@@ -203,48 +212,73 @@ public class GUI extends JFrame {
 
 
 		menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(255, 182, 193));
 		setJMenuBar(menuBar);
 
-		mnFile = new JMenu("File");
+		mnFile = new JMenu(" File ");
+		mnFile.setForeground(Color.BLACK);
+		mnFile.setFont(new Font("Monotype Corsiva", Font.PLAIN, 45));
 		menuBar.add(mnFile);
+		
 
 		mntmOpenFolder = new JMenuItem("Open folder / csv file");
+		mntmOpenFolder.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
 		mnFile.add(mntmOpenFolder);
 		
 		mntmOpenMergedCsv = new JMenuItem("Open merged csv file");
+		mntmOpenMergedCsv.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
 		mnFile.add(mntmOpenMergedCsv);
 		
 		mntmSaveCsv = new JMenuItem("Save as csv");
+		mntmSaveCsv.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
 		mnFile.add(mntmSaveCsv);
 		
 		mntmSaveKml = new JMenuItem("Save as kml");
+		mntmSaveKml.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
 		mnFile.add(mntmSaveKml);
 		
+
+		mnAlgo = new JMenu(" Algo ");
+		mnAlgo.setForeground(Color.BLACK);
+		mnAlgo.setFont(new Font("Monotype Corsiva", Font.PLAIN, 45));
+		menuBar.add(mnAlgo);
+		
+		mntmNL = new JMenuItem("Network's location");
+		mntmNL.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
+		mnAlgo.add(mntmNL);
+		
+		mntmCL = new JMenuItem("Client's location");
+		mntmCL.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
+		mnAlgo.add(mntmCL);
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
 
-		btRun = new JButton("run");
-		btRun.setBounds(40, 967, 87, 53);
+		btRun = new JButton("Run");
+		btRun.setBackground(new Color(255, 192, 203));
+		btRun.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+		btRun.setBounds(331, 1021, 151, 53);
+
 
 		pnlOptions = new JPanel();
 		pnlOptions.setBounds(40, 43, 203, 52);
 		pnlOptions.setBorder(new TitledBorder(null, "Options:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(59, 59, 59)));
 
 		rdbtnCalculateNetworksLocation = new JRadioButton("Calculate network's location (Algorithm 1)");
-		rdbtnCalculateNetworksLocation.setBounds(40, 196, 727, 53);
+		rdbtnCalculateNetworksLocation.setBounds(42, 391, 727, 53);
 
 
 		buttonGroup.add(rdbtnCalculateNetworksLocation);
 
 		rdbtnCalculateClientsLocation = new JRadioButton("Calculate client's location (Algorithm 2)");
-		rdbtnCalculateClientsLocation.setBounds(40, 263, 683, 53);
+		rdbtnCalculateClientsLocation.setBounds(42, 458, 683, 53);
 		buttonGroup.add(rdbtnCalculateClientsLocation);
 
 		JScrollPane scrConsole = new JScrollPane();
-		scrConsole.setBounds(40, 350, 763, 582);
+		scrConsole.setBounds(40, 576, 2108, 407);
 		scrConsole.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrConsole.setBackground(Color.GRAY);
 
@@ -259,87 +293,48 @@ public class GUI extends JFrame {
 				mc.redirectOut();
 				mc.redirectErr(Color.RED, null);
 
-
-
-
-
-
-
-
-
-
-		JLabel lblmouseOverFor = new JLabel("(mouse over for description)");
-		GroupLayout gl_pnlOptions = new GroupLayout(pnlOptions);
-		gl_pnlOptions.setHorizontalGroup(
-				gl_pnlOptions.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlOptions.createSequentialGroup()
-						.addComponent(lblmouseOverFor)
-						.addContainerGap(119, Short.MAX_VALUE))
-				);
-		gl_pnlOptions.setVerticalGroup(
-				gl_pnlOptions.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlOptions.createSequentialGroup()
-						.addComponent(lblmouseOverFor)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-
 		pnlCardsFilters = new JPanel();
-		pnlCardsFilters.setBounds(1207, 129, 914, 71);
+		pnlCardsFilters.setBounds(40, 163, 768, 224);
 		pnlCardsFilters.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		pnlCardsFilters.setLayout(null);
+		
 
-		pnlFirstAlgo = new Panel();
-		pnlFirstAlgo.setBounds(-10906, -10360, 290, 91);
-		pnlCardsFilters.add(pnlFirstAlgo);
-
-		JLabel lblMacAddress = new JLabel("MAC Address:");
-
-		txtMacAddress = new JTextField();
-		txtMacAddress.setColumns(10);
-
-		JLabel lblNumberOfScans = new JLabel("Number of scans: ");
-		pnlScndAlgo = new Panel();
-		pnlScndAlgo.setBounds(-10906, -10360, 290, 91);
-
-
-		slNumOfScans = new JSlider();
-		slNumOfScans.setPaintTicks(true);
-		slNumOfScans.setSnapToTicks(true);
-		slNumOfScans.setPaintLabels(true);
-		slNumOfScans.setMinorTickSpacing(1);
-		slNumOfScans.setValue(3);
-		slNumOfScans.setMajorTickSpacing(1);
-		slNumOfScans.setMinimum(1);
-		slNumOfScans.setMaximum(5);
-		slNumOfScans.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		pnlAddOptions = new JPanel();
-		pnlAddOptions.setBounds(885, 327, 1361, 302);
+		pnlAddOptions.setBackground(new Color(240, 248, 255));
+		pnlAddOptions.setBounds(861, 126, 1287, 422);
 		
 		pnlAddOptions.setLayout(new CardLayout(0, 0));
 		
 		pnlBlank = new JPanel();
+		pnlBlank.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlBlank, "blank");
 
 		pnlTime = new JPanel();
+		pnlTime.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlTime, "Time");
 
 		lblStartTime = new JLabel("Start time:");
+		lblStartTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtStartTime = new JTextField();
 		txtStartTime.setColumns(10);
 
 		lblEndTime = new JLabel("End time: ");
+		lblEndTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtEndTime = new JTextField();
 		txtEndTime.setColumns(10);
 
 		lblTimeFormat = new JLabel("Format: yyyy-mm-dd hh:mm:ss");
+		lblTimeFormat.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		pnlGPS = new JPanel();
+		pnlGPS.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlGPS, "GPS");
 
 		lblLat = new JLabel("Latitude: ");
+		lblLat.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		lblLat.setVisible(true);
 
 		txtLat = new JTextField();
@@ -347,6 +342,7 @@ public class GUI extends JFrame {
 		txtLat.setColumns(10);
 
 		lblLon = new JLabel("Longtitude: ");
+		lblLon.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		lblLon.setVisible(true);
 
 		txtLon = new JTextField();
@@ -354,27 +350,33 @@ public class GUI extends JFrame {
 		txtLon.setColumns(10);
 		
 		lblLatitude = new JLabel("Latitude 2:");
+		lblLatitude.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLat2 = new JTextField();
 		txtLat2.setColumns(10);
 		
 		lblLongtitude = new JLabel("Longtitude 2:");
+		lblLongtitude.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLon2 = new JTextField();
 		txtLon2.setColumns(10);
 
 		pnlID = new JPanel();
+		pnlID.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlID, "ID");
 
 		JLabel lblID = new JLabel("ID: ");
+		lblID.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtID = new JTextField();
 		txtID.setColumns(10);
 		
 		JPanel pnlGPSTime = new JPanel();
+		pnlGPSTime.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlGPSTime, "GPSTime");
 
 		lblStartTimeExtra = new JLabel("Start Time: ");
+		lblStartTimeExtra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtStartTimeExtra = new JTextField();
 		txtStartTimeExtra.setColumns(10);
@@ -384,6 +386,7 @@ public class GUI extends JFrame {
 		txtEndTimeExtra.setColumns(10);
 
 		lblLatExtra = new JLabel("Latitude:");
+		lblLatExtra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtLatExtra = new JTextField();
 		txtLatExtra.setColumns(10);
@@ -392,95 +395,115 @@ public class GUI extends JFrame {
 		txtLonExtra.setColumns(10);
 		
 		lblLat2Extra = new JLabel("Latitude 2:");
+		lblLat2Extra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLat2Extra = new JTextField();
 		txtLat2Extra.setColumns(10);
 		
 		lblLongtitude_1 = new JLabel("Longtitude 2:");
+		lblLongtitude_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLon2Extra = new JTextField();
 		txtLon2Extra.setColumns(10);
 		
 		pnlGPSID = new JPanel();
+		pnlGPSID.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlGPSID, "GPSID");
 
 		lblLatExtra2 = new JLabel("Latitude: ");
+		lblLatExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtLatExtra2 = new JTextField();
 		txtLatExtra2.setColumns(10);
 
 		lblLonExtra2 = new JLabel("Longtitude: ");
+		lblLonExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtLonExtra2 = new JTextField();
 		txtLonExtra2.setColumns(10);
 
 		lblIDExtra = new JLabel("ID: ");
+		lblIDExtra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtIDExtra = new JTextField();
 		txtIDExtra.setColumns(10);
 		
 		JLabel lblLatitudeExtra2 = new JLabel("Latitude 2:");
+		lblLatitudeExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLat2Extra2 = new JTextField();
 		txtLat2Extra2.setColumns(10);
 		
 		JLabel lblLongtitudeExtra2 = new JLabel("Longtitude 2");
+		lblLongtitudeExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLon2Extra2 = new JTextField();
 		txtLon2Extra2.setColumns(10);
 		
 		pnlTimeID = new JPanel();
+		pnlTimeID.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlTimeID, "TimeID");
 
 		lblStartTimeExtra2 = new JLabel("Start Time: ");
+		lblStartTimeExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtStartTimeExtra2 = new JTextField();
 		txtStartTimeExtra2.setColumns(10);
 
 		lblEndTimeExtra2 = new JLabel("End Time: ");
+		lblEndTimeExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtEndTimeExtra2 = new JTextField();
 		txtEndTimeExtra2.setColumns(10);
 
 		lblIDExtra2 = new JLabel("ID:");
+		lblIDExtra2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtIDExtra2 = new JTextField();
 		txtIDExtra2.setColumns(10);
 		
 		pnlTimeGPSID = new JPanel();
+		pnlTimeGPSID.setBackground(new Color(240, 248, 255));
 		pnlAddOptions.add(pnlTimeGPSID, "TimeGPSID");
 
 		lblStartTimeExtra3 = new JLabel("Start Time:");
+		lblStartTimeExtra3.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtStartTimeExtra3 = new JTextField();
 		txtStartTimeExtra3.setColumns(10);
 
 		lblEndTimeExtra3 = new JLabel("End Time:");
+		lblEndTimeExtra3.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtEndTimeExtra3 = new JTextField();
 		txtEndTimeExtra3.setColumns(10);
 
 		lblLatExtra3 = new JLabel("Latitude: ");
+		lblLatExtra3.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtLatExtra3 = new JTextField();
 		txtLatExtra3.setColumns(10);
 
 		lblLonExtra3 = new JLabel("Longtitude: ");
+		lblLonExtra3.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtLonExtra3 = new JTextField();
 		txtLonExtra3.setColumns(10);
 
 		lblIDExtra3 = new JLabel("ID:");
+		lblIDExtra3.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 		txtIDExtra3 = new JTextField();
 		txtIDExtra3.setColumns(10);
 		
 		JLabel lblLatitude_1 = new JLabel("Latitude 2:");
+		lblLatitude_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLat2Extra3 = new JTextField();
 		txtLat2Extra3.setColumns(10);
 		
 		JLabel lblLongtitude_2 = new JLabel("Longtitude 2:");
+		lblLongtitude_2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 		txtLon2Extra3 = new JTextField();
 		txtLon2Extra3.setColumns(10);
@@ -491,23 +514,26 @@ public class GUI extends JFrame {
 		gl_pnlTime.setHorizontalGroup(
 			gl_pnlTime.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlTime.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblStartTime)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtStartTime, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblEndTime)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtEndTime, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)
-					.addGap(161))
-				.addGroup(gl_pnlTime.createSequentialGroup()
 					.addGap(84)
-					.addComponent(lblTimeFormat)
-					.addContainerGap(762, Short.MAX_VALUE))
+					.addGroup(gl_pnlTime.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pnlTime.createSequentialGroup()
+							.addGap(49)
+							.addComponent(lblTimeFormat, GroupLayout.PREFERRED_SIZE, 451, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(gl_pnlTime.createSequentialGroup()
+							.addComponent(lblStartTime)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtStartTime, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblEndTime)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtEndTime, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)
+							.addGap(112))))
 		);
 		gl_pnlTime.setVerticalGroup(
 			gl_pnlTime.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlTime.createSequentialGroup()
+					.addGap(55)
 					.addComponent(lblTimeFormat)
 					.addGap(12)
 					.addGroup(gl_pnlTime.createParallelGroup(Alignment.BASELINE)
@@ -515,7 +541,7 @@ public class GUI extends JFrame {
 						.addComponent(txtStartTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEndTime)
 						.addComponent(txtEndTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(194, Short.MAX_VALUE))
+					.addContainerGap(157, Short.MAX_VALUE))
 		);
 		pnlTime.setLayout(gl_pnlTime);
 
@@ -523,7 +549,7 @@ public class GUI extends JFrame {
 		gl_pnlGPS.setHorizontalGroup(
 			gl_pnlGPS.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGPS.createSequentialGroup()
-					.addContainerGap()
+					.addGap(56)
 					.addGroup(gl_pnlGPS.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblLat)
 						.addComponent(lblLatitude))
@@ -541,11 +567,12 @@ public class GUI extends JFrame {
 							.addComponent(lblLongtitude)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(txtLon2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
+					.addContainerGap(223, Short.MAX_VALUE))
 		);
 		gl_pnlGPS.setVerticalGroup(
 			gl_pnlGPS.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlGPS.createSequentialGroup()
+					.addGap(45)
 					.addGroup(gl_pnlGPS.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtLat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblLat)
@@ -557,36 +584,40 @@ public class GUI extends JFrame {
 						.addComponent(lblLongtitude)
 						.addComponent(txtLon2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblLatitude))
-					.addContainerGap(42, Short.MAX_VALUE))
+					.addContainerGap(135, Short.MAX_VALUE))
 		);
 		pnlGPS.setLayout(gl_pnlGPS);
 
 		
 		GroupLayout gl_pnlID = new GroupLayout(pnlID);
 		gl_pnlID.setHorizontalGroup(
-				gl_pnlID.createParallelGroup(Alignment.LEADING)
+			gl_pnlID.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlID.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblID)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(txtID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(177, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addComponent(lblID)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(863, Short.MAX_VALUE))
+		);
 		gl_pnlID.setVerticalGroup(
-				gl_pnlID.createParallelGroup(Alignment.LEADING)
+			gl_pnlID.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pnlID.createSequentialGroup()
-						.addGroup(gl_pnlID.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblID))
-						.addContainerGap(73, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addGroup(gl_pnlID.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblID))
+					.addContainerGap(332, Short.MAX_VALUE))
+		);
 		pnlID.setLayout(gl_pnlID);
 
 		
 		
 				lblLonExtra = new JLabel("Longtitude:");
+				lblLonExtra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		
 				lblEndTimeExtra = new JLabel("End Time: ");
+				lblEndTimeExtra.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+				
 		GroupLayout gl_pnlGPSTime = new GroupLayout(pnlGPSTime);
 		gl_pnlGPSTime.setHorizontalGroup(
 			gl_pnlGPSTime.createParallelGroup(Alignment.LEADING)
@@ -801,71 +832,111 @@ public class GUI extends JFrame {
 						.addComponent(txtIDExtra3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
+		
 		pnlTimeGPSID.setLayout(gl_pnlTimeGPSID);
-	
-		GroupLayout gl_pnlFirstAlgo = new GroupLayout(pnlFirstAlgo);
-		gl_pnlFirstAlgo.setHorizontalGroup(
-				gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-										.addComponent(lblMacAddress)
-										.addGap(23))
-								.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-										.addComponent(lblNumberOfScans)
-										.addPreferredGap(ComponentPlacement.RELATED)))
-						.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtMacAddress, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-								.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-		gl_pnlFirstAlgo.setVerticalGroup(
-				gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblMacAddress)
-								.addComponent(txtMacAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pnlFirstAlgo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-										.addGap(7)
-										.addComponent(slNumOfScans, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pnlFirstAlgo.createSequentialGroup()
-										.addGap(18)
-										.addComponent(lblNumberOfScans)))
-						.addContainerGap())
-				);
-		pnlFirstAlgo.setLayout(gl_pnlFirstAlgo);
-		pnlCardsFilters.add(pnlScndAlgo);
-		pnlOptions.setLayout(gl_pnlOptions);
+		
 		contentPane.setLayout(null);
 		contentPane.add(btRun);
-		contentPane.add(pnlOptions);
 		contentPane.add(rdbtnCalculateNetworksLocation);
 		contentPane.add(rdbtnCalculateClientsLocation);
 		contentPane.add(pnlCardsFilters);
 		
 				pnlFilter = new JPanel();
-				pnlFilter.setBounds(0, 0, 914, 71);
+				pnlFilter.setBackground(new Color(240, 248, 255));
+				pnlFilter.setBounds(0, 0, 767, 191);
 				pnlCardsFilters.add(pnlFilter);
 				chckbxTime = new JCheckBox("Time");
-				chckbxTime.setBounds(15, 5, 133, 53);
+				chckbxTime.setBackground(new Color(240, 248, 255));
+				chckbxTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
+				chckbxTime.setBounds(0, 5, 133, 53);
 				
 						chckbxGPS = new JCheckBox("GPS Coordinates");
+						chckbxGPS.setBackground(new Color(240, 248, 255));
+						chckbxGPS.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 						chckbxGPS.setBounds(175, 5, 321, 53);
 						
 						
 								chckbxID = new JCheckBox("Device ID");
+								chckbxID.setBackground(new Color(240, 248, 255));
+								chckbxID.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 								chckbxID.setBounds(523, 5, 209, 53);
 												pnlFilter.setLayout(null);
 												pnlFilter.add(chckbxTime);
 												pnlFilter.add(chckbxGPS);
 												pnlFilter.add(chckbxID);
+												
+												algo1 = new JPanel();
+												algo1.setBounds(0, 0, 767, 243);
+												pnlCardsFilters.add(algo1);
+												
+												label = new JLabel("MAC Address:");
+												
+												label_1 = new JLabel("Number of scans: ");
+												
+												textField = new JTextField();
+												textField.setColumns(10);
+												
+												slider = new JSlider();
+												slider.setPaintLabels(true);
+												slider.setValue(3);
+												slider.setSnapToTicks(true);
+												slider.setPaintTicks(true);
+												slider.setMinorTickSpacing(1);
+												slider.setMinimum(1);
+												slider.setMaximum(5);
+												slider.setMajorTickSpacing(1);
+												slider.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+												GroupLayout gl_panel = new GroupLayout(algo1);
+												gl_panel.setHorizontalGroup(
+													gl_panel.createParallelGroup(Alignment.LEADING)
+														.addGap(0, 914, Short.MAX_VALUE)
+														.addGroup(gl_panel.createSequentialGroup()
+															.addContainerGap()
+															.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+																.addGroup(gl_panel.createSequentialGroup()
+																	.addComponent(label)
+																	.addGap(23))
+																.addGroup(gl_panel.createSequentialGroup()
+																	.addComponent(label_1)
+																	.addPreferredGap(ComponentPlacement.RELATED)))
+															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+																.addComponent(textField, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+																.addComponent(slider, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
+															.addContainerGap(384, Short.MAX_VALUE))
+												);
+												gl_panel.setVerticalGroup(
+													gl_panel.createParallelGroup(Alignment.LEADING)
+														.addGap(0, 243, Short.MAX_VALUE)
+														.addGroup(gl_panel.createSequentialGroup()
+															.addContainerGap()
+															.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+																.addComponent(label)
+																.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_panel.createSequentialGroup()
+																	.addGap(7)
+																	.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+																.addGroup(gl_panel.createSequentialGroup()
+																	.addGap(18)
+																	.addComponent(label_1)))
+															.addContainerGap())
+												);
+												algo1.setLayout(gl_panel);
+												
+												algo2 = new Panel();
+												algo2.setBounds(0, 0, 593, 191);
+												pnlCardsFilters.add(algo2);
 		contentPane.add(pnlAddOptions);
 		contentPane.add(scrConsole);
+		
+		JLabel lblFilters = DefaultComponentFactory.getInstance().createTitle("Filters:");
+		lblFilters.setFont(new Font("Monotype Corsiva", Font.PLAIN, 45));
+		lblFilters.setBounds(40, 86, 298, 45);
+		contentPane.add(lblFilters);
 
 	}
+	
+	
 
 	//////////////////////////////////////////////////////////////
 	// This method contains all of the code for creating events
@@ -978,16 +1049,38 @@ public class GUI extends JFrame {
 				}
 			}
 		});
+		
+	/*****************here you need to work on layout*******************/
+		
+			mntmNL.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+								if(mergedList.isEmpty()) System.out.println("Don't have data to calculate network loction");
+								else{
+									CardLayout cardLayout = (CardLayout) pnlCardsFilters.getLayout();
+									cardLayout.show(pnlCardsFilters, "algo1");
+									filteredList=mergedList.copy();
+									
+								
+									/***********here i need to read mac and id***********/
+									String mac=textField.getText();
+									int numOfNet=slider.getExtent();
+									try {
+										RowOfWifiPoints a=LocationRevaluation.centerOfRouter1(filteredList, mac, numOfNet);
+										filteredList=new ListOfWifiRows();
+										filteredList.add(a);
+									} catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									filteredList.Print();
+								}
+								
+							}
+					
+				}
+			);
 
-
-/***********work on this*******/
-		rdbtnCalculateNetworksLocation.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cardLayout = (CardLayout) pnlCardsFilters.getLayout();
-				cardLayout.show(pnlCardsFilters, "firstAlgo");
-
-			}
-		});
 
 
 		chckbxTime.addActionListener(new ActionListener() {
@@ -1127,111 +1220,6 @@ public class GUI extends JFrame {
 
 
 
-
-
-//		btnCreateMergedCsv.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				if(chckbxGPS.isSelected()) 
-//				{
-//					try {
-//						Coordinates_3D a=new Coordinates_3D(txtLat.getText(), txtLon.getText(), "0");
-//						Coordinates_3D b=new Coordinates_3D(txtLat2.getText(), txtLon2.getText(), "0");
-//						filter coor=new Position_Filter_Rect(a,b);
-//						filteredList.filter(coor);
-//						} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxGPS.isSelected() && chckbxTime.isSelected())
-//				{
-//					try {
-//						
-//						filter time=new Time_Filter(txtStartTimeExtra.getText(),txtEndTimeExtra.getText());
-//						filteredList.filter(time);
-//						
-//						//here you need to change it to rect filter
-//						filteredList = Filters.filteringByCoordinates(filteredList, txtLatExtra.getText(), txtLonExtra.getText());
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxTime.isSelected())
-//				{
-//					try {
-//						filteredList = mergedList.copy();
-//						filter time=new Time_Filter(txtStartTime.getText(),txtEndTime.getText());
-//						filteredList.filter(time);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxGPS.isSelected() && chckbxID.isSelected() && chckbxTime.isSelected())
-//				{
-//					try {
-//						filter id=new Id_Filter(txtIDExtra3.getText());
-//						filter time=new Time_Filter(txtStartTimeExtra3.getText(),txtEndTimeExtra3.getText());
-//						filter and=new And_Filter(id,time);
-//						filteredList.filter(and);
-//						
-//						//here you need to change it to rect filter
-//						filteredList = Filters.filteringByCoordinates(filteredList, txtLatExtra3.getText(), txtLonExtra3.getText());
-//						
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxGPS.isSelected() && chckbxID.isSelected())
-//				{
-//					try {
-//						filter id=new Id_Filter(txtIDExtra.getText());
-//						filteredList.filter(id);
-//						//here you need to change it to rect filter
-//						filteredList = Filters.filteringByCoordinates(mergedList, txtLatExtra2.getText(), txtLonExtra2.getText());
-//						
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxTime.isSelected() && chckbxID.isSelected())
-//				{
-//					try {
-//						filteredList = mergedList.copy();
-//						filter id=new Id_Filter(txtIDExtra2.getText());
-//						filter time=new Time_Filter(txtStartTimeExtra2.getText(),txtEndTimeExtra2.getText());
-//						filter and=new And_Filter(id,time);
-//						filteredList.filter(and);
-//
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				else if(chckbxID.isSelected())
-//				{
-//					try {
-//						filter id=new Id_Filter(txtID.getText());
-//						filteredList.filter(id);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//				filteredList.Print();
-//
-//				FileChooser saveFile = new FileChooser();
-//				saveFile.fileChooser.setFileSelectionMode(0);
-//				if(saveFile.fileChooser.showSaveDialog(getParent()) == JFileChooser.APPROVE_OPTION)
-//				{
-//					try {
-//						String test=saveFile.fileChooser.getSelectedFile().getAbsolutePath()+".csv";
-//						filteredList.save_to_csv(test);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//				}
-//
-//			}
-//		});
-
 		btRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(mergedList.isEmpty()){
@@ -1253,12 +1241,12 @@ public class GUI extends JFrame {
 				else if(chckbxGPS.isSelected() && chckbxTime.isSelected())
 				{
 					try {
-						
+						Coordinates_3D a=new Coordinates_3D(txtStartTimeExtra.getText(), txtEndTimeExtra.getText(), "0");
+						Coordinates_3D b=new Coordinates_3D(txtLat2Extra.getText(), txtLon2Extra.getText(), "0");
 						filter time=new Time_Filter(txtStartTimeExtra.getText(),txtEndTimeExtra.getText());
-						filteredList.filter(time);
-						
-						//here you need to change it to rect filter
-						filteredList = Filters.filteringByCoordinates(filteredList, txtLatExtra.getText(), txtLonExtra.getText());
+						filter coor=new Position_Filter_Rect(a,b);
+						filter and=new And_Filter(coor,time);
+						filteredList.filter(and);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -1275,13 +1263,14 @@ public class GUI extends JFrame {
 				else if(chckbxGPS.isSelected() && chckbxID.isSelected() && chckbxTime.isSelected())
 				{
 					try {
+						Coordinates_3D a=new Coordinates_3D(txtLatExtra3.getText(), txtLonExtra3.getText(), "0");
+						Coordinates_3D b=new Coordinates_3D(txtLat2Extra3.getText(), txtLon2Extra3.getText(), "0");
+						filter coor=new Position_Filter_Rect(a,b);
 						filter id=new Id_Filter(txtIDExtra3.getText());
 						filter time=new Time_Filter(txtStartTimeExtra3.getText(),txtEndTimeExtra3.getText());
 						filter and=new And_Filter(id,time);
-						filteredList.filter(and);
-						
-						//here you need to change it to rect filter
-						filteredList = Filters.filteringByCoordinates(filteredList, txtLatExtra3.getText(), txtLonExtra3.getText());
+						filter and2=new And_Filter(and,coor);
+						filteredList.filter(and2);
 						
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -1290,10 +1279,13 @@ public class GUI extends JFrame {
 				else if(chckbxGPS.isSelected() && chckbxID.isSelected())
 				{
 					try {
+						Coordinates_3D a=new Coordinates_3D(txtLatExtra2.getText(), txtLonExtra2.getText(), "0");
+						Coordinates_3D b=new Coordinates_3D(txtLat2Extra2.getText(), txtLon2Extra2.getText(), "0");
+						filter coor=new Position_Filter_Rect(a,b);
 						filter id=new Id_Filter(txtIDExtra.getText());
-						filteredList.filter(id);
-						//here you need to change it to rect filter
-						filteredList = Filters.filteringByCoordinates(mergedList, txtLatExtra2.getText(), txtLonExtra2.getText());
+						filter and=new And_Filter(id,coor);
+						filteredList.filter(and);
+
 						
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -1330,13 +1322,6 @@ public class GUI extends JFrame {
 		});
 
 
-		//		rdbtnCalculateClientsLocation.addActionListener(new ActionListener() {
-		//			public void actionPerformed(ActionEvent arg0) {
-		//				firstAlgo();
-		//				pnlFilterTitle = "Choose network:";
-		//				pnlFilter.setBorder(new TitledBorder(null, pnlFilterTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		//
-		//			}
-		//		});
+	
 	}
 }

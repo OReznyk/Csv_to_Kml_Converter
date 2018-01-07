@@ -29,8 +29,9 @@ public class LocationRevaluation {
 	public static ListOfWifiRows centerOfRouter(String csvFileWithFilters,String csvFileToRun, int numOfPointsToUseForCheckup ) throws Exception{
 		ArrayList<String>mac=ReaderFromCsv.createListOfMacsFromCSVFile(csvFileWithFilters);
 		ListOfWifiRows listToPrint=new ListOfWifiRows();
+		ListOfWifiRows listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFileToRun);
 		for (int i = 0; i < mac.size(); i++) {
-			RowOfWifiPoints r=centerOfRouter1(csvFileToRun,mac.get(i), numOfPointsToUseForCheckup);
+			RowOfWifiPoints r=centerOfRouter1(listToFilter,mac.get(i), numOfPointsToUseForCheckup);
 			if(r!=null) listToPrint.add(r);
 		}
 
@@ -94,15 +95,15 @@ public class LocationRevaluation {
 	
 	/**
 	 * Function to found location of router by Mac
-	 * @param csvFile address of merged csv with collected data
+	 * @param listToFilter of merged csv with collected data
 	 * @param MAC mac filter
 	 * @param numOfPointsToUseForChekup number of most powerful wifi points you want me to use in calculation
 	 * @return RowOfWifiPoint with coordinates of router
 	 * @throws Exception
 	 */
-	private static RowOfWifiPoints centerOfRouter1(String csvFile,String mac, int numOfPointsToUseForChekup ) throws Exception{
+	public static RowOfWifiPoints centerOfRouter1(ListOfWifiRows listToFilter,String mac, int numOfPointsToUseForChekup ) throws Exception{
 		ListOfWifiRows listToPrint=new ListOfWifiRows();
-		ListOfWifiRows listToFilter=ReaderFromCsv.readerFromMergedCSVtoList(csvFile);
+		
 		return 	centerPoint(Filters.filterByMostPowerfulWifiSignals(Filters.filteringArrayByMAC(listToFilter, listToPrint, mac, 0), numOfPointsToUseForChekup));
 		
 	}

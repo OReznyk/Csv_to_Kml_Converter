@@ -16,7 +16,9 @@ public class Time_Filter implements filter{
 public boolean test(RowOfWifiPoints f) {
 	boolean ans = false;
 	if(f!=null) {
-		ans=f.date.betweenDates(_start, _end);
+		return f.date.sameDate(_start) ||
+		f.date.sameDate(_end) ||
+		f.date.betweenDates(_start, _end);
 	}
 	return ans;
 }
