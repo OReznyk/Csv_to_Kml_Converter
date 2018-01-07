@@ -1041,30 +1041,10 @@ public class GUI extends JFrame {
 			mntmNL.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-								if(mergedList.isEmpty()) System.out.println("Don't have data to calculate network loction");
-								else{
 									CardLayout cardLayout = (CardLayout) pnlCardsFilters.getLayout();
 									cardLayout.show(pnlCardsFilters, "algo1");
-									filteredList=mergedList.copy();
-									
-								
-									/***********here i need to read mac and id***********/
-									String mac=textField.getText();
-									int numOfNet=slider.getExtent();
-									try {
-										RowOfWifiPoints a=LocationRevaluation.centerOfRouter1(filteredList, mac, numOfNet);
-										filteredList=new ListOfWifiRows();
-										filteredList.add(a);
-									} catch (Exception e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-									filteredList.Print();
-								}
-								
-							}
-					
-				}
+							
+				}}
 			);
 
 
@@ -1213,6 +1193,19 @@ public class GUI extends JFrame {
 				}
 				else{
 					filteredList=mergedList.copy();
+					
+					if((mac=textField.getText())!=null){
+					int numOfNet=slider.getValue();
+					try {
+						RowOfWifiPoints a=LocationRevaluation.centerOfRouter1(filteredList, mac, numOfNet);
+						filteredList=new ListOfWifiRows();
+						filteredList.add(a);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
 				if(chckbxGPS.isSelected()) 
 				{
 					try {
@@ -1301,7 +1294,6 @@ public class GUI extends JFrame {
 				if(filteredList.isEmpty())System.out.println("Don't have data like this");
 				else{System.out.println();
 				filteredList.Print();
-				System.out.println();
 				}
 				}
 			}
