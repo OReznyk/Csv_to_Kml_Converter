@@ -120,7 +120,7 @@ public class LocationRevaluation {
 	 * @throws Exception
 	 */
 	
-	private static RowOfWifiPoints yourLocation(ListOfWifiRows listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
+	public static RowOfWifiPoints yourLocation(ListOfWifiRows listToFilter,ArrayList<String>mac,ArrayList<Signal>signal,int numOfPointsToUseForChekup ) throws Exception{
 		ListOfWifiRows listToPrint=new ListOfWifiRows();
 		int count=0;
 		
@@ -129,24 +129,16 @@ public class LocationRevaluation {
 			listToPrint=Filters.filteringArrayByMAC(listToFilter, listToPrint, mac.get(count), count);
 			count++;
 		}
-		System.out.println();
-		for (int i = 0; i < listToPrint.size(); i++) {
-			System.out.println(listToPrint.get(i).toString());
-		}
 		
-		System.out.println("Match");
+		
 		/***************calculating match of row************************/
 		listToPrint=matchBySignal(listToPrint,mac,signal);
-		for (int i = 0; i < listToPrint.size(); i++) {
-			System.out.println(listToPrint.get(i).toString());
-		}
+	
 
-		System.out.println("pow");
+		
 		/***************filtering "numOfPointsToUseForChekup" most matched rows************************/
 		listToPrint=Filters.filterByMostPowerfulWifiSignals(listToPrint, numOfPointsToUseForChekup);
-		for (int i = 0; i < listToPrint.size(); i++) {
-			System.out.println(listToPrint.get(i).toString());
-		}
+	
 		/***************calculating coordinates of device for this row************************/
 		return centerPoint(listToPrint);
 	}

@@ -8,7 +8,7 @@ package WifiData;
 public class Signal {
 	public double signal;
 	
-Signal(String signal){
+public Signal(String signal){
 	this.signal=Double.parseDouble(signal);
 }
 
