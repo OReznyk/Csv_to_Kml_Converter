@@ -60,7 +60,7 @@ public class MessageConsole
 	 *  it is also written to the PrintStream.
 	 */
 	public void redirectOut(Color textColor, PrintStream printStream)
-	{	System.out.println("Out");
+	{	
 		ConsoleOutputStream cos = new ConsoleOutputStream(textColor, printStream);
 		System.setOut( new PrintStream(cos, true) );
 	}

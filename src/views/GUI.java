@@ -27,6 +27,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -770,7 +771,11 @@ public class GUI extends JFrame {
 
 		pnlMainBlank = new JPanel();
 		pnlMainBlank.setBackground(new Color(240, 248, 255));
+		pnlMainBlank.setLayout(null);
 		pnlMainCards.add(pnlMainBlank, "pnlMainBlank");
+		JLabel label_2 = new JLabel(new ImageIcon("source.gif"));
+		label_2.setBounds(105, -27, 540, 450);
+		pnlMainBlank.add(label_2);
 
 		pnlAlgo2 = new JPanel();
 		pnlAlgo2.setBackground(new Color(240, 248, 255));
