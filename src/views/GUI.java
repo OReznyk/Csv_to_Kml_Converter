@@ -75,6 +75,7 @@ public class GUI extends JFrame {
 	private ArrayList<String> listOfFiles;
 	private ListOfWifiRows mergedList = new ListOfWifiRows();
 	private ListOfWifiRows filteredList;
+	private FolderWatcher folderWatcher;
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -225,6 +226,7 @@ public class GUI extends JFrame {
 		setBounds(50,50, 1408, 905);
 
 		csvFolder = new FileChooser();
+
 
 
 		menuBar = new JMenuBar();
@@ -881,9 +883,9 @@ public class GUI extends JFrame {
 		btnDisableFilters.setBackground(new Color(255, 182, 193));
 		btnDisableFilters.setBounds(1064, 227, 221, 53);
 		contentPane.add(btnDisableFilters);
-	
-}
-	
+
+	}
+
 
 
 
@@ -903,6 +905,14 @@ public class GUI extends JFrame {
 				if(csvFolder.fileChooser.showOpenDialog(mntmOpenFolder) == JFileChooser.APPROVE_OPTION) 
 				{
 					csvFolderAbsPath = csvFolder.fileChooser.getSelectedFile().getAbsolutePath();
+					try {
+						folderWatcher = new FolderWatcher(csvFolder.fileChooser.getSelectedFile().toPath());
+					} catch (Exception e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
+					Thread folderWatcherThread = new Thread(folderWatcher);
+					folderWatcherThread.start();
 					File temp = new File(csvFolderAbsPath);
 					if(temp.isDirectory())
 					{
@@ -1177,7 +1187,7 @@ public class GUI extends JFrame {
 				if(mergedList.isEmpty()){
 					System.out.println("Don't have data to work with");
 				}
-				
+
 				else{
 					if (pnlFilters.isVisible()) {
 
@@ -1194,7 +1204,7 @@ public class GUI extends JFrame {
 								e1.printStackTrace();
 							}
 						}
-					
+
 						else if(chckbxGPS.isSelected() && chckbxTime.isSelected())
 						{
 							try {
@@ -1341,7 +1351,7 @@ public class GUI extends JFrame {
 					else filteredList.Print();
 				}
 			}
-			});
+		});
 		btnDisableFilters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filteredList=mergedList.copy();
@@ -1357,6 +1367,6 @@ public class GUI extends JFrame {
 				System.out.println("All data deleted");
 			}
 		});
-			}
-		
+	}
+
 }
