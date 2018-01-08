@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
+import Tools.ReaderFromCsv;
+import WifiData.ListOfWifiRows;
 
 public class FolderWatcher implements Runnable {
-
+	private static int test;
 	private static Map<WatchKey, Path> keyPathMap = new HashMap<>();
 	private static Path path;
 
@@ -65,8 +67,10 @@ public class FolderWatcher implements Runnable {
 			WatchKey queuedKey = watchService.take();
 			for (WatchEvent<?> watchEvent : queuedKey.pollEvents()) {
 
-				event = "("+watchEvent.kind()+") "+watchEvent.context()+", in folder: "+path.toAbsolutePath().toString();				
+				event = "("+watchEvent.kind()+") "+watchEvent.context()+", in folder: "+path.toAbsolutePath().toString();	
 				System.out.println(event);
+				test=1;
+				
 
 				if (watchEvent.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
 					//this is not a complete path
@@ -75,9 +79,10 @@ public class FolderWatcher implements Runnable {
 					Path parentPath = keyPathMap.get(queuedKey);
 					//get complete path
 					path = parentPath.resolve(path);
-
 					registerDir(path, watchService);
 				}
+				
+				
 			}
 			if(!queuedKey.reset()){
 				keyPathMap.remove(queuedKey);
@@ -86,6 +91,14 @@ public class FolderWatcher implements Runnable {
 				break;
 			}
 		}
+	}
+
+	public static int getTest() {
+		return test;
+	}
+
+	public static void setTest(int test) {
+		FolderWatcher.test = test;
 	}
 
 	

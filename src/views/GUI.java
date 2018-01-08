@@ -67,16 +67,14 @@ import java.awt.Font;
 public class GUI extends JFrame {
 
 	private String csvFolderAbsPath;
-	private ListOfWifiRows filteringList = new ListOfWifiRows();
 	private String lat, lon, startTime, endTime, mac;
 	private FileChooser csvFolder;
 	private FileChooser SaveCSV;
 	private FileChooser SaveKML;
 	private ArrayList<String> listOfFiles;
-	private ListOfWifiRows mergedList = new ListOfWifiRows();
+	public static  ListOfWifiRows mergedList ;
 	private ListOfWifiRows filteredList;
 	private FolderWatcher folderWatcher;
-
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JPanel pnlOptions;
@@ -222,6 +220,9 @@ public class GUI extends JFrame {
 	//	@SuppressWarnings("static-access")
 	private void initComponents()
 	{
+
+		mergedList = new ListOfWifiRows();
+		filteredList = new ListOfWifiRows();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50,50, 1408, 905);
 
@@ -582,7 +583,7 @@ public class GUI extends JFrame {
 		txtLon2Extra3.setBounds(530, 117, 187, 30);
 		txtLon2Extra3.setColumns(10);
 
-		//lblTimeFormat.setVisible(true);
+	
 		lblTimeFormat.setEnabled(true);
 		GroupLayout gl_pnlTime = new GroupLayout(pnlTime);
 		gl_pnlTime.setHorizontalGroup(
@@ -897,8 +898,6 @@ public class GUI extends JFrame {
 		CardLayout cardLayout = (CardLayout) pnlMainCards.getLayout();
 		cardLayout.show(pnlMainCards, "pnlMainBlank");
 
-		filteredList = new ListOfWifiRows();
-
 		mntmOpenFolder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -1183,7 +1182,20 @@ public class GUI extends JFrame {
 
 
 		btRun.addActionListener(new ActionListener() {
+			int test=0;
 			public void actionPerformed(ActionEvent e) {
+				if(FolderWatcher.getTest()==1){
+					try {
+						mergedList = ReaderFromCsv.notSortedFileToArrayListOfTenMostPowerfulWifiPoints(ReaderFromCsv.getAllcsvFilesFromFolder(csvFolderAbsPath));
+						filteredList=mergedList.copy();
+						System.out.println("Data refreshed");
+						FolderWatcher.setTest(0);
+						test=1;
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 				if(mergedList.isEmpty()){
 					System.out.println("Don't have data to work with");
 				}
@@ -1346,9 +1358,10 @@ public class GUI extends JFrame {
 							txtMac2.setText(null);txtSignal2.setText(null);
 							txtMac3.setText(null);txtSignal3.setText(null);
 						}
+						if(filteredList.isEmpty())System.out.println("Don't have data like this");
+						else filteredList.Print();
 					}
-					if(filteredList.isEmpty())System.out.println("Don't have data like this");
-					else filteredList.Print();
+					
 				}
 			}
 		});
