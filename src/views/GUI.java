@@ -63,6 +63,9 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
+import javax.swing.JComboBox;
+import java.awt.Choice;
+import java.awt.Checkbox;
 
 public class GUI extends JFrame {
 
@@ -176,6 +179,12 @@ public class GUI extends JFrame {
 	private JSlider Algo2slider;
 	private JButton btnDisableFilters;
 	private JMenuItem mntmDeliteData;
+	private JCheckBox chckbxNot;
+	private JCheckBox chckbxOr;
+	private JCheckBox chckbxAnd;
+	private JRadioButton radioButton;
+	private JRadioButton radioButton_1;
+	private JRadioButton radioButton_2;
 
 
 	/**
@@ -326,21 +335,21 @@ public class GUI extends JFrame {
 		pnlMainCards.add(pnlFilters, "pnlFilters");
 
 		JLabel lblFilters = DefaultComponentFactory.getInstance().createTitle("Filters:");
-		lblFilters.setBounds(35, 38, 116, 52);
+		lblFilters.setBounds(35, 32, 116, 52);
 		lblFilters.setFont(new Font("Monotype Corsiva", Font.PLAIN, 45));
 
 		chckbxGPS = new JCheckBox("GPS Coordinates");
-		chckbxGPS.setBounds(204, 97, 280, 53);
+		chckbxGPS.setBounds(204, 105, 280, 53);
 		chckbxGPS.setBackground(new Color(240, 248, 255));
 		chckbxGPS.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 		chckbxTime = new JCheckBox("Time");
-		chckbxTime.setBounds(35, 97, 131, 53);
+		chckbxTime.setBounds(35, 105, 131, 53);
 		chckbxTime.setBackground(new Color(240, 248, 255));
 		chckbxTime.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
 
 		chckbxID = new JCheckBox("Device ID");
-		chckbxID.setBounds(511, 97, 195, 53);
+		chckbxID.setBounds(511, 105, 195, 53);
 		chckbxID.setBackground(new Color(240, 248, 255));
 		chckbxID.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
 
@@ -733,6 +742,28 @@ public class GUI extends JFrame {
 		pnlFilters.add(chckbxTime);
 		pnlFilters.add(chckbxGPS);
 		pnlFilters.add(chckbxID);
+		
+		chckbxAnd = new JCheckBox("And");
+		chckbxAnd.setEnabled(false);
+		
+		chckbxAnd.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 37));
+		chckbxAnd.setBackground(new Color(240, 248, 255));
+		chckbxAnd.setBounds(204, 34, 131, 53);
+		pnlFilters.add(chckbxAnd);
+		
+		chckbxOr = new JCheckBox("OR");
+		chckbxOr.setEnabled(false);
+		chckbxOr.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 37));
+		chckbxOr.setBackground(new Color(240, 248, 255));
+		chckbxOr.setBounds(344, 34, 131, 53);
+		pnlFilters.add(chckbxOr);
+		
+		chckbxNot = new JCheckBox("Not");
+		chckbxNot.setSelected(true);
+		chckbxNot.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 37));
+		chckbxNot.setBackground(new Color(240, 248, 255));
+		chckbxNot.setBounds(470, 34, 131, 53);
+		pnlFilters.add(chckbxNot);
 
 		pnlAlgo1 = new JPanel();
 		pnlAlgo1.setBackground(new Color(240, 248, 255));
@@ -785,7 +816,7 @@ public class GUI extends JFrame {
 		pnlMainCards.add(pnlAlgo2, "pnlAlgo2");
 
 		lblCalculateClientsLocation = new JLabel("Calculate client's location:");
-		lblCalculateClientsLocation.setBounds(35, 38, 280, 35);
+		lblCalculateClientsLocation.setBounds(24, 18, 280, 35);
 		lblCalculateClientsLocation.setFont(new Font("Monotype Corsiva", Font.PLAIN, 30));
 
 		lblClientsId = new JLabel("Clients ID:");
@@ -813,10 +844,12 @@ public class GUI extends JFrame {
 		txtMac1.setColumns(10);
 
 		txtMac2 = new JTextField();
+		txtMac2.setEnabled(false);
 		txtMac2.setBounds(180, 265, 170, 29);
 		txtMac2.setColumns(10);
 
 		txtMac3 = new JTextField();
+		txtMac3.setEnabled(false);
 		txtMac3.setBounds(180, 322, 170, 29);
 		txtMac3.setColumns(10);
 
@@ -837,10 +870,12 @@ public class GUI extends JFrame {
 		txtSignal1.setColumns(10);
 
 		txtSignal2 = new JTextField();
+		txtSignal2.setEnabled(false);
 		txtSignal2.setBounds(498, 265, 200, 29);
 		txtSignal2.setColumns(10);
 
 		txtSignal3 = new JTextField();
+		txtSignal3.setEnabled(false);
 		txtSignal3.setBounds(498, 322, 200, 29);
 		txtSignal3.setColumns(10);
 		pnlAlgo2.setLayout(null);
@@ -862,7 +897,7 @@ public class GUI extends JFrame {
 
 		JLabel lblNumber = new JLabel("Number of scans: ");
 		lblNumber.setFont(new Font("Monotype Corsiva", Font.PLAIN, 30));
-		lblNumber.setBounds(180, 81, 215, 45);
+		lblNumber.setBounds(498, 46, 200, 45);
 		pnlAlgo2.add(lblNumber);
 
 		Algo2slider = new JSlider();
@@ -876,8 +911,32 @@ public class GUI extends JFrame {
 		Algo2slider.setMinimum(1);
 		Algo2slider.setMajorTickSpacing(1);
 		Algo2slider.setMaximum(5);
-		Algo2slider.setBounds(498, 70, 200, 90);
+		Algo2slider.setBounds(498, 93, 200, 90);
 		pnlAlgo2.add(Algo2slider);
+		
+		radioButton = new JRadioButton("1");
+		radioButton.setSelected(true);
+		radioButton.setFont(new Font("Monotype Corsiva", Font.PLAIN, 40));
+		radioButton.setBackground(new Color(240, 248, 255));
+		radioButton.setBounds(180, 76, 71, 50);
+		pnlAlgo2.add(radioButton);
+		
+		radioButton_1 = new JRadioButton("2");
+		radioButton_1.setFont(new Font("Monotype Corsiva", Font.PLAIN, 40));
+		radioButton_1.setBackground(new Color(240, 248, 255));
+		radioButton_1.setBounds(278, 76, 71, 50);
+		pnlAlgo2.add(radioButton_1);
+		
+		radioButton_2 = new JRadioButton("3");
+		radioButton_2.setFont(new Font("Monotype Corsiva", Font.PLAIN, 40));
+		radioButton_2.setBackground(new Color(240, 248, 255));
+		radioButton_2.setBounds(376, 76, 71, 50);
+		pnlAlgo2.add(radioButton_2);
+		
+		JLabel lblMacs = new JLabel("Macs:");
+		lblMacs.setFont(new Font("Monotype Corsiva", Font.PLAIN, 30));
+		lblMacs.setBounds(73, 77, 71, 45);
+		pnlAlgo2.add(lblMacs);
 
 		btnDisableFilters = new JButton("Disable filters");
 		btnDisableFilters.setFont(new Font("Monotype Corsiva", Font.PLAIN, 37));
@@ -898,6 +957,7 @@ public class GUI extends JFrame {
 		CardLayout cardLayout = (CardLayout) pnlMainCards.getLayout();
 		cardLayout.show(pnlMainCards, "pnlMainBlank");
 
+		
 		mntmOpenFolder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -1018,7 +1078,92 @@ public class GUI extends JFrame {
 
 		/*****************here you need to work on layout*******************/
 
-
+		chckbxAnd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxAnd.isSelected()){
+					chckbxOr.setEnabled(false);
+					chckbxNot.setEnabled(false);
+					chckbxOr.setSelected(false);
+					chckbxNot.setSelected(false);
+				}
+				else {
+					chckbxNot.setEnabled(true);
+					chckbxOr.setEnabled(true);
+				}
+			}
+		});
+		chckbxOr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxOr.isSelected()){
+					chckbxAnd.setEnabled(false);
+					chckbxNot.setEnabled(false);
+					chckbxAnd.setSelected(false);
+					chckbxNot.setSelected(false);
+				}
+				else {
+					chckbxAnd.setEnabled(true);
+					chckbxNot.setEnabled(true);
+				}
+			}
+		});
+		chckbxNot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxNot.isSelected()){
+					chckbxAnd.setEnabled(false);
+					chckbxOr.setEnabled(false);
+					chckbxAnd.setSelected(false);
+					chckbxOr.setSelected(false);
+				}
+				else {
+					chckbxAnd.setEnabled(true);
+					chckbxOr.setEnabled(true);
+				}
+			}
+		});
+		radioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(radioButton.isSelected()) {
+					radioButton_1.setSelected(false);
+					radioButton_2.setSelected(false);
+					txtMac2.setEnabled(false); txtSignal2.setEnabled(false);
+					txtMac3.setEnabled(false); txtSignal3.setEnabled(false);
+				}
+			}
+		});
+		radioButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(radioButton_1.isSelected()) {
+					radioButton.setSelected(false);
+					radioButton_2.setSelected(false);
+					txtMac2.setEnabled(true); txtSignal2.setEnabled(true);
+					txtMac3.setEnabled(false); txtSignal3.setEnabled(false);
+				}
+				else {
+					radioButton.setSelected(true);
+					radioButton_2.setSelected(false);
+					txtMac2.setEnabled(false); txtSignal2.setEnabled(false);
+				}
+			}
+		});
+		
+		radioButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(radioButton_2.isSelected()) {
+					radioButton_1.setSelected(false);
+					radioButton.setSelected(false);
+					txtMac2.setEnabled(true); txtSignal2.setEnabled(true);
+					txtMac3.setEnabled(true); txtSignal3.setEnabled(true);
+				}
+				else {
+					radioButton.setSelected(true);
+					radioButton_1.setSelected(false);
+					txtMac2.setEnabled(false); txtSignal2.setEnabled(false);
+					txtMac3.setEnabled(false); txtSignal3.setEnabled(false);
+				}
+			}
+		});
+		
+		
 		mntmFilters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cardLayout = (CardLayout) pnlMainCards.getLayout();
@@ -1049,16 +1194,37 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(!chckbxTime.isSelected()){
+					if(chckbxID.isSelected() && chckbxGPS.isSelected()){
+						chckbxOr.setEnabled(true);
+						chckbxAnd.setEnabled(true);
+					}
+					else {
+						chckbxOr.setEnabled(false);
+						chckbxAnd.setEnabled(false);
+						chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+					}
+				}
 				if(chckbxTime.isSelected())
 				{
+					if(chckbxGPS.isSelected() || chckbxID.isSelected()){
+						chckbxOr.setEnabled(true);
+						chckbxAnd.setEnabled(true);
+					}
+					else {
+						chckbxOr.setEnabled(false);
+						chckbxAnd.setEnabled(false);
+						chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+					}
 					CardLayout cardLayout = (CardLayout) pnlAddOptions.getLayout();
 					cardLayout.show(pnlAddOptions, "Time");
 					if(chckbxGPS.isSelected() && chckbxID.isSelected())
 					{
+
 						cardLayout.show(pnlAddOptions, "TimeGPSID");
 					}
 					else if(chckbxGPS.isSelected())
-					{
+					{	
 						cardLayout.show(pnlAddOptions, "GPSTime");
 					}
 					else if(chckbxID.isSelected())
@@ -1094,20 +1260,42 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(!chckbxGPS.isSelected()){
+					if(chckbxTime.isSelected() && chckbxID.isSelected()){
+						chckbxOr.setEnabled(true);
+						chckbxAnd.setEnabled(true);
+					}
+					else {
+						chckbxOr.setEnabled(false);
+						chckbxAnd.setEnabled(false);
+						chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+					}
+				}
 				if(chckbxGPS.isSelected())
 				{
+					if(chckbxTime.isSelected() || chckbxID.isSelected()){
+						chckbxOr.setEnabled(true);
+						chckbxAnd.setEnabled(true);
+					}
+					else {
+						chckbxOr.setEnabled(false);
+						chckbxAnd.setEnabled(false);
+						chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+					}
 					CardLayout cardLayout = (CardLayout) pnlAddOptions.getLayout();
 					cardLayout.show(pnlAddOptions, "GPS");
 					if(chckbxTime.isSelected() && chckbxID.isSelected())
-					{
+					{	chckbxOr.setEnabled(true);
 						cardLayout.show(pnlAddOptions, "TimeGPSID");
 					}
 					else if(chckbxTime.isSelected())
 					{
+						chckbxOr.setEnabled(true);
 						cardLayout.show(pnlAddOptions, "GPSTime");
 					}
 					else if(chckbxID.isSelected())
 					{
+						chckbxOr.setEnabled(true);
 						cardLayout.show(pnlAddOptions, "GPSID");
 					}
 				}
@@ -1139,8 +1327,29 @@ public class GUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(!chckbxID.isSelected()){
+					if(chckbxTime.isSelected() && chckbxGPS.isSelected()){
+						chckbxOr.setEnabled(true);
+						chckbxAnd.setEnabled(true);
+					}
+					else {
+						chckbxOr.setEnabled(false);
+						chckbxAnd.setEnabled(false);
+						chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+					}
+				}
+				
 				if(chckbxID.isSelected())
 				{
+					if(chckbxTime.isSelected() || chckbxGPS.isSelected()){
+					chckbxOr.setEnabled(true);
+					chckbxAnd.setEnabled(true);
+				}
+				else {
+					chckbxOr.setEnabled(false);
+					chckbxAnd.setEnabled(false);
+					chckbxOr.setSelected(false);chckbxAnd.setSelected(false);
+				}
 					CardLayout cardLayout = (CardLayout) pnlAddOptions.getLayout();
 					cardLayout.show(pnlAddOptions, "ID");
 					if(chckbxGPS.isSelected() && chckbxTime.isSelected())
@@ -1149,10 +1358,12 @@ public class GUI extends JFrame {
 					}
 					else if(chckbxGPS.isSelected())
 					{
+						chckbxOr.setEnabled(true);
 						cardLayout.show(pnlAddOptions, "GPSID");
 					}
 					else if(chckbxTime.isSelected())
 					{
+						chckbxOr.setEnabled(true);
 						cardLayout.show(pnlAddOptions, "TimeID");
 					}
 				}
@@ -1202,47 +1413,9 @@ public class GUI extends JFrame {
 
 				else{
 					if (pnlFilters.isVisible()) {
-
-						if(chckbxGPS.isSelected()) 
-						{
-							try {
-								Coordinates_3D a=new Coordinates_3D(txtLat.getText(), txtLon.getText(), "0");
-								Coordinates_3D b=new Coordinates_3D(txtLat2.getText(), txtLon2.getText(), "0");
-								filter coor=new Position_Filter_Rect(a,b);
-								filteredList.filter(coor);
-								txtLat.setText(null);txtLon.setText(null);
-								txtLat2.setText(null);txtLon2.setText(null);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-
-						else if(chckbxGPS.isSelected() && chckbxTime.isSelected())
-						{
-							try {
-								Coordinates_3D a=new Coordinates_3D(txtStartTimeExtra.getText(), txtEndTimeExtra.getText(), "0");
-								Coordinates_3D b=new Coordinates_3D(txtLat2Extra.getText(), txtLon2Extra.getText(), "0");
-								filter time=new Time_Filter(txtStartTimeExtra.getText(),txtEndTimeExtra.getText());
-								filter coor=new Position_Filter_Rect(a,b);
-								filter and=new And_Filter(coor,time);
-								filteredList.filter(and);
-								txtStartTimeExtra.setText(null);txtEndTimeExtra.setText(null);
-								txtLat2Extra.setText(null);txtLon2Extra.setText(null);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-						else if(chckbxTime.isSelected())
-						{
-							try {
-								filter time=new Time_Filter(txtStartTime.getText(),txtEndTime.getText());
-								filteredList.filter(time);
-								txtStartTime.setText(null);txtEndTime.setText(null);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-						else if(chckbxGPS.isSelected() && chckbxID.isSelected() && chckbxTime.isSelected())
+						filter f=null;
+						
+						if(chckbxGPS.isSelected() && chckbxID.isSelected() && chckbxTime.isSelected())
 						{
 							try {
 								Coordinates_3D a=new Coordinates_3D(txtLatExtra3.getText(), txtLonExtra3.getText(), "0");
@@ -1250,9 +1423,26 @@ public class GUI extends JFrame {
 								filter coor=new Position_Filter_Rect(a,b);
 								filter id=new Id_Filter(txtIDExtra3.getText());
 								filter time=new Time_Filter(txtStartTimeExtra3.getText(),txtEndTimeExtra3.getText());
-								filter and=new And_Filter(id,time);
-								filter and2=new And_Filter(and,coor);
-								filteredList.filter(and2);
+								
+								if(chckbxNot.isSelected()){
+									filter notC=new Not_Filter(coor);
+									filter notT=new Not_Filter(time);
+									filter notI=new Not_Filter(id);
+									filter f2=new And_Filter(notC,notT);
+									f=new And_Filter(notI,f2);
+								}
+								else if(chckbxOr.isSelected()){
+									filter or=new Or_Filter(coor,time);
+									f=new Or_Filter(or,id);
+									chckbxOr.setEnabled(false);
+								}
+								else if(chckbxAnd.isSelected()){
+									filter f2=new And_Filter(id,time);
+									f=new And_Filter(f2,coor);
+									chckbxAnd.setEnabled(false);
+								}
+								
+								filteredList.filter(f);
 								txtLatExtra3.setText(null); txtLonExtra3.setText(null);
 								txtLat2Extra3.setText(null); txtLon2Extra3.setText(null);
 								txtStartTimeExtra3.setText(null);txtEndTimeExtra3.setText(null);
@@ -1262,6 +1452,35 @@ public class GUI extends JFrame {
 								e1.printStackTrace();
 							}
 						}
+						else if(chckbxGPS.isSelected() && chckbxTime.isSelected())
+						{
+							try {
+								Coordinates_3D a=new Coordinates_3D(txtStartTimeExtra.getText(), txtEndTimeExtra.getText(), "0");
+								Coordinates_3D b=new Coordinates_3D(txtLat2Extra.getText(), txtLon2Extra.getText(), "0");
+								filter time=new Time_Filter(txtStartTimeExtra.getText(),txtEndTimeExtra.getText());
+								filter coor=new Position_Filter_Rect(a,b);
+								if(chckbxNot.isSelected()){
+									filter notC=new Not_Filter(coor);
+									filter notT=new Not_Filter(time);
+									f=new And_Filter(notC,notT);
+								}
+								else if(chckbxOr.isSelected()) {
+									f=new Or_Filter(coor,time);
+									chckbxOr.setEnabled(false);
+								}
+								else if(chckbxAnd.isSelected()){
+									f=new And_Filter(coor,time);	
+									chckbxAnd.setEnabled(false);
+								}
+								filteredList.filter(f);
+								txtStartTimeExtra.setText(null);txtEndTimeExtra.setText(null);
+								txtLat2Extra.setText(null);txtLon2Extra.setText(null);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+					
+						
 						else if(chckbxGPS.isSelected() && chckbxID.isSelected())
 						{
 							try {
@@ -1269,8 +1488,20 @@ public class GUI extends JFrame {
 								Coordinates_3D b=new Coordinates_3D(txtLat2Extra2.getText(), txtLon2Extra2.getText(), "0");
 								filter coor=new Position_Filter_Rect(a,b);
 								filter id=new Id_Filter(txtIDExtra.getText());
-								filter and=new And_Filter(id,coor);
-								filteredList.filter(and);
+								if(chckbxNot.isSelected()){
+									filter notC=new Not_Filter(coor);
+									filter notI=new Not_Filter(id);
+									f=new And_Filter(notC,notI);
+								}
+								else if(chckbxOr.isSelected()){
+									f=new Or_Filter(coor,id);
+									chckbxOr.setEnabled(false);
+								}
+								else if(chckbxAnd.isSelected()){
+									f=new And_Filter(id,coor);
+									chckbxAnd.setEnabled(false);
+								}
+								filteredList.filter(f);
 								txtLatExtra2.setText(null); txtLonExtra2.setText(null);
 								txtLat2Extra2.setText(null); txtLon2Extra2.setText(null);
 								txtIDExtra.setText(null);
@@ -1285,11 +1516,38 @@ public class GUI extends JFrame {
 							try {
 								filter id=new Id_Filter(txtIDExtra2.getText());
 								filter time=new Time_Filter(txtStartTimeExtra2.getText(),txtEndTimeExtra2.getText());
-								filter and=new And_Filter(id,time);
-								filteredList.filter(and);
+								if(chckbxNot.isSelected()){
+									filter notT=new Not_Filter(time);
+									filter notI=new Not_Filter(id);
+									f=new And_Filter(notT,notI);
+									System.out.println(f.toString());
+								}
+								if(chckbxOr.isSelected()){
+									f=new Or_Filter(time,id);
+									System.out.println(f.toString());
+								}
+								if(chckbxAnd.isSelected()){
+									
+									f=new And_Filter(id,time);
+									System.out.println(f.toString());
+								}
+								filteredList.filter(f);
 								txtStartTimeExtra2.setText(null);txtEndTimeExtra2.setText(null);
 								txtIDExtra2.setText(null);
 
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						else if(chckbxTime.isSelected())
+						{
+							try {
+								filter time=new Time_Filter(txtStartTime.getText(),txtEndTime.getText());
+						
+								if(chckbxNot.isSelected()) f=new Not_Filter(time);
+								else f=time;
+								filteredList.filter(f);
+								txtStartTime.setText(null);txtEndTime.setText(null);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -1298,12 +1556,39 @@ public class GUI extends JFrame {
 						{
 							try {
 								filter id=new Id_Filter(txtID.getText());
-								filteredList.filter(id);
+								if(chckbxNot.isSelected()) f=new Not_Filter(id);
+								else f=new Id_Filter(txtID.getText());
+								filteredList.filter(f);
 								txtID.setText(null);
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
+						else 	if(chckbxGPS.isSelected()) 
+						{
+							try {
+								Coordinates_3D a=new Coordinates_3D(txtLat.getText(), txtLon.getText(), "0");
+								Coordinates_3D b=new Coordinates_3D(txtLat2.getText(), txtLon2.getText(), "0");
+								filter coor=new Position_Filter_Rect(a,b);
+								
+								if(chckbxNot.isSelected()){
+									f=new Not_Filter(coor);
+								}
+								else f=coor; 
+								filteredList.filter(f);
+								txtLat.setText(null);txtLon.setText(null);
+								txtLat2.setText(null);txtLon2.setText(null);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						
+						if(f!=null){
+							System.out.println();
+							System.out.println("Filter: "+f.toString());
+						}
+						chckbxAnd.setSelected(false);chckbxOr.setSelected(false);chckbxNot.setSelected(false);
+						chckbxTime.setSelected(false);chckbxGPS.setSelected(false);chckbxID.setSelected(false);
 					}
 
 					else if(pnlAlgo1.isVisible()){
@@ -1323,22 +1608,27 @@ public class GUI extends JFrame {
 					if(pnlAlgo2.isVisible()){
 						if(!((mac=txtMac1.getText()).equals(null))){
 							ArrayList<String>macList=new ArrayList<>();
-							macList.add(txtMac1.getText());
-							if((mac=txtMac2.getText()).equals(null)==false)macList.add(txtMac2.getText());
-							if((mac=txtMac3.getText()).equals(null)==false)macList.add(txtMac3.getText());
 							ArrayList<Signal>signalList=new ArrayList<>();
-							if(!txtSignal1.getText().equals(null)){
-								Signal a=new Signal(txtSignal1.getText());
+							Signal a=null;
+							macList.add(txtMac1.getText());
+							if(!txtSignal1.getText().equals(null))a=new Signal(txtSignal1.getText());
+							else a=new Signal("-120");
+							signalList.add(a);
+							
+							if(radioButton_1.isSelected() && (mac=txtMac2.getText()).equals(null)==false){
+								macList.add(txtMac2.getText());
+								if(!txtSignal2.getText().equals(null)) a=new Signal(txtSignal2.getText());
+								else a=new Signal("-120");
 								signalList.add(a);
 							}
-							if(!txtSignal2.getText().equals(null)){
-								Signal a=new Signal(txtSignal2.getText());
+							if(radioButton_2.isSelected() && (mac=txtMac3.getText()).equals(null)==false){
+								macList.add(txtMac3.getText());
+								if(!txtSignal3.getText().equals(null)) a=new Signal(txtSignal3.getText());
+								else a=new Signal("-120");
 								signalList.add(a);
 							}
-							if(!txtSignal3.getText().equals(null)){
-								Signal a=new Signal(txtSignal3.getText());
-								signalList.add(a);
-							}
+							
+
 							/**/
 							int num=Algo2slider.getValue();
 							try {
@@ -1358,9 +1648,11 @@ public class GUI extends JFrame {
 							txtMac2.setText(null);txtSignal2.setText(null);
 							txtMac3.setText(null);txtSignal3.setText(null);
 						}
-						if(filteredList.isEmpty())System.out.println("Don't have data like this");
-						else filteredList.Print();
+						
 					}
+					System.out.println();
+					if(filteredList.isEmpty())System.out.println("Don't have data like this");
+					else filteredList.Print();
 					
 				}
 			}
@@ -1381,5 +1673,4 @@ public class GUI extends JFrame {
 			}
 		});
 	}
-
 }
