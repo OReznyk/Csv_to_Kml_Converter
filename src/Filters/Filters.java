@@ -11,63 +11,8 @@ import WifiData.*;
 //this class will be deleted one day
 
 public class Filters {
-	
-
-//	/**
-//	 * Function to filter ArrayList by ID
-//	 * @param list ListOfWifiRows
-//	 * @param id string filter
-//	 * @return filtered ListOfWifiRows
-//	 */
-//	public static ListOfWifiRows filteringByID(ListOfWifiRows list,String id){
-//		ListOfWifiRows thisID=new ListOfWifiRows();
-//		for (int i = 0; i < list.size(); i++) {
-//			if(list.get(i).getId().equals(id)) {
-//			thisID.add(list.get(i));
-//			}
-//		}
-//
-//		return thisID;
-//	}
 
 
-	/**
-	 * Function to filter ArrayList by latitude and longitude
-	 * @param list ArrayList<RowOfWifiPoints>
-	 * @param lat latitude filter
-	 * @param lon longitude filter
-	 * @return filtered ArrayList<RowOfWifiPoints>
-	 */
-	public static ListOfWifiRows filteringByCoordinates(ListOfWifiRows list,String lat,String lon){
-		ListOfWifiRows copy=new ListOfWifiRows();
-		for (int i = 0; i < list.size(); i++) {
-			if((list.get(i).coordinates.getLatitude()+"").contains(lat) && (list.get(i).coordinates.longitude+"").contains(lon)) {
-				copy.add(list.get(i));
-			}
-		}
-		return copy;
-	}
-
-	/**
-	 * Function to filter ArrayList by start/stop date
-	 * @param list ArrayList<RowOfWifiPoints>
-	 * @param startDate from date filter
-	 * @param stopDate until date filter 
-	 * @return filtered ArrayList<RowOfWifiPoints>
-	 * @throws Exception
-	 */
-	public static ListOfWifiRows filteringByTime(ListOfWifiRows list, String startDate, String stopDate) throws Exception {
-		ListOfWifiRows copy=new ListOfWifiRows();
-		Date startFilter=new Date(startDate);
-		Date stopFilter=new Date(stopDate);
-
-		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).date.betweenDates(startFilter, stopFilter)) {
-				copy.add(list.get(i));
-			}
-		}
-		return copy;
-	}
 
 	/**
 	 * Function to filter ArrayList by mac
@@ -129,7 +74,6 @@ public class Filters {
 	public static ListOfWifiRows filterByMostPowerfulWifiSignals(ListOfWifiRows list,int numOfPointsToUseForCheckup){
 		if(numOfPointsToUseForCheckup==list.size())return list;
 		if(numOfPointsToUseForCheckup>list.size()){ 
-			//System.out.println("You don't have that much in list, so I'll work on "+list.size()+" I have in list");
 			return list;
 		}
 
@@ -154,27 +98,28 @@ public class Filters {
 		if(list.isEmpty())return list;
 		ArrayList<String>addedMac=new ArrayList<String>();
 		ArrayList<Integer>formWichRowAddedMac=new ArrayList<Integer>();
+		ListOfWifiRows Helplist=list.copy();
 		//add first line of mac addresses to "added"
-		for (int i = 0; i < list.get(0).wifiList.size(); i++) {
-			addedMac.add(list.get(0).wifiList.get(i).mac);
+		for (int i = 0; i < Helplist.get(0).wifiList.size(); i++) {
+			addedMac.add(Helplist.get(0).wifiList.get(i).mac);
 			formWichRowAddedMac.add(0);
 		}
 		//run at list to choose most Powerful wifi
-		for (int row =1; row < list.size(); row++) { 
-			for (int col = 0; col < list.get(row).wifiList.size(); col++) {
+		for (int row =1; row < Helplist.size(); row++) { 
+			for (int col = 0; col < Helplist.get(row).wifiList.size(); col++) {
 				int i=0;
 				for (i = addedMac.size()-1; i >= 0; i--) {
-					if(list.get(row).wifiList.get(col).getMac().equals(addedMac.get(i))){
-						for (int j = 0; j < list.get(formWichRowAddedMac.get(i)).wifiList.size(); j++) {
-							if(list.get(formWichRowAddedMac.get(i)).wifiList.get(j).equalMAC(list.get(row).wifiList.get(col))){
-								if(list.get(formWichRowAddedMac.get(i)).wifiList.get(j).signal.morePowerful(list.get(row).wifiList.get(col).signal)){
-									list.get(row).wifiList.remove(col);
+					if(Helplist.get(row).wifiList.get(col).getMac().equals(addedMac.get(i))){
+						for (int j = 0; j < Helplist.get(formWichRowAddedMac.get(i)).wifiList.size(); j++) {
+							if(Helplist.get(formWichRowAddedMac.get(i)).wifiList.get(j).equalMAC(Helplist.get(row).wifiList.get(col))){
+								if(Helplist.get(formWichRowAddedMac.get(i)).wifiList.get(j).signal.morePowerful(Helplist.get(row).wifiList.get(col).signal)){
+									Helplist.get(row).wifiList.remove(col);
 								}
 								else {
-									list.get(formWichRowAddedMac.get(i)).wifiList.remove(j);
+									Helplist.get(formWichRowAddedMac.get(i)).wifiList.remove(j);
 									addedMac.remove(i);
 									formWichRowAddedMac.remove(i);
-									addedMac.add(list.get(row).wifiList.get(col).getMac());
+									addedMac.add(Helplist.get(row).wifiList.get(col).getMac());
 									formWichRowAddedMac.add(row);
 								}break;
 							}
@@ -182,14 +127,16 @@ public class Filters {
 					}
 				}
 				if(i<0){
-					addedMac.add(list.get(row).wifiList.get(col).getMac());
+					addedMac.add(Helplist.get(row).wifiList.get(col).getMac());
 					formWichRowAddedMac.add(row);
 				}
 			}
 		}
-
-		return list;	
+		list.setNumOfDifferentWifiInList(addedMac.size());
+		Helplist.setNumOfDifferentWifiInList(addedMac.size());
+		return Helplist;	
 	}
+	
 
 
 }

@@ -75,6 +75,7 @@ public class GUI extends JFrame {
 	private FileChooser SaveCSV;
 	private FileChooser SaveKML;
 	private ArrayList<String> listOfFiles;
+	private ArrayList<filter> listOfFilters;
 	public static  ListOfWifiRows mergedList ;
 	private ListOfWifiRows filteredList;
 	private FolderWatcher folderWatcher;
@@ -185,6 +186,7 @@ public class GUI extends JFrame {
 	private JRadioButton radioButton;
 	private JRadioButton radioButton_1;
 	private JRadioButton radioButton_2;
+	private JMenuItem mntmProperties;
 
 
 	/**
@@ -232,6 +234,7 @@ public class GUI extends JFrame {
 
 		mergedList = new ListOfWifiRows();
 		filteredList = new ListOfWifiRows();
+		listOfFilters=new ArrayList<>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(50,50, 1408, 905);
 
@@ -268,6 +271,11 @@ public class GUI extends JFrame {
 		mntmDeliteData = new JMenuItem("Delite data");
 		mntmDeliteData.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
 		mnFile.add(mntmDeliteData);
+		
+		mntmProperties = new JMenuItem("Properties");
+		
+		mntmProperties.setFont(new Font("Monotype Corsiva", Font.PLAIN, 42));
+		mnFile.add(mntmProperties);
 
 
 		mnAlgo = new JMenu(" Algo ");
@@ -759,7 +767,6 @@ public class GUI extends JFrame {
 		pnlFilters.add(chckbxOr);
 		
 		chckbxNot = new JCheckBox("Not");
-		chckbxNot.setSelected(true);
 		chckbxNot.setFont(new Font("Monotype Corsiva", Font.BOLD | Font.ITALIC, 37));
 		chckbxNot.setBackground(new Color(240, 248, 255));
 		chckbxNot.setBounds(470, 34, 131, 53);
@@ -1064,8 +1071,8 @@ public class GUI extends JFrame {
 					{
 						try {
 							Kml.Kml();
-							if(filteredList.isEmpty()) Kml.addMarksFromList(mergedList); 
-							else Kml.addMarksFromList(filteredList); 
+							if(filteredList.isEmpty()) Kml.addMarksFromList(Filters.mostPowerfulWifiWithSameMac(mergedList)); 
+							else Kml.addMarksFromList(Filters.mostPowerfulWifiWithSameMac(filteredList)); 
 							File file=new File(saveFile.fileChooser.getSelectedFile().getAbsolutePath()+".kml");
 							Kml.writeFile(file);
 						} catch (Exception e1) {
@@ -1073,6 +1080,13 @@ public class GUI extends JFrame {
 						}
 					}
 				}
+			}
+		});
+		
+		mntmProperties.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(filteredList.properties());
+				System.out.println("Filters: "+listOfFilters.toString());
 			}
 		});
 
@@ -1582,10 +1596,11 @@ public class GUI extends JFrame {
 								e1.printStackTrace();
 							}
 						}
-						
+						/*********************/
 						if(f!=null){
+							listOfFilters.add(f);
 							System.out.println();
-							System.out.println("Filter: "+f.toString());
+							System.out.println("Filter: "+listOfFilters.toString());
 						}
 						chckbxAnd.setSelected(false);chckbxOr.setSelected(false);chckbxNot.setSelected(false);
 						chckbxTime.setSelected(false);chckbxGPS.setSelected(false);chckbxID.setSelected(false);
@@ -1659,9 +1674,11 @@ public class GUI extends JFrame {
 		});
 		btnDisableFilters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!mergedList.isEmpty()){
 				filteredList=mergedList.copy();
-				if(filteredList.isEmpty())System.out.println("List is empty");
-				else System.out.println("All filters disabled");
+				System.out.println("All filters disabled");
+				listOfFilters=new ArrayList<>();
+			}
 			}
 		});
 
@@ -1670,6 +1687,7 @@ public class GUI extends JFrame {
 				filteredList=new ListOfWifiRows();
 				mergedList=new ListOfWifiRows();
 				System.out.println("All data deleted");
+				listOfFilters=new ArrayList<>();
 			}
 		});
 	}

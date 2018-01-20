@@ -119,9 +119,10 @@ public class ReaderFromCsv {
 					if(row[i+1].contains(":") && row[i+1].length()==17){
 					Wifi wifi=new Wifi(row[i],row[i+1],row[i+2],row[i+3]);
 					a.wifiList.add(wifi);}
-					else{Wifi wifi=new Wifi(row[i+1],row[i],row[i+2],row[i+3]);
-					a.wifiList.add(wifi);}
-					
+					else{
+					Wifi wifi=new Wifi(row[i+1],row[i],row[i+2],row[i+3]);
+					a.wifiList.add(wifi);
+					}
 				}
 				list.add(a);
 			} br.close();
@@ -216,7 +217,6 @@ public class ReaderFromCsv {
 					}
 				}indexOfFile++;
 				br.close();
-
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
