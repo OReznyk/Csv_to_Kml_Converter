@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.java.JUnitTest.TimeSplitterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-01-28T17:54:47" hostname="LAPTOP-U2K767U2" time="0.055">
+  <properties/>
+  <testcase name="test" classname="test.java.JUnitTest.TimeSplitterTest" time="0.055"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
