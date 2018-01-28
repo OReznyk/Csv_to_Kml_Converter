@@ -1,92 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="WifiData.Signal" project="ex1" file="/ex1/src/WifiData/Signal.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="208" width="190" x="445" y="658"/>    
+  <class id="1" language="java" name="main.java.views.MessageConsole" project="ex1" 
+    file="/ex1/src/main/java/views/MessageConsole.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="262" width="268" x="224" y="-1061"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="WifiData.Date" project="ex1" file="/ex1/src/WifiData/Date.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="208" width="214" x="191" y="302"/>    
+  <class id="2" language="java" name="main.java.views.MessageConsole.ConsoleOutputStream" project="ex1" 
+    file="/ex1/src/main/java/views/MessageConsole.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="244" width="252" x="224" y="1329"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="WifiData.ListOfWifiRows" project="ex1" 
-    file="/ex1/src/WifiData/ListOfWifiRows.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="136" width="159" x="219" y="-18"/>    
+  <class id="3" language="java" name="main.java.views.GUI" project="ex1" file="/ex1/src/main/java/views/GUI.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="2350" width="217" x="532" y="-1061"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="WifiData.RowOfWifiPoints" project="ex1" 
-    file="/ex1/src/WifiData/RowOfWifiPoints.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="280" width="296" x="445" y="-18"/>    
+  <class id="4" language="java" name="main.java.views.FileChooser" project="ex1" 
+    file="/ex1/src/main/java/views/FileChooser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="136" width="166" x="532" y="1329"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="WifiData.Wifi" project="ex1" file="/ex1/src/WifiData/Wifi.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="262" width="193" x="445" y="302"/>    
+  <class id="5" language="java" name="main.java.views.FolderWatcher" project="ex1" 
+    file="/ex1/src/main/java/views/FolderWatcher.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="244" width="223" x="738" y="1329"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="WifiData.Coordinates_3D" project="ex1" 
-    file="/ex1/src/WifiData/Coordinates_3D.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="316" width="254" x="678" y="302"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <association id="7">    
-    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
-      <attribute id="8" name="signal"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
+  <association id="6">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="7" name="csvFolder"/>      
+      <multiplicity id="8" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
-      <attribute id="11" name="coordinates"/>      
-      <multiplicity id="12" minimum="0" maximum="1"/>    
+  <association id="9">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="10" name="SaveCSV"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true" variant="ASSOCIATION"/>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="13">    
-    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
-      <attribute id="14" name="date"/>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
+  <association id="12">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="13" name="SaveKML"/>      
+      <multiplicity id="14" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true" variant="ASSOCIATION"/>    
+    <end type="TARGET" refId="4" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="16">    
-    <end type="SOURCE" refId="4" navigable="false" variant="ASSOCIATION">      
-      <attribute id="17" name="wifiList"/>      
-      <multiplicity id="18" minimum="0" maximum="2147483647"/>    
+  <association id="15">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="16" name="folderWatcher"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <nesting id="18">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

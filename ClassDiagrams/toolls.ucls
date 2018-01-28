@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="Tools.WriteTOcsv" project="ex1" file="/ex1/src/Tools/WriteTOcsv.java" 
+  <class id="1" language="java" name="main.java.Tools.Kml" project="ex1" file="/ex1/src/main/java/Tools/Kml.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="162" y="128"/>    
+    <position height="190" width="316" x="456" y="144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="Tools.ReaderFromCsv" project="ex1" file="/ex1/src/Tools/ReaderFromCsv.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="632" y="164"/>    
+  <class id="2" language="java" name="main.java.Tools.ReaderFromCsv" project="ex1" 
+    file="/ex1/src/main/java/Tools/ReaderFromCsv.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="172" width="510" x="812" y="144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="Tools.LocationRevaluation" project="ex1" 
-    file="/ex1/src/Tools/LocationRevaluation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1275" y="173"/>    
+  <class id="3" language="java" name="main.java.Tools.WriteTOcsv" project="ex1" 
+    file="/ex1/src/main/java/Tools/WriteTOcsv.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="100" width="207" x="1362" y="144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="Tools.Kml" project="ex1" file="/ex1/src/Tools/Kml.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1785" y="173"/>    
+  <class id="4" language="java" name="main.java.Tools.LocationRevaluation" project="ex1" 
+    file="/ex1/src/main/java/Tools/LocationRevaluation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="190" width="496" x="1609" y="144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

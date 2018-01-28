@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="main.java.Filters.filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="82" width="193" x="1264" y="298"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="main.java.Filters.Mac_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/Mac_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="154" width="193" x="565" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="main.java.Filters.Not_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/Not_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="118" width="193" x="798" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="main.java.Filters.Time_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/Time_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="154" width="193" x="1031" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="main.java.Filters.And_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/And_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="118" width="193" x="1264" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="main.java.Filters.test" project="ex1" file="/ex1/src/main/java/Filters/test.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="100" width="124" x="401" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="main.java.Filters.Or_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/Or_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="118" width="193" x="1497" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="main.java.Filters.Position_Filter_Rect" project="ex1" 
+    file="/ex1/src/main/java/Filters/Position_Filter_Rect.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="262" width="324" x="1730" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="main.java.Filters.Position_Filter_Circle" project="ex1" 
+    file="/ex1/src/main/java/Filters/Position_Filter_Circle.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="154" width="278" x="2094" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="main.java.Filters.Id_Filter" project="ex1" 
+    file="/ex1/src/main/java/Filters/Id_Filter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="136" width="193" x="2412" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="main.java.Filters.Filters" project="ex1" 
+    file="/ex1/src/main/java/Filters/Filters.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="154" width="451" x="2645" y="-4"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="12">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="13">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <association id="14">    
+    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
+      <attribute id="15" name="_f1"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="17">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <association id="18">    
+    <end type="SOURCE" refId="5" navigable="false" variant="ASSOCIATION">      
+      <attribute id="19" name="_f2"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="21">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="22">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="23">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="24">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <association id="25">    
+    <end type="SOURCE" refId="7" navigable="false" variant="ASSOCIATION">      
+      <attribute id="26" name="_f2"/>      
+      <multiplicity id="27" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="3" navigable="false" variant="ASSOCIATION">      
+      <attribute id="29" name="_filter"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="7" navigable="false" variant="ASSOCIATION">      
+      <attribute id="32" name="_f1"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="34">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
